@@ -17,13 +17,7 @@ const cors = require('cors');
 app.use(cors());
 
 app.use(cors({
-    origin: 'http://localhost:4200',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-app.use(cors({
-    origin: 'http://localhost:8100',
+    origin: ['http://localhost:4200', 'http://localhost:8100'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
