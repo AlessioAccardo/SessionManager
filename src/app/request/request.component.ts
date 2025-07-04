@@ -5,10 +5,23 @@ import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
 import { CoursesService, Courses } from '../services/courses.service';
 import { AuthService } from '../services/auth/auth.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
+import { IonContent,IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabel, IonSelect, IonSelectOption, IonGrid, IonCol, IonRow} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-request',
-  imports: [FormsModule],
+  imports: [FormsModule,
+            IonHeader,
+            IonToolbar,
+            IonTitle,
+            IonContent,
+            IonLabel,
+            IonSelect,
+            IonSelectOption,
+            IonButton,
+            IonInput,
+            IonGrid,
+            IonCol,
+            IonRow],
   templateUrl: './request.component.html',
   styleUrl: './request.component.scss',
   standalone: true,

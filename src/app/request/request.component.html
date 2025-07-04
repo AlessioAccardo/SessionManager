@@ -1,53 +1,69 @@
-<main class="container">
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Richieste Esami</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <!-- CREAZIONE RICHIESTE PROFESSORE -->
-  @if (user?.role === 'professore'){
-  <section class="request-table">
-    <h2>Richiesta Appello</h2>
-    <form>
-      <label for="course">Corso</label>
-      <select #courseInput id="course" required>
-        <option value="">Scegli corso...</option>
-        @for (course of courses; track course.id) {
-          <option [value]="course.id">{{ course.name }}</option>
-        }
-      </select>
-      <label for="date">Data Appello</label>
-      <input #date id="date" type="date" required>
-      <button class = "formButton" (click)="onSubmit(courseInput, date)"> Invia Richiesta </button>
-    </form> 
+<ion-content class="container">
+
+  @if (user?.role === 'professore') {
+    <section class="request-table">
+      <h2>Richiesta Appello</h2>
+      <form>
+        <ion-label for="course">Corso</ion-label>
+        <ion-select #courseInput interface="popover" placeholder="Scegli corso..." required>
+          @for (course of courses; track course.id) {
+            <ion-select-option [value]="course.id">{{ course.name }}</ion-select-option>
+          }
+        </ion-select>
+
+        <ion-label for="date">Data Appello</ion-label>
+        <ion-input #date type="date" required></ion-input>
+<!--
+        <ion-button class="formButton" expand="block" (click)="onSubmit(courseInput, date)"> 
+          Invia Richiesta
+        </ion-button> -->
+      </form>
     </section>
   }
-  
-  <!-- GESTIONE RICHIESTE SEGRETERIA -->
-  @if(user?.role === 'segreteria') {
-    <section class = "request-table">
-    <h2>Gestione Richieste</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Code</th>
-          <th>Corso</th>
-          <th>Data</th>
-          <th>Stato</th>
-        </tr>
-      </thead>
-      <tbody>
+
+  @if (user?.role === 'segreteria') {
+    <section class="request-table">
+      <h2>Gestione Richieste</h2>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>Code</ion-col>
+          <ion-col>Corso</ion-col>
+          <ion-col>Data</ion-col>
+          <ion-col>Stato</ion-col>
+          <ion-col>Azioni</ion-col>
+        </ion-row>
         @for (request of requests; track request.code) {
-          <tr>
-            <td>{{ request.code }}</td>
-            <td>{{ request.name }}</td>
-            <td>{{ request.date }}</td>
-            <td> @if(request.approved === null) { <p class = "pending"> In attesa </p>} </td>
-            @if(request.approved === null){
-            <td><button class="approva" (click)="approveRequest(request.code, true)">Approva</button>
-                <button class="rifiuta" (click)="approveRequest(request.code, false)">Rifiuta</button>
-            </td>
-           }
-          </tr>
+          <ion-row>
+            <ion-col>{{ request.code }}</ion-col>
+            <ion-col>{{ request.name }}</ion-col>
+            <ion-col>{{ request.date }}</ion-col>
+            <ion-col>
+              @if (request.approved === null) {
+                <p class="pending">In attesa</p>
+              }
+              @else if (request.approved === true) {
+                <p class="approved">Approvato</p>
+              }
+              @else {
+                <p class="rejected">Rifiutato</p>
+              }
+            </ion-col>
+            <ion-col>
+              @if (request.approved === null) {
+                <ion-button color="success" size="small" (click)="approveRequest(request.code, true)">Approva</ion-button>
+                <ion-button color="danger" size="small" (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
+              }
+            </ion-col>
+          </ion-row>
         }
-      </tbody>
-    </table>
-  </section>
-}
-</main>
+      </ion-grid>
+    </section>
+  }
+</ion-content>
