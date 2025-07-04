@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UserService, User } from '../services/user.service';
 import { ExamService } from '../services/exam.service';
 import { Exam } from '../models/exam.model';
+import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol} from '@ionic/angular/standalone';
 
 interface StudentExam {
   id: string;
@@ -28,7 +29,15 @@ interface ProfessorExamStats {
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   standalone: true,
-  imports: [CommonModule]
+  imports: [
+    CommonModule, 
+    IonContent,
+    IonCard, 
+    IonTitle, 
+    IonButton, 
+    IonGrid, 
+    IonRow, 
+    IonCol]
 })
 export class DashboardComponent implements OnInit {
 
