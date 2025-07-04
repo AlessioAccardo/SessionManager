@@ -1,112 +1,102 @@
-<main class="container" *ngIf="user$ | async as user"> 
+<ion-content>
+<ng-container class="container" *ngIf="user$ | async as user"> 
   @if (user.role === 'studente') {
-    <section class="dashboard">
-      <h2>Dashboard Studente</h2>
-      <div class="riquadri">
-        <div class="riquadro">
-          <table>
-            <thead>
-              <tr>
-                <th>Esame</th>
-                <th>CFU</th>
-                <th>Completato</th>
-                <th>Voto</th>
-                <th>Accetta voto</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (exam of studentExams; track exam) {
-                <tr>
-                  <td>{{ exam.name }}</td>
-                  <td>{{ exam.cfu }}</td>
-                  <td [class.completed]="exam.completed" [class.failed]="!exam.completed">
+    <ng-container class="dashboard">
+      <ion-title>Dashboard Studente</ion-title>
+      <ion-card class="riquadri">
+        <ion-card class="riquadro">
+          <ion-grid>
+            <ion-row class="header">
+                <ion-col>Esame</ion-col>
+                <ion-col>CFU</ion-col>
+                <ion-col>Completato</ion-col>
+                <ion-col>Voto</ion-col>
+                <ion-col>Accetta voto</ion-col>
+            </ion-row>
+            @for (exam of studentExams; track exam) {
+                <ion-row>
+                  <ion-col>{{ exam.name }}</ion-col>
+                  <ion-col>{{ exam.cfu }}</ion-col>
+                  <ion-col [class.completed]="exam.completed" [class.failed]="!exam.completed">
                     {{ exam.completed ? 'Completato' : 'Non completato' }}
-                  </td>
-                  <td>
+                  </ion-col>
+                  <ion-col>
                     {{ exam.voto !== undefined ? exam.voto : '-' }}
-                  </td>
-                  <td>
+                  </ion-col>
+                  <ion-col>
                     @if (exam.voto !== undefined && exam.votoAccettato === undefined) {
-                      <button class = "buttonAccetta" (click)="accettaVoto(exam)">Accetta</button>
-                      <button class = "buttonRifiuta" (click)="rifiutaVoto(exam)">Rifiuta</button>
+                      <ion-button class = "buttonAccetta" (click)="accettaVoto(exam)">Accetta</ion-button>
+                      <ion-button class = "buttonRifiuta" (click)="rifiutaVoto(exam)">Rifiuta</ion-button>
                     }
                     @else if (exam.votoAccettato === true) {
-                      <td class = "completed">Accettato</td>
+                      <ion-col class = "completed">Accettato</ion-col>
                     }
                     @else if (exam.votoAccettato === false) {
-                      <td class = "failed">Rifiutato</td>
+                      <ion-col class = "failed">Rifiutato</ion-col>
                     }
-                  </td>
-                </tr>
+                  </ion-col>
+                </ion-row>
               }
-              <tr>
-                <td><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></td>
-              </tr>
-               <tr>
-                <td><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+              <ion-row>
+                <ion-col><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></ion-col>
+              </ion-row>
+               <ion-row>
+                <ion-col><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></ion-col>
+               </ion-row>
+          </ion-grid>
+        </ion-card>
+      </ion-card>
+    </ng-container>
   }
 
   @if (1>0) {
-    <section class="dashboard">
-      <h2>Dashboard Professore</h2>
-      <div class="riquadri">
-        <div class="riquadro">
-          <table>
-            <thead>
-              <tr>
-                <th>Esame</th>
-                <th>% Promossi</th>
-                <th>% Bocciati</th>
-              </tr>
-            </thead>
-            <tbody>
+    <ng-container class="dashboard">
+      <ion-title>Dashboard Professore</ion-title>
+      <ion-card class ="riquadri">
+        <ion-card class="riquadro">
+          <ion-grid>
+              <ion-row>
+                <ion-col>Esame</ion-col>
+                <ion-col>% Promossi</ion-col>
+                <ion-col>% Bocciati</ion-col>
+              </ion-row>
               @for (stats of professorStats; track stats) {
-                <tr>
-                  <td>{{ stats.name }}</td>
-                  <td class="completed">{{ getPassPercentage(stats).toFixed(2) }}%</td>
-                  <td class="failed">{{ getFailPercentage(stats).toFixed(2) }}%</td>
-                </tr>
+                <ion-row>
+                  <ion-col>{{ stats.name }}</ion-col>
+                  <ion-col class="completed">{{ getPassPercentage(stats).toFixed(2) }}%</ion-col>
+                  <ion-col class="failed">{{ getFailPercentage(stats).toFixed(2) }}%</ion-col>
+                </ion-row>
               }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+          </ion-grid>
+        </ion-card>
+      </ion-card>
+    </ng-container>
   }
 
 <!--
-  @if(1>0) {
-    <section class = "dashboard">
-      <h2> Dashboard Segreteria </h2>
-      <div class = "riquadri">
-        <div class = "riquadro">
-          <table>
-            <thead>
-              <tr>
-                <th> ID </th>
-                <th> Professore </th>
-                <th> Esami gestiti </th>
-              </tr>
-            </thead>
-            <tbody>
+  @if(user.role === "segreteria") {
+    <ng-container class = "dashboard">
+      <ion-title> Dashboard Segreteria </ion-title>
+      <ion-card class = "riquadri">
+        <ion-card class = "riquadro">
+          <ion-grid>
+              <ion-row>
+                <ion-col> ID </ion-col>
+                <ion-col> Professore </ion-col>
+                <ion-col> Esami gestiti </ion-col>
+              </ion-row>
               @for(prof of professors; track prof.id){
-               <tr>
-                <td> {{ prof.id }} </td>
-                <td> {{ prof.first_name }} {{prof.last_name}} </td>
-                <td> {{getAllExamByProfessorID(prof.id)}} </td>
-               </tr>
+               <ion-row>
+                <ion-col> {{ prof.id }} </ion-col>
+                <ion-col> {{ prof.first_name }} {{prof.last_name}} </ion-col>
+                <ion-col> {{getAllExamByProfessorID(prof.id)}} </ion-col>
+               </ion-row>
               }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+            </ion-grid>
+          </ion-card>
+        </ion-card>
+      </ng-container>
 
   } -->
-</main>
+  </ng-container>
+</ion-content>
