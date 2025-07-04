@@ -16,9 +16,9 @@ export interface ExamResult {
     exam_code: number,
     grade: number,
     accepted: boolean | null,
-    professor_id?: number,
-    professor_first_name?: string,
-    professor_last_name?: string
+    professor_id: number,
+    professor_first_name: string,
+    professor_last_name: string
 }
 
 @Injectable({ providedIn: 'root' })

@@ -7,7 +7,7 @@ import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '..
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { IonContent,IonButton,IonGrid, IonRow, IonCol, IonInput, IonHeader, IonToolbar, IonTitle, IonCard, IonItem} from '@ionic/angular/standalone';
-AuthService
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -28,6 +28,9 @@ AuthService
   styleUrl: './plan.component.scss'
 })
 export class PlanComponent implements OnInit {
+
+  private alertController = inject(AlertController);
+
   router = inject(Router);
   user: LoggedUser | null = null;
   user$ = inject(AuthService).user$;
@@ -108,13 +111,33 @@ export class PlanComponent implements OnInit {
 
   //STUDENTE
   loadStudentThings() {
-    this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe(data => {
+    this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe((data) => {
       this.esamiPrenotati = data;
     });
 
-    this.examService.getStudentExams(this.user!.id).subscribe(data => {
-      this.esami = data;
-      this.allEsami = [...data]; 
+    this.examService.getStudentExams(this.user!.id).subscribe((data) => {
+      this.esami = data; 
     });
+  }
+
+  async unenrollFromExam(exam_code: number, exam_name: string) {
+    const alert = await this.alertController.create({
+      header: 'Sei sicuro di voler disiscriverti?',
+      message: `L'iscrizione all'esame ${exam_name} verrà cancellata`,
+      buttons: [
+        { text: 'Annulla', role: 'cancel'},
+        { text: 'Conferma', role: 'confirm', handler: () => {
+          this.enrolledStudentService.unenrollStudent(this.user!.id, exam_code).subscribe({
+            next: () => {
+              this.esamiPrenotati = this.esamiPrenotati.filter(c => c.exam_code !== exam_code);
+              this.loadStudentThings();
+            }
+          });
+        }}
+      ],
+      backdropDismiss: false,
+    });
+
+    await alert.present();
   }
 }

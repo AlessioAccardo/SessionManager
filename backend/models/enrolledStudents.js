@@ -20,6 +20,25 @@ class EnrolledStudents{
         });
     }
 
+    // funzione per ottenere tutti gli 
+    static async getEnrolledStudentsByProfId(professor_id) {
+        return new Promise((resolve, reject) => {
+            db.all(`
+                SELECT u.first_name AS student_first_name, u.last_name AS student_last_name, es.*,
+                    e.name AS exam_name, e.credits, e.enrolled_students, e.professor_id, e.date, e.course_id,
+                    us.first_name AS professor_first_name, us.last_name AS professor_last_name
+                FROM users AS u 
+                JOIN enrolledStudents AS es ON es.student_id = u.id
+                JOIN exams AS e ON e.code = es.exam_code
+                JOIN users AS us ON us.id = e.professor_id
+                WHERE e.professor_id = ?`,
+            [professor_id], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
+            });
+        });
+    }
+
     // tutti gli esami ai quali uno studente è iscritto
     static async getExamsByEnrolledStudentId(student_id) {
         return new Promise((resolve, reject) => {
@@ -31,7 +50,7 @@ class EnrolledStudents{
                 JOIN enrolledStudents AS es ON es.student_id = u.id
                 JOIN exams AS e ON e.code = es.exam_code
                 JOIN users AS us ON us.id = e.professor_id
-                WHERE student_id = ?`,
+                WHERE es.student_id = ?`,
                 [student_id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);

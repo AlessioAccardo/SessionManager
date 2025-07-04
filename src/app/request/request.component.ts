@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
 import { CoursesService, Courses } from '../services/courses.service';
@@ -9,7 +9,7 @@ import { IonContent,IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabe
 
 @Component({
   selector: 'app-request',
-  imports: [FormsModule,
+  imports: [ReactiveFormsModule,
             IonHeader,
             IonToolbar,
             IonTitle,
@@ -30,6 +30,8 @@ import { IonContent,IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabe
 export class RequestComponent implements OnInit {
   router = inject(Router);
 
+  examRequestForm: FormGroup;
+
   user: LoggedUser | null = null;
   user$ = inject(AuthService).user$;
 
@@ -38,7 +40,12 @@ export class RequestComponent implements OnInit {
   courses: Courses[] = [];
 
 
-  constructor(private examService: ExamService, private coursesService: CoursesService) {}
+  constructor(private examService: ExamService, private coursesService: CoursesService, private fb: FormBuilder) {
+    this.examRequestForm = this.fb.group({
+      course_id: [null, Validators.required],
+      date: ['', Validators.required]
+    })
+  }
 
   ngOnInit(): void {
     // OTTENGO L'OGGETTO USER
@@ -61,33 +68,44 @@ export class RequestComponent implements OnInit {
     }
   }
 
-  onSubmit(courseInput: HTMLSelectElement, dateInput: HTMLInputElement) {
-
-    const dto: CreateExamDto = {
-      course_id: +courseInput.value,
-      date: dateInput.value
-    };
-
+  // FUNZIONE PER IL FORM DI RICHIESTA DI CREAZIONE DELL'ESAME DEL PROFESSORE 
+  submitForm() {
+    // SE IL FORM NON E VALIDO MOSTRO ALERT E RITORNO
+    if (this.examRequestForm.invalid) {
+      alert('Dati inseriti nel form mancanti o non validi');
+      return;
+    }
+    const { date } = this.examRequestForm.value;
+    if (new Date(date) < new Date() ) {
+      alert('Non puoi creare esami per giorni passati!');
+      return;
+    }
+    // ALTRIMENTI
+    // CREO IL DTO
+    const dto: CreateExamDto = this.examRequestForm.value
+    // CONSUMO IL SERIVZIO DI CREATE EXAM DEFINITO IN EXAM.SERVICE.TS
     this.examService.createExam(dto).subscribe({
       next: (createdExam) => {
         console.log('Esame creato: ', createdExam);
         alert(`Esame ${createdExam.name} creato con ID ${createdExam.code}`);
-        courseInput.selectedIndex = 0;
-        dateInput.value = "";
+        this.examRequestForm.reset();
       },
       error: err => {
         console.log(err);
         alert(`Errore nella creazione dell'esame`);
+        this.examRequestForm.reset();
       }
     });
   }
 
+  // FUNZIONE PER CARICARE LE RICHIESTE DI CREAZIONE DI UN ESAME DEI PROFESSORI
   loadRequests() {
     this.examService.getExamRequests().subscribe((data) => {
       this.requests = data;
     });
   }
 
+  // FUNZIONE PER APPROVARE LE RICHIESTE DEI PROFESSORI CHE UTILIZZA I SERVIZI DI EXAM.SERVICE.TS
   approveRequest(code: number, approved: boolean) {
     this.examService.approveExam(code, approved).subscribe({
       next: (approvedExam) => {
@@ -105,6 +123,5 @@ export class RequestComponent implements OnInit {
         alert(`Errore nell'approvazione dell'esame`);
       }
     });
-    
   }
 }

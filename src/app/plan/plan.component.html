@@ -13,19 +13,25 @@
         <ion-row>
           <ion-col>Codice Corso</ion-col>
           <ion-col>Codice Esame</ion-col>
+          <ion-col>Nome Corso</ion-col>
           <ion-col>Data</ion-col>
           <ion-col>CFU</ion-col>
           <ion-col>Docente</ion-col>
           <ion-col>Numero Prenotati</ion-col>
+          <ion-col>Azione</ion-col>
         </ion-row>
         @for (esame of esamiPrenotati; track esame.exam_code) {
           <ion-row>
             <ion-col>{{ esame.course_id }}</ion-col>
             <ion-col>{{ esame.exam_code }}</ion-col>
+            <ion-col>{{ esame.exam_name }}</ion-col>
             <ion-col>{{ esame.date }}</ion-col>
             <ion-col>{{ esame.credits }}</ion-col>
             <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
             <ion-col>{{ esame.enrolled_students }}</ion-col>
+            <ion-col>
+                <ion-button size="small" (click)="unenrollFromExam(esame.exam_code, esame.exam_name)">Disiscriviti</ion-button>
+              </ion-col>
           </ion-row>
         }
       </ion-grid>

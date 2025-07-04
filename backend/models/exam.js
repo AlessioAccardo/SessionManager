@@ -20,7 +20,11 @@ class Exam {
                 JOIN studyPlan AS s ON s.course_id = e.course_id
                 JOIN users AS stud ON stud.id = s.student_id
                 JOIN users as prof ON prof.id = e.professor_id
-                WHERE s.student_id = ? AND s.grade IS NULL AND e.approved = ?`,
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM enrolledStudents AS en
+                    WHERE en.exam_code = e.code
+                ) AND s.student_id = ? AND s.grade IS NULL AND e.approved = ?`,
             [student_id, 1], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);

@@ -42,10 +42,17 @@ export class EnrolledStudentsService {
     }
 
     getExamsByEnrolledStudent(student_id: number): Observable<EnrolledStudent[]> {
-        return this.http.get<EnrolledStudent[]>(`${this.apiUrl}/student/${student_id}`);
+        const params = new HttpParams().set('student_id', student_id)
+        return this.http.get<EnrolledStudent[]>(`${this.apiUrl}/search`, { params });
     }
 
     getEnrolledStudentsByExam(exam_code: number): Observable<EnrolledStudent[]> {
-        return this.http.get<EnrolledStudent[]>(`${this.apiUrl}/exam/${exam_code}`);
+        const params = new HttpParams().set('exam_code', exam_code)
+        return this.http.get<EnrolledStudent[]>(`${this.apiUrl}/search`, { params });
+    }
+
+    getEnrolledStudentsByProfId(professor_id: number): Observable<EnrolledStudent[]> {
+        const params = new HttpParams().set('professor_id', professor_id)
+        return this.http.get<EnrolledStudent[]>(`${this.apiUrl}/search`, { params });
     }
 }

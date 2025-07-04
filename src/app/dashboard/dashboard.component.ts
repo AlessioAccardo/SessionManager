@@ -2,27 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { UserService, User } from '../services/user.service';
+import { UserService } from '../services/user.service';
 import { ExamService } from '../services/exam.service';
-import { Exam } from '../models/exam.model';
 import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol} from '@ionic/angular/standalone';
-
-interface StudentExam {
-  id: string;
-  name: string;
-  cfu: number;
-  completed: boolean;
-  note: string;
-  voto?: number;
-  votoAccettato?: boolean;
-}
-
-interface ProfessorExamStats {
-  id: string;
-  name: string;
-  passed: number;
-  failed: number;
-}
+import { ExamResultsService } from '../services/examResults.service';
+import { EnrolledStudent, EnrolledStudentsService } from '../services/enrolledStudents.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -43,16 +27,14 @@ export class DashboardComponent implements OnInit {
 
   examService = inject(ExamService);
   userService = inject(UserService);
+  enrolledStudentService = inject(EnrolledStudentsService);
+  examResultsService = inject(ExamResultsService);
 
   user: LoggedUser | null = null;
   user$ = inject(AuthService).user$;
 
-  studentExams: StudentExam[] = [];
-  professorStats: ProfessorExamStats[] = [];
-  professors: User[] = [];
-  maxCfu = 0;
-  totalCfu = 0;
-  completePercentage = 0;
+  exams: EnrolledStudent[] = [];
+
 
   ngOnInit(): void {
     const raw = localStorage.getItem('currentUser');
@@ -61,55 +43,27 @@ export class DashboardComponent implements OnInit {
     } else {
       this.user = JSON.parse(raw) as LoggedUser;
     }
-    this.calculateStudentMetrics();
-  }
+    
+    // PROFESSORE
+    if (this.user?.role === 'professore') {
+      this.enrolledStudentService.getEnrolledStudentsByProfId(this.user.id).subscribe((data) => {
+        this.exams = data;
+      });
+    } else 
 
-  /*getAllExamByProfessorID(professors: User) {
-    this.userService.getAllProfessors().subscribe((data => {
-      this.professors = data;
-    }));
-    this.examService.getExamByProfessorId().subscribe()
-  }*/
+    if (this.user?.role === 'studente') {
+      this.enrolledStudentService.getExamsByEnrolledStudent(this.user.id).subscribe((data) => {
+        this.exams = data;
+      });
+    } 
 
-
-  private calculateStudentMetrics(): void {
-    this.maxCfu = this.studentExams.reduce((sum, exam) => sum + exam.cfu, 0);
-    this.totalCfu = this.studentExams
-      .filter(exam => exam.completed)
-      .reduce((sum, exam) => sum + exam.cfu, 0);
-    this.completePercentage = this.maxCfu > 0 ? (this.totalCfu / this.maxCfu) * 100 : 0;
-  }
-
-  accettaVoto(exam: StudentExam): void {
-    if (
-      confirm(`Vuoi accettare il voto di ${exam.name} - ${exam.cfu} CFU?`)
-    ) {
-      exam.votoAccettato = true;
-      exam.completed = true;
-      this.calculateStudentMetrics();
-      alert('Voto accettato con successo!');
+    if (this.user?.role === 'segreteria') {
+      this.enrolledStudentService.getAll().subscribe((data) => {
+        this.exams = data;
+      })
     }
   }
 
-  rifiutaVoto(exam: StudentExam): void {
-    if (
-      confirm(`Vuoi rifiutare il voto di ${exam.name} - ${exam.cfu} CFU?`)
-    ) {
-      exam.votoAccettato = false;
-      exam.completed = false;
-      this.calculateStudentMetrics();
-      alert('Voto rifiutato con successo!');
-    }
-  }
 
-  getPassPercentage(stats: ProfessorExamStats): number {
-    const total = stats.passed + stats.failed;
-    return total > 0 ? (stats.passed / total) * 100 : 0;
-  }
-
-  getFailPercentage(stats: ProfessorExamStats): number {
-    const total = stats.passed + stats.failed;
-    return total > 0 ? (stats.failed / total) * 100 : 0;
-  }
 
 }

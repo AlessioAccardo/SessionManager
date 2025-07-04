@@ -80,11 +80,13 @@ export class LoginComponent {
       this.authApiService.login({ email, password })
       .subscribe({
         next: res => {
-          this.auth.login(res.data as LoggedUser, res.token);          
+          this.auth.login(res.data as LoggedUser, res.token);
+          this.loginForm.reset();    
         },
         error: err => {
           this.errorMessage = err.error?.message || 'Errore di login';
           alert(this.errorMessage);
+          this.loginForm.reset();
         }
       });
     } else {
@@ -100,10 +102,12 @@ export class LoginComponent {
           next: res => {
             alert('Registrazione avvenuta con successo');
             this.router.navigate(['/login']);
+            this.registrationForm.reset();
             this.display = false;
           }, error: err => {
             this.errorMessage = err.error?.message || 'Errore nella registrazione';
             alert(this.errorMessage);
+            this.registrationForm.reset();
           }
         });
       } else {

@@ -16,10 +16,12 @@ class ExamResults {
     static async getResultsByStudentId(student_id) {
         return new Promise((resolve, reject) => {
              db.all(`
-                SELECT u.first_name AS student_first_name, u.last_name AS student_last_name, ex.name AS exam_name, er.*
+                SELECT u.first_name AS student_first_name, u.last_name AS student_last_name, ex.name AS exam_name, er.*, prof.id AS professor_id,
+                    prof.first_name AS professor_first_name, prof.last_name AS prof.last_name
                 FROM examResults AS er
-                JOIN exams as ex ON ex.code = er.exam_code
-                JOIN users as u ON u.id = er.student_id
+                JOIN exams AS ex ON ex.code = er.exam_code
+                JOIN users AS u ON u.id = er.student_id
+                JOIN users AS prof ON prof.id = ex.professor_id
                 WHERE student_id = ?`,
                 [student_id], (err, rows) => {
                     if (err) return reject(err);
@@ -32,7 +34,8 @@ class ExamResults {
     static async getResultsByProfessorId(professor_id) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT er.*, us.first_name AS student_first_name, us.last_name AS student_last_name, ex.professor_id, u.first_name AS professor_first_name, u.last_name AS professor_last_name
+                SELECT er.*, us.first_name AS student_first_name, us.last_name AS student_last_name, ex.professor_id,
+                    u.first_name AS professor_first_name, u.last_name AS professor_last_name
                 FROM examResults AS er
                 JOIN exams AS ex ON ex.code = er.exam_code
                 JOIN users AS u ON u.id = ex.professor_id
@@ -50,7 +53,8 @@ class ExamResults {
     static async getExamResults(professor_id, exam_code) {
         return new Promise((resolve, reject) => {
             db.all(`
-                SELECT er.*, us.first_name AS student_first_name, us.last_name AS student_last_name, ex.professor_id, u.first_name AS professor_first_name, u.last_name AS professor_last_name
+                SELECT er.*, us.first_name AS student_first_name, us.last_name AS student_last_name, ex.professor_id,
+                    u.first_name AS professor_first_name, u.last_name AS professor_last_name
                 FROM examResults AS er
                 JOIN exams AS ex ON ex.code = er.exam_code
                 JOIN users AS u ON u.id = ex.professor_id

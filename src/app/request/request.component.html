@@ -8,27 +8,26 @@
   @if (user?.role === 'professore') {
     <ion-card class="request-table">
       <ion-title>Richiesta Appello</ion-title>
-      <form>
+      <form [formGroup]="examRequestForm" (ngSubmit)="submitForm()">
         <ion-label for="course">Corso</ion-label>
-        <ion-select #courseInput interface="popover" placeholder="Scegli corso..." required>
+        <ion-select formControlName="course_id" interface="popover" placeholder="Scegli corso..." required>
           @for (course of courses; track course.id) {
             <ion-select-option [value]="course.id">{{ course.name }}</ion-select-option>
           }
         </ion-select>
 
         <ion-label for="date">Data Appello</ion-label>
-        <ion-input #date type="date" required></ion-input>
-  <!--
-        <ion-button class="formButton" expand="block" (click)="onSubmit(courseInput, date)"> 
+        <ion-input formControlName="date" type="date" required></ion-input>
+        <ion-button expand="block" type="submit" [disabled]="examRequestForm.invalid"> 
           Invia Richiesta
-        </ion-button> -->
+        </ion-button>
       </form>
     </ion-card>
   }
 
   @if (user?.role === 'segreteria') {
     <ion-card class="request-table">
-      <ion-title>Gestione Richieste</ion-title>
+      <ion-title>Gestione Richieste Appelli</ion-title>
       <ion-grid>
         <ion-row>
           <ion-col>Code</ion-col>
