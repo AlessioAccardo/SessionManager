@@ -1,9 +1,5 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title class="logo">SessionManager</ion-title>
-    <ion-buttons slot="end"  *ngIf="user$ | async as user">
-
-      <!-- STUDENTE -->
+  <!-- STUDENTE -->
+   <ion-buttons slot="end"  *ngIf="user$ | async as user">
       @if (user.role === 'studente'){
         <ng-container>
           <ion-button [routerLink]="['/']"> Home </ion-button>
@@ -33,5 +29,3 @@
         </ng-container>
       }
     </ion-buttons>
-  </ion-toolbar>
-</ion-header>

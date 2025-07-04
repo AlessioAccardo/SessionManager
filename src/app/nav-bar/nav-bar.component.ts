@@ -3,11 +3,11 @@ import { Router, RouterLink} from '@angular/router';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
-import { IonButton, IonHeader, IonButtons, IonToolbar, IonTitle } from '@ionic/angular/standalone';
+import { IonButton, IonButtons } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-nav-bar',
-  imports: [CommonModule, IonButton, IonHeader, IonButtons, IonToolbar, IonTitle, RouterLink],
+  imports: [CommonModule, IonButton, IonButtons, RouterLink],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
 })
