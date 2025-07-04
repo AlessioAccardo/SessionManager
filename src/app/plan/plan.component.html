@@ -7,9 +7,8 @@
 <ion-content class="container">
   @if (visualizzazione) {
     <ion-button expand="block" (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</ion-button>
-
-    <section class="summary">
-      <h2 class="esami-titolo">Esami</h2>
+    <ion-card class="summary">
+      <ion-title>Esami</ion-title>
       <ion-grid class="esami-table">
         <ion-row>
           <ion-col>Codice Corso</ion-col>
@@ -30,16 +29,16 @@
           </ion-row>
         }
       </ion-grid>
-    </section>
+    </ion-card>
   } @else {
     <ion-button expand="block" (click)="visualizzaEsami()">Visualizza esami prenotati</ion-button>
 
-    <section class="study-plan">
-      <h3>Seleziona gli esami</h3>
+    <ion-card class="study-plan">
+      <ion-title>Seleziona gli esami</ion-title>
       <form>
-        <section class="search">
+        <ion-item class="search">
           <ion-input type="text" placeholder="Cerca esame per codice o nome esame..." (ionInput)="onSearch($event)"></ion-input>
-        </section>
+        </ion-item>
 
         <ion-grid class="esami-table">
           <ion-row>
@@ -66,6 +65,6 @@
           }
         </ion-grid>
       </form>
-    </section>
+    </ion-card>
   }
 </ion-content>

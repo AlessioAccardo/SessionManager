@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '../services/enrolledStudents.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
-import { IonContent,IonButton,IonGrid, IonRow, IonCol, IonInput, IonHeader, IonToolbar, IonTitle} from '@ionic/angular/standalone';
+import { IonContent,IonButton,IonGrid, IonRow, IonCol, IonInput, IonHeader, IonToolbar, IonTitle, IonCard, IonItem} from '@ionic/angular/standalone';
 AuthService
 
 
@@ -21,7 +21,9 @@ AuthService
     IonInput,
     IonHeader,
     IonToolbar,
-    IonTitle],
+    IonTitle,
+    IonCard,
+    IonItem],
   templateUrl: './plan.component.html',
   styleUrl: './plan.component.scss'
 })

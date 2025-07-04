@@ -5,10 +5,9 @@
 </ion-header>
 
 <ion-content class="container">
-
   @if (user?.role === 'professore') {
-    <section class="request-table">
-      <h2>Richiesta Appello</h2>
+    <ion-card class="request-table">
+      <ion-title>Richiesta Appello</ion-title>
       <form>
         <ion-label for="course">Corso</ion-label>
         <ion-select #courseInput interface="popover" placeholder="Scegli corso..." required>
@@ -19,18 +18,17 @@
 
         <ion-label for="date">Data Appello</ion-label>
         <ion-input #date type="date" required></ion-input>
-<!--
+  <!--
         <ion-button class="formButton" expand="block" (click)="onSubmit(courseInput, date)"> 
           Invia Richiesta
         </ion-button> -->
       </form>
-    </section>
+    </ion-card>
   }
 
   @if (user?.role === 'segreteria') {
-    <section class="request-table">
-      <h2>Gestione Richieste</h2>
-
+    <ion-card class="request-table">
+      <ion-title>Gestione Richieste</ion-title>
       <ion-grid>
         <ion-row>
           <ion-col>Code</ion-col>
@@ -64,6 +62,6 @@
           </ion-row>
         }
       </ion-grid>
-    </section>
+    </ion-card>
   }
 </ion-content>

@@ -5,7 +5,7 @@ import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
 import { CoursesService, Courses } from '../services/courses.service';
 import { AuthService } from '../services/auth/auth.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
-import { IonContent,IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabel, IonSelect, IonSelectOption, IonGrid, IonCol, IonRow} from '@ionic/angular/standalone';
+import { IonContent,IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabel, IonSelect, IonSelectOption, IonGrid, IonCol, IonRow, IonCard} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-request',
@@ -21,7 +21,8 @@ import { IonContent,IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabe
             IonInput,
             IonGrid,
             IonCol,
-            IonRow],
+            IonRow,
+            IonCard],
   templateUrl: './request.component.html',
   styleUrl: './request.component.scss',
   standalone: true,
