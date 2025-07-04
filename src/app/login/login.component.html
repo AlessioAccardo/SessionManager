@@ -1,8 +1,7 @@
 <ion-content>
-  <main class="container">
-    <section class="form-section">
+  <ng-container class="container">
       @if (display === false) {
-        <ion-card class="form-box">
+        <ion-card>
           <ion-card-header>
             <ion-card-title>Login</ion-card-title>
           </ion-card-header>
@@ -24,7 +23,7 @@
           </ion-card-content>
         </ion-card>
       } @else {
-        <ion-card class="form-box">
+        <ion-card>
           <ion-card-header>
             <ion-card-title>Registrazione</ion-card-title>
           </ion-card-header>
@@ -65,6 +64,5 @@
           </ion-card-content>
         </ion-card>
       }
-    </section>
-  </main>
+  </ng-container>
 </ion-content>

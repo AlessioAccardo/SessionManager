@@ -37,13 +37,39 @@
 @import '@ionic/angular/css/palettes/dark.system.css';
 
 
+ion-title{
+  font-size: 30px;
+  font-family: 'Gill Sans', Calibri; 
+}
 
+ion-card-title{
+  font-size: 30px;
+  font-family: 'Gill Sans', Calibri; 
+}
 
+ion-button {
+  /* azzera padding interno */
+  --padding-top:    0;
+  --padding-bottom: 0;
+  --padding-start:  0;
+  --padding-end:    0;
 
+  /* azzera bordi e ombra */
+  --border-radius:  0;
+  --box-shadow:     none;
+  --background:     transparent;
+}
 
 
 // css input di tipo select //
 ion-select {
+--padding-top:    0;
+  --padding-bottom: 0;
+  --padding-start:  0;
+  --padding-end:    0;
+  --border-radius:  0;
+  --box-shadow:     none;
+  --background:     transparent;
   display: inline-block;
   width: 100%;
   max-width: 250px;     
@@ -64,8 +90,16 @@ ion-select {
 
 //css bottoni e input di tipo data
 ion-button, ion-input[type ="date"] {
+  --padding-top:    0;
+  --padding-bottom: 0;
+  --padding-start:  0;
+  --padding-end:    0;
+  --border-radius:  0;
+  --box-shadow:     none;
+  --background:     transparent;
+
   width:100%;
-  padding: 0.75em 1.5em;
+  padding: 0.5rem 0.5rem;
   font-size: 16px;
   color: #fff;
   text-align: center;
@@ -90,4 +124,11 @@ ion-button:hover, ion-input[type="date"]:hover{
 ion-button:active, ion-input[type ="date"]:active {
  transform: translateY(0);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+ion-grid{
+  width: 100%;
+  max-width: 40rem;
+  overflow: hidden;
 }

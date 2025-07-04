@@ -9,7 +9,7 @@
     <ion-button expand="block" (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</ion-button>
     <ion-card class="summary">
       <ion-title>Esami</ion-title>
-      <ion-grid class="esami-table">
+      <ion-grid>
         <ion-row>
           <ion-col>Codice Corso</ion-col>
           <ion-col>Codice Esame</ion-col>
@@ -18,7 +18,7 @@
           <ion-col>CFU</ion-col>
           <ion-col>Docente</ion-col>
           <ion-col>Numero Prenotati</ion-col>
-          <ion-col>Azione</ion-col>
+          <ion-col> </ion-col>
         </ion-row>
         @for (esame of esamiPrenotati; track esame.exam_code) {
           <ion-row>
@@ -30,7 +30,7 @@
             <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
             <ion-col>{{ esame.enrolled_students }}</ion-col>
             <ion-col>
-                <ion-button size="small" (click)="unenrollFromExam(esame.exam_code, esame.exam_name)">Disiscriviti</ion-button>
+                <ion-button  (click)="unenrollFromExam(esame.exam_code, esame.exam_name)">Disiscriviti</ion-button>
               </ion-col>
           </ion-row>
         }
@@ -38,8 +38,7 @@
     </ion-card>
   } @else {
     <ion-button expand="block" (click)="visualizzaEsami()">Visualizza esami prenotati</ion-button>
-
-    <ion-card class="study-plan">
+    <ion-card class="esami">
       <ion-title>Seleziona gli esami</ion-title>
       <form>
         <ion-item class="search">
@@ -54,7 +53,7 @@
             <ion-col>Numero Prenotati</ion-col>
             <ion-col>Data</ion-col>
             <ion-col>Docente</ion-col>
-            <ion-col>Azione</ion-col>
+            <ion-col> </ion-col>
           </ion-row>
           @for (esame of esami; track esame.code) {
             <ion-row>
@@ -65,7 +64,7 @@
               <ion-col>{{ esame.date }}</ion-col>
               <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
               <ion-col>
-                <ion-button size="small" (click)="seleziona(esame.code!)">Aggiungi</ion-button>
+                <ion-button (click)="seleziona(esame.code!)">Aggiungi</ion-button>
               </ion-col>
             </ion-row>
           }

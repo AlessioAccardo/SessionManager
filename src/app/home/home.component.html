@@ -9,10 +9,8 @@
           <ion-grid>
             <ion-row>{{ user.first_name }} {{ user.last_name }} </ion-row>
             <ion-row>Matricola: {{ user.id }}</ion-row>
-            <ion-row>
-              <ion-col>Media: {{ studentWeightedMean }} </ion-col>
-              <ion-col>CFU Totali: <strong>{{ totalCredits }}</strong> / {{ MAX_CFU }}</ion-col>
-            </ion-row>
+            <ion-row>Media: {{ studentWeightedMean }} </ion-row>
+            <ion-row>CFU Totali:  <strong>{{ totalCredits }}</strong> / {{ MAX_CFU }}</ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>
@@ -36,14 +34,14 @@
               <ion-col>CFU</ion-col>
               <ion-col>Voto</ion-col>
             </ion-row>
-            <ion-row>
-              @for(course of studyPlan; track course.course_id) {
-              <ion-col>{{ course.course_id }}</ion-col>
-              <ion-col>{{ course.course_name }}</ion-col>
-              <ion-col>{{ course.credits }}</ion-col>
-              <ion-col>{{ course.grade !== null ? course.grade : '-' }}</ion-col>
-              }
-            </ion-row>
+             @for(course of studyPlan; track course.course_id) {
+                <ion-row>
+                <ion-col>{{ course.course_id }}</ion-col>
+                <ion-col>{{ course.course_name }}</ion-col>
+                <ion-col>{{ course.credits }}</ion-col>
+                <ion-col>{{ course.grade !== null ? course.grade : '-' }}</ion-col>
+              </ion-row>
+            }
           </ion-grid>
           } @else {
           <ion-grid>
@@ -52,17 +50,16 @@
               <ion-col>Nome Corso</ion-col>
               <ion-col>Docente</ion-col>
               <ion-col>CFU</ion-col>
-              <ion-col>Azione</ion-col>
             </ion-row>
-            <ion-row>
               @for(course of courses; track course.id) {
-              <ion-col>{{ course.id }}</ion-col>
-              <ion-col>{{ course.name }}</ion-col>
-              <ion-col>{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
-              <ion-col>{{ course.credits }}</ion-col>
-              <ion-button (click) = "salvaPiano(course.id)"> Aggiungi </ion-button>
+               <ion-row>
+                  <ion-col>{{ course.id }}</ion-col>
+                  <ion-col>{{ course.name }}</ion-col>
+                  <ion-col>{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
+                  <ion-col>{{ course.credits }}</ion-col>
+                 <ion-button (click) = "salvaPiano(course.id)"> Aggiungi </ion-button>
+              </ion-row>
               }
-            </ion-row>
           </ion-grid>
           }
         </ion-card-content>
@@ -98,7 +95,7 @@
             </ion-grid>
           </ng-container>
           } @else {
-            <h2>NON HAI ANCORA ALCUN CORSO ASSEGNATO</h2>
+            <h2>Non hai ancora alcun corso assegnato</h2>
           }
         </ion-card-content>
       </ion-card>

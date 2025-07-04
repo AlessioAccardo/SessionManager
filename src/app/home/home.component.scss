@@ -1,0 +1,20 @@
+.summary{
+display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    to bottom right,
+    #e4fab0,
+    #e2c41d 
+  )
+}
+
+.summary ion-row{
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.747);
+  font-family: 'Gill Sans', Calibri;
+}
+
