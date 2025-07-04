@@ -1,0 +1,68 @@
+<main class="container">
+  @if (visualizzazione) {
+    <button (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</button>
+    <section class="summary">
+      <h2 class="esami-titolo">Esami</h2>
+      <table class="esami-table">
+        <thead>
+          <tr>
+            <th>Codice Corso</th>
+            <th>Codice Esame</th>
+            <th>Data</th>
+            <th>CFU</th>
+            <th>Docente</th>
+            <th>Numero Prenotati</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (esame of esamiPrenotati; track esame.exam_code) {
+            <tr>
+              <td>{{ esame.course_id }}</td>
+              <td>{{ esame.exam_code }}</td>
+              <td>{{ esame.date }}</td>
+              <td>{{ esame.credits }}</td>
+              <td>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</td>
+              <td>{{ esame.enrolled_students }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  } @else {
+    <button (click)="visualizzaEsami()">Visualizza esami prenotati</button>
+    <section class="study-plan">
+      <h3>Seleziona gli esami</h3>
+      <form>
+        <section class="search">
+          <input type="text" placeholder="Cerca esame per codice o nome esame..." (input)="onSearch($event)" />
+        </section>
+        <table class="esami-table">
+          <thead>
+            <tr>
+              <th>Codice Corso</th>
+              <th>Nome Esame</th>
+              <th>CFU</th>
+              <th>Numero Prenotati</th>
+              <th>Data</th>
+              <th>Docente</th>
+              <th>Azione</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (esame of esami; track esame.code) {
+              <tr>
+                <td>{{ esame.course_id }}</td>
+                <td>{{ esame.name }}</td>
+                <td>{{ esame.credits }}</td>
+                <td>{{ esame.enrolled_students }}</td>
+                <td>{{ esame.date }}</td>
+                <td>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</td>
+                <td><button type="button" (click)="seleziona(esame.code!)">Aggiungi</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </form>
+    </section>
+  }
+</main>

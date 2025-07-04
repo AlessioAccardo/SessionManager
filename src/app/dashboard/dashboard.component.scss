@@ -1,0 +1,73 @@
+/* Pannelli della Dashboard */
+.riquadri {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.riquadro {
+  flex: 1 1 15rem;
+  background-color: #f0f8ff;
+  border-left: 0.375rem solid #0077cc;
+  padding: 1.5rem;
+  border-radius: 0.375rem;
+  overflow-x: auto;
+}
+.riquadro table {
+  min-width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 1rem 0.5rem;
+}
+.riquadro table th, td {
+  padding: 0.75 rem;
+  text-align: left;
+}
+.riquadro h3 {
+  margin-bottom: 0.5rem;
+}
+.riquadro p {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin: 0.3rem 0;
+}
+
+ .completed {
+      color: green;
+      font-weight: bold;
+    }
+  .failed {
+      color: red;
+      font-weight: bold;
+    }
+
+  .riquadro .buttonAccetta {
+  padding: 0.4rem;
+  background-color: green;
+  color: white;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  }
+
+  .riquadro .buttonRifiuta{
+  padding: 0.4rem;
+  background-color: red;
+  color: white;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  }
+
+/* Responsive per dispositivi piccoli */
+@media (max-width: 768px) {
+  .riquadri {
+    gap: 1rem;
+  }
+  .riquadro table {
+    table-layout: auto;
+  }
+  .riquadro table th,
+  .riquadro table td {
+    padding: 0.5rem;       
+    font-size: 1rem;      
+    white-space: nowrap;
+  }
+} 

@@ -1,0 +1,53 @@
+<main class="container">
+
+  <!-- CREAZIONE RICHIESTE PROFESSORE -->
+  @if (user?.role === 'professore'){
+  <section class="request-table">
+    <h2>Richiesta Appello</h2>
+    <form>
+      <label for="course">Corso</label>
+      <select #courseInput id="course" required>
+        <option value="">Scegli corso...</option>
+        @for (course of courses; track course.id) {
+          <option [value]="course.id">{{ course.name }}</option>
+        }
+      </select>
+      <label for="date">Data Appello</label>
+      <input #date id="date" type="date" required>
+      <button class = "formButton" (click)="onSubmit(courseInput, date)"> Invia Richiesta </button>
+    </form> 
+    </section>
+  }
+  
+  <!-- GESTIONE RICHIESTE SEGRETERIA -->
+  @if(user?.role === 'segreteria') {
+    <section class = "request-table">
+    <h2>Gestione Richieste</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Corso</th>
+          <th>Data</th>
+          <th>Stato</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (request of requests; track request.code) {
+          <tr>
+            <td>{{ request.code }}</td>
+            <td>{{ request.name }}</td>
+            <td>{{ request.date }}</td>
+            <td> @if(request.approved === null) { <p class = "pending"> In attesa </p>} </td>
+            @if(request.approved === null){
+            <td><button class="approva" (click)="approveRequest(request.code, true)">Approva</button>
+                <button class="rifiuta" (click)="approveRequest(request.code, false)">Rifiuta</button>
+            </td>
+           }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+}
+</main>

@@ -1,0 +1,76 @@
+/* Componente Login: form login e form register*/
+.form-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+.form-box {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.375rem rgba(0,0,0,0.05);
+  flex: 1 1 20rem;
+  max-width: 40rem;
+}
+.form-box h2 {
+  margin-bottom: 1rem;
+}
+.form-box form {
+  display: flex;
+  flex-direction: column;
+}
+.form-box label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+.form-box input,
+.form-box select {
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0.375rem;
+  border: 0.0625rem solid #ccc;
+}
+p {
+    margin-top: 1rem;
+}
+a {
+    color: #0077cc;
+    cursor: pointer;
+    transition: opacity 0.4s ease;
+}
+
+a:hover {
+    opacity: 0.7;
+}
+
+button {
+  width:100%;
+  padding: 0.75em 1.5em;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5em;
+
+  background: linear-gradient(
+    to bottom right,
+    #b0e6fa,
+    #1da4e2   
+  );
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+ transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}

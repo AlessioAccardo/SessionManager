@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="logo">SessionManager</ion-title>
+    <ion-buttons slot="end"  *ngIf="user$ | async as user">
+
+      <!-- STUDENTE -->
+      @if (user.role === 'studente'){
+        <ng-container>
+          <ion-button [routerLink]="['/']"> Home </ion-button>
+          <ion-button [routerLink]="['/dashboard']">Dashboard</ion-button>
+          <ion-button [routerLink]="['plan']"> Esami </ion-button>
+          <ion-button (click)="logout()">Logout</ion-button>
+        </ng-container>
+      }
+
+      <!-- PROFESSORE -->
+      @if (user.role === 'professore'){
+        <ng-container>
+          <ion-button [routerLink]="['/']"> Home </ion-button>
+          <ion-button [routerLink]="['/dashboard']">Dashboard</ion-button>
+          <ion-button [routerLink]="['request']"> Richieste </ion-button>
+          <ion-button (click)="logout()">Logout</ion-button>
+        </ng-container>
+      }
+
+      <!-- SEGRETERIA -->
+      @if (user.role === 'segreteria'){
+        <ng-container>
+          <ion-button [routerLink]="['/']"> Home </ion-button>
+          <ion-button [routerLink]="['/dashboard']">Dashboard</ion-button>
+          <ion-button [routerLink]="['request']"> Richieste </ion-button>
+          <ion-button (click)="logout()">Logout</ion-button>
+        </ng-container>
+      }
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

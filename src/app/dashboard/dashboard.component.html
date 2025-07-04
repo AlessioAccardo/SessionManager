@@ -1,0 +1,112 @@
+<main class="container" *ngIf="user$ | async as user"> 
+  @if (user.role === 'studente') {
+    <section class="dashboard">
+      <h2>Dashboard Studente</h2>
+      <div class="riquadri">
+        <div class="riquadro">
+          <table>
+            <thead>
+              <tr>
+                <th>Esame</th>
+                <th>CFU</th>
+                <th>Completato</th>
+                <th>Voto</th>
+                <th>Accetta voto</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (exam of studentExams; track exam) {
+                <tr>
+                  <td>{{ exam.name }}</td>
+                  <td>{{ exam.cfu }}</td>
+                  <td [class.completed]="exam.completed" [class.failed]="!exam.completed">
+                    {{ exam.completed ? 'Completato' : 'Non completato' }}
+                  </td>
+                  <td>
+                    {{ exam.voto !== undefined ? exam.voto : '-' }}
+                  </td>
+                  <td>
+                    @if (exam.voto !== undefined && exam.votoAccettato === undefined) {
+                      <button class = "buttonAccetta" (click)="accettaVoto(exam)">Accetta</button>
+                      <button class = "buttonRifiuta" (click)="rifiutaVoto(exam)">Rifiuta</button>
+                    }
+                    @else if (exam.votoAccettato === true) {
+                      <td class = "completed">Accettato</td>
+                    }
+                    @else if (exam.votoAccettato === false) {
+                      <td class = "failed">Rifiutato</td>
+                    }
+                  </td>
+                </tr>
+              }
+              <tr>
+                <td><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></td>
+              </tr>
+               <tr>
+                <td><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  }
+
+  @if (1>0) {
+    <section class="dashboard">
+      <h2>Dashboard Professore</h2>
+      <div class="riquadri">
+        <div class="riquadro">
+          <table>
+            <thead>
+              <tr>
+                <th>Esame</th>
+                <th>% Promossi</th>
+                <th>% Bocciati</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (stats of professorStats; track stats) {
+                <tr>
+                  <td>{{ stats.name }}</td>
+                  <td class="completed">{{ getPassPercentage(stats).toFixed(2) }}%</td>
+                  <td class="failed">{{ getFailPercentage(stats).toFixed(2) }}%</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  }
+
+<!--
+  @if(1>0) {
+    <section class = "dashboard">
+      <h2> Dashboard Segreteria </h2>
+      <div class = "riquadri">
+        <div class = "riquadro">
+          <table>
+            <thead>
+              <tr>
+                <th> ID </th>
+                <th> Professore </th>
+                <th> Esami gestiti </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(prof of professors; track prof.id){
+               <tr>
+                <td> {{ prof.id }} </td>
+                <td> {{ prof.first_name }} {{prof.last_name}} </td>
+                <td> {{getAllExamByProfessorID(prof.id)}} </td>
+               </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  } -->
+</main>

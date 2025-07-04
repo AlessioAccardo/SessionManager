@@ -1,0 +1,92 @@
+/* Plan */
+
+.course-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  list-style-type: none;
+  padding: 10px;
+  margin: 0 0 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-width: 30rem;
+  width: 100%;
+}
+button {
+  width:100%;
+  padding: 0.75em 1.5em;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.5em;
+
+  background: linear-gradient(
+    to bottom right,
+    #b0e6fa,
+    #1da4e2   
+  );
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.esami-titolo {
+  margin-bottom: 2rem;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+ transform: translateY(0);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+@media (max-width: 768px) {
+  .course-row {
+    flex-direction: column;
+    max-width: 100%;
+    gap: 15px;
+  }
+  .course-row li {
+    min-width: auto;
+    width: 100%;
+  }
+  button {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-row {
+    padding: 8px;
+    gap: 10px;
+  }
+   button {
+    padding: 0.5rem;
+  }
+}
+
+/*tabelle*/
+.esami-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.esami-table th, .esami-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.esami-table th {
+  background-color: #e0f0ff;
+}

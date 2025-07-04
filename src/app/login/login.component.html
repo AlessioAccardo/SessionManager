@@ -1,0 +1,70 @@
+<ion-content>
+  <main class="container">
+    <section class="form-section">
+      @if (display === false) {
+        <ion-card class="form-box">
+          <ion-card-header>
+            <ion-card-title>Login</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input formControlName="email" type="email" id="login-email" required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Password</ion-label>
+                <ion-input formControlName="password" type="password" id="login-password" required></ion-input>
+              </ion-item>
+              <ion-button expand="block" type="submit" [disabled]="loginForm.invalid">Accedi</ion-button>
+              <p class="toggle-text">
+                Non hai un account? <a (click)="toggle()">Registrati</a>
+              </p>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      } @else {
+        <ion-card class="form-box">
+          <ion-card-header>
+            <ion-card-title>Registrazione</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+              <ion-item>
+                <ion-label position="floating">Nome</ion-label>
+                <ion-input formControlName="first_name" type="text" id="reg-first-name" required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Cognome</ion-label>
+                <ion-input formControlName="last_name" type="text" id="reg-last-name" required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input formControlName="email" type="email" id="reg-email" required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Password</ion-label>
+                <ion-input formControlName="password" type="password" id="reg-password" required></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>Ruolo</ion-label>
+                <ion-select
+                  formControlName="role"
+                  id="reg-role"
+                  interface="popover">
+                  @for(role of roles; track role){
+                    <ion-select-option [value]="role">{{ role }}</ion-select-option>
+                  }
+                </ion-select>
+              </ion-item>
+              <ion-button expand="block" type="submit">Registrati</ion-button>
+              <p class="toggle-text">
+                Hai già un account? <a (click)="toggle()">Accedi</a>
+              </p>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      }
+    </section>
+  </main>
+</ion-content>
