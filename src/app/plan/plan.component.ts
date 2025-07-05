@@ -58,7 +58,7 @@ export class PlanComponent implements OnInit {
     }
 
     if (this.user?.role === 'studente') {
-      this.loadStudentThings();
+      this.loadStudentExams();
     }
   }
 
@@ -68,30 +68,32 @@ export class PlanComponent implements OnInit {
 
   seleziona(code: number) {
     const exists = this.esamiPrenotati.some(e => e.exam_code === code);
-    if (!exists) {
-      const dto: EnrolledStudentDto = {
-        student_id: this.user!.id,
-        exam_code: code
-      };
-      this.enrolledStudentService.enrollStudent(dto).subscribe({
-        next: () => {
-          this.examService.setEnrolledStudentsNumber(code).subscribe({
-            next: () => {
-              alert('Esame prenotato correttamente');
-              this.loadStudentThings();
-              this.esami = this.esami.filter(e => e.code !== code);
-              this.allEsami = this.allEsami.filter(e => e.code !== code);
-            },
-            error: () => {
-              alert("Errore nell'aggiornamento del numero di iscritti");
-            }
-          });
-        },
-        error: () => {
-          alert("Errore nell\'inserimento dell\'esame");
-        }
-      });
+    if (exists) {
+      alert('Esame gia presente nel tuo piano di studi');
+      return;
     }
+    const dto: EnrolledStudentDto = {
+      student_id: this.user!.id,
+      exam_code: code
+    };
+    this.enrolledStudentService.enrollStudent(dto).subscribe({
+      next: () => {
+        this.examService.setEnrolledStudentsNumber(code).subscribe({
+          next: () => {
+            alert('Esame prenotato correttamente');
+            this.loadStudentExams();
+            this.esami = this.esami.filter(e => e.code !== code);
+            this.allEsami = this.allEsami.filter(e => e.code !== code);
+          },
+          error: () => {
+            alert("Errore nell'aggiornamento del numero di iscritti");
+          }
+        });
+      },
+      error: () => {
+        alert("Errore nell\'inserimento dell\'esame");
+      }
+    });
   }
 
   onSearch(event: Event): void {
@@ -110,7 +112,7 @@ export class PlanComponent implements OnInit {
   }
 
   //STUDENTE
-  loadStudentThings() {
+  loadStudentExams() {
     this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe((data) => {
       this.esamiPrenotati = data;
     });
@@ -130,7 +132,7 @@ export class PlanComponent implements OnInit {
           this.enrolledStudentService.unenrollStudent(this.user!.id, exam_code).subscribe({
             next: () => {
               this.esamiPrenotati = this.esamiPrenotati.filter(c => c.exam_code !== exam_code);
-              this.loadStudentThings();
+              this.loadStudentExams();
             }
           });
         }}

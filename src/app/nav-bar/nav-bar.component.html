@@ -3,8 +3,8 @@
       @if (user.role === 'studente'){
         <ng-container>
           <ion-button [routerLink]="['/']"> Home </ion-button>
-          <ion-button [routerLink]="['/dashboard']">Dashboard</ion-button>
-          <ion-button [routerLink]="['plan']"> Esami </ion-button>
+          <ion-button [routerLink]="['plan']"> Prenotazione </ion-button>
+          <ion-button [routerLink]="['/dashboard']">Risultati</ion-button>
           <ion-button (click)="logout()">Logout</ion-button>
         </ng-container>
       }

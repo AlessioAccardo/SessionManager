@@ -15,7 +15,7 @@ class EnrolledStudentsController {
     static async getEnrolledStudentsByProfId(req, res, next) {
         try {
             const { professor_id } = req.query;
-            const list = EnrolledStudents.getEnrolledStudentsByProfId(professor_id);
+            const list = await EnrolledStudents.getEnrolledStudentsByProfId(professor_id);
             if (!list || list.length === 0) return res.status(404).json({ message: 'Lista non trovata' });
             res.status(200).json(list);
         } catch (err) {
@@ -36,7 +36,7 @@ class EnrolledStudentsController {
 
     static async getEnrolledStudentsByExam(req, res, next){
         try {
-            const {exam_code} = req.query;
+            const { exam_code } = req.query;
             const list = await EnrolledStudents.getEnrolledStudentsByExam(exam_code);
             if (!list || list.length === 0) return res.status(404).json({ message: `Studenti iscritti all'esame non trovati` });
             res.status(200).json(list);

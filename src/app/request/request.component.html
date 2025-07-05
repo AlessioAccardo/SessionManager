@@ -1,13 +1,7 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Richieste Esami</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="container">
   @if (user?.role === 'professore') {
     <ion-card class="request-table">
-      <ion-title>Richiesta Appello</ion-title>
+      <ion-title>Richiesta Creazione Esame</ion-title>
       <form [formGroup]="examRequestForm" (ngSubmit)="submitForm()">
         <ion-label for="course">Corso</ion-label>
         <ion-select formControlName="course_id" interface="popover" placeholder="Scegli corso..." required>

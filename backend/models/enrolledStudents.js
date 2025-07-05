@@ -20,7 +20,7 @@ class EnrolledStudents{
         });
     }
 
-    // funzione per ottenere tutti gli 
+    // tutti gli studenti iscritti agli esami del professore
     static async getEnrolledStudentsByProfId(professor_id) {
         return new Promise((resolve, reject) => {
             db.all(`
@@ -54,8 +54,8 @@ class EnrolledStudents{
                 [student_id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
-            })
-        })
+            });
+        });
     }
 
     //tutti gli studenti iscritti per esame

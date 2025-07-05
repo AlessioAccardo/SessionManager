@@ -4,9 +4,10 @@ import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { ExamService } from '../services/exam.service';
-import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol} from '@ionic/angular/standalone';
-import { ExamResultsService } from '../services/examResults.service';
+import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController} from '@ionic/angular/standalone';
+import { ExamResult, ExamResultDto, ExamResultsService } from '../services/examResults.service';
 import { EnrolledStudent, EnrolledStudentsService } from '../services/enrolledStudents.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
   userService = inject(UserService);
   enrolledStudentService = inject(EnrolledStudentsService);
   examResultsService = inject(ExamResultsService);
+  alertCtrl = inject(AlertController);
 
   user: LoggedUser | null = null;
   user$ = inject(AuthService).user$;
@@ -36,7 +38,7 @@ export class DashboardComponent implements OnInit {
   exams: EnrolledStudent[] = [];
 
 
-  ngOnInit(): void {
+  ngOnInit() {
     const raw = localStorage.getItem('currentUser');
     if (!raw) {
       console.log('Nessun utente in local storage');
@@ -49,7 +51,7 @@ export class DashboardComponent implements OnInit {
       this.enrolledStudentService.getEnrolledStudentsByProfId(this.user.id).subscribe((data) => {
         this.exams = data;
       });
-    } else 
+    }
 
     if (this.user?.role === 'studente') {
       this.enrolledStudentService.getExamsByEnrolledStudent(this.user.id).subscribe((data) => {
@@ -64,6 +66,52 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  getStudents(code: number) {
+    return this.exams.filter(es => es.exam_code === code);
+  }
 
+  // RUOLO PROFESSORE
+  // mostro l'alert con il prompt per inserire il voto, invia il voto al server e aspetta 
+  // che la chiamata sia completata prima di chiudere l'alert
+  async insertGrade(examCode: number, studentId: number): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Inserisci Voto',
+      inputs: [{ name: 'value', type: 'number', placeholder: '0–31' }],
+      buttons: [
+        { text: 'Annulla', role: 'cancel' },
+        {
+          text: 'Conferma',
+          // Rendiamo handler async, così possiamo await dentro
+          handler: async (data) => {
+            const num = parseInt(data.value, 10);
+            if (isNaN(num)) {
+              console.warn('Valore non valido:', data.value);
+              return false; // non chiude l'alert
+            }
+
+            const dto: ExamResultDto = {
+              student_id: studentId,
+              exam_code:  examCode,
+              grade:      num,
+            };
+
+            try {
+              // converto l'Observable in Promise e aspetto il risultato
+              await firstValueFrom(this.examResultsService.create(dto));
+              const data = await firstValueFrom(this.enrolledStudentService.getEnrolledStudentsByProfId(this.user!.id));
+              this.exams = data;
+              return true;    // chiude l'alert al successo
+            } catch (err) {
+              console.error('Errore durante il salvataggio del voto:', err);
+              // qui potresti mostrare un toast con l'errore
+              return false;   // mantiene aperto l'alert per riprovare
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
 }

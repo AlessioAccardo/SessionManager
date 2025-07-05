@@ -56,27 +56,34 @@
   -->
   
 
-  @if (this.user?.role === 'professor') {
+  @if (this.user?.role === 'professore') {
     <ng-container class="dashboard">
-      <ion-title>Dashboard Professore</ion-title>
+      <ion-title>Dashboard Risultati Esami</ion-title>
       <ion-card class ="riquadri">
-        @for (exam of exams; track exam.exam_code) {}
+        @for (exam of exams; track exam.exam_code) {
         <ion-card class="riquadro">
           <ion-grid>
               <ion-row>
-                <ion-col>Esame</ion-col>
-                <ion-col>% Promossi</ion-col>
-                <ion-col>% Bocciati</ion-col>
+                <ion-col>Codice Esame</ion-col>
+                <ion-col>Nome Esame</ion-col>
+                <ion-col>Matricola Studente</ion-col>
+                <ion-col>Nome Studente</ion-col>
+                <ion-col>Voto</ion-col>
+                <ion-col>Azione</ion-col>
               </ion-row>
-              @for (student of exams; track student.student_id) {
-                <ion-row>
+              <ion-row>
+              @for (student of getStudents(exam.exam_code); track student.student_id) {
+                  
+                  <ion-col>{{ exam.exam_code }}</ion-col>
+                  <ion-col>{{ exam.exam_name}}</ion-col>
+                  <ion-col>{{ student.student_id }}</ion-col>
                   <ion-col>{{ student.student_first_name }} {{ student.student_last_name }}</ion-col>
-                  <ion-col class="completed">%</ion-col>
-                  <ion-col class="failed">%</ion-col>
-                </ion-row>
+                  <ion-button (click)="insertGrade(exam.exam_code, student.student_id)">Inserisci voto</ion-button>
               }
+              </ion-row>
           </ion-grid>
         </ion-card>
+        }
       </ion-card>
     </ng-container>
   }
