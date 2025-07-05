@@ -1,49 +1,27 @@
 <ion-content>
 <ng-container class="container" *ngIf="user$ | async as user"> 
-  <!-- 
+
 @if (this.user?.role === 'studente') {
     <ng-container class="dashboard">
-      <ion-title>Dashboard Studente</ion-title>
+      <ion-title>Risultati Esami</ion-title>
       <ion-card class="riquadri">
         <ion-card class="riquadro">
           <ion-grid>
             <ion-row class="header">
-                <ion-col>Esame</ion-col>
-                <ion-col>CFU</ion-col>
-                <ion-col>Completato</ion-col>
-                <ion-col>Voto</ion-col>
-                <ion-col>Accetta voto</ion-col>
+              <ion-col>Codice Esame</ion-col>
+              <ion-col>Esame</ion-col>
+              <ion-col>CFU</ion-col>
+              <ion-col>Voto</ion-col>
+              <ion-col>Accetta voto</ion-col>
             </ion-row>
-            @for (exam of studentExams; track exam) {
+            @for (exam of studentExams; track exam.exam_code) {
                 <ion-row>
-                  <ion-col>{{ exam.name }}</ion-col>
-                  <ion-col>{{ exam.cfu }}</ion-col>
-                  <ion-col [class.completed]="exam.completed" [class.failed]="!exam.completed">
-                    {{ exam.completed ? 'Completato' : 'Non completato' }}
-                  </ion-col>
-                  <ion-col>
-                    {{ exam.voto !== undefined ? exam.voto : '-' }}
-                  </ion-col>
-                  <ion-col>
-                    @if (exam.voto !== undefined && exam.votoAccettato === undefined) {
-                      <ion-button class = "buttonAccetta" (click)="accettaVoto(exam)">Accetta</ion-button>
-                      <ion-button class = "buttonRifiuta" (click)="rifiutaVoto(exam)">Rifiuta</ion-button>
-                    }
-                    @else if (exam.votoAccettato === true) {
-                      <ion-col class = "completed">Accettato</ion-col>
-                    }
-                    @else if (exam.votoAccettato === false) {
-                      <ion-col class = "failed">Rifiutato</ion-col>
-                    }
-                  </ion-col>
+                  <ion-col>{{ exam.exam_code }}</ion-col>
+                  <ion-col>{{ exam.course_name }}</ion-col>
+                  <ion-col>{{ exam.course_credits }}</ion-col>
+                  <ion-col>{{ exam.grade }}</ion-col>
                 </ion-row>
               }
-              <ion-row>
-                <ion-col><strong>CFU Totali: {{ totalCfu }} / {{ maxCfu }}</strong></ion-col>
-              </ion-row>
-               <ion-row>
-                <ion-col><strong>Percentuale Completamento: {{ completePercentage.toFixed(2) }}%</strong></ion-col>
-               </ion-row>
           </ion-grid>
         </ion-card>
       </ion-card>
@@ -53,8 +31,6 @@
 
 
 
-  -->
-  
 
   @if (this.user?.role === 'professore') {
     <ng-container class="dashboard">

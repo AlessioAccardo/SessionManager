@@ -22,7 +22,8 @@ import { firstValueFrom } from 'rxjs';
     IonButton, 
     IonGrid, 
     IonRow, 
-    IonCol]
+    IonCol
+  ]
 })
 export class DashboardComponent implements OnInit {
 
@@ -36,6 +37,8 @@ export class DashboardComponent implements OnInit {
   user$ = inject(AuthService).user$;
 
   exams: EnrolledStudent[] = [];
+  
+  studentExams: ExamResult[] = [];
 
 
   ngOnInit() {
@@ -54,8 +57,8 @@ export class DashboardComponent implements OnInit {
     }
 
     if (this.user?.role === 'studente') {
-      this.enrolledStudentService.getExamsByEnrolledStudent(this.user.id).subscribe((data) => {
-        this.exams = data;
+      this.examResultsService.getResultsByStudentId(this.user.id).subscribe((data) => {
+        this.studentExams = data;
       });
     } 
 

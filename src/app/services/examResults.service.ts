@@ -18,7 +18,10 @@ export interface ExamResult {
     accepted: boolean | null,
     professor_id: number,
     professor_first_name: string,
-    professor_last_name: string
+    professor_last_name: string,
+    course_id: number,
+    course_name: string,
+    course_credits: number
 }
 
 @Injectable({ providedIn: 'root' })
