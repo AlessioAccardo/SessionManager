@@ -37,6 +37,8 @@
 @import '@ionic/angular/css/palettes/dark.system.css';
 
 
+
+
 ion-title{
   font-size: 30px;
   font-family: 'Gill Sans', Calibri; 
@@ -45,19 +47,6 @@ ion-title{
 ion-card-title{
   font-size: 30px;
   font-family: 'Gill Sans', Calibri; 
-}
-
-ion-button {
-  /* azzera padding interno */
-  --padding-top:    0;
-  --padding-bottom: 0;
-  --padding-start:  0;
-  --padding-end:    0;
-
-  /* azzera bordi e ombra */
-  --border-radius:  0;
-  --box-shadow:     none;
-  --background:     transparent;
 }
 
 
@@ -73,7 +62,7 @@ ion-select {
   display: inline-block;
   width: 100%;
   max-width: 250px;     
-  max-height: 30px; 
+  max-height: 20px; 
   box-sizing: border-box; 
   padding: 0.25rem 0.25rem;
   font-size: 1rem;
@@ -129,6 +118,6 @@ ion-button:active, ion-input[type ="date"]:active {
 
 ion-grid{
   width: 100%;
-  max-width: 40rem;
+  max-width: 30rem;
   overflow: hidden;
 }
