@@ -1,0 +1,23 @@
+ion-button[type="green"]{
+  width:100%;
+  padding: 0.25rem 0.25rem;
+  font-size: 12px;
+
+  background: linear-gradient(
+    to bottom right,
+    #b3e286,
+    #33c553   
+  );
+}
+
+ion-button[type="red"]{
+  width:100%;
+  padding: 0.25rem 0.25rem;
+  font-size: 12px;
+
+  background: linear-gradient(
+    to bottom right,
+    #f09797,
+    #d82525   
+  );
+}

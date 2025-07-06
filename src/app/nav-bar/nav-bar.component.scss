@@ -19,3 +19,47 @@ ion-button{
     color: white; 
   }
 }
+
+
+/*Hamburger menu*/
+.nav-toggle {
+  display: none;
+}
+
+.nav-toggle-label {
+  display: none;         
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+}
+
+.nav-toggle-label span {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.nav-links{
+  display: flex;
+}
+
+
+@media (max-width: 768px) {
+  .nav-toggle-label {
+    display: flex;
+  }
+  .nav-links {
+    display: none;           
+    flex-direction: column;  
+    width: 100%;
+    background: #333;
+    padding: 1rem;
+  }
+
+  .nav-toggle:checked ~ .nav-links {
+    display: flex;
+  }
+}

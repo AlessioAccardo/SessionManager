@@ -12,6 +12,10 @@ ion-col{
 
 }
 
-ion-row{
-
+  @media (max-width: 767px) {
+  ion-col ion-button {
+    display: block;
+    min-width: 550px;
+  }
 }
+

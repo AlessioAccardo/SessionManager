@@ -50,7 +50,6 @@ ion-card-title{
 }
 
 
-// css input di tipo select //
 ion-select {
 --padding-top:    0;
   --padding-bottom: 0;
@@ -77,7 +76,6 @@ ion-select {
   cursor: pointer;
 }
 
-//css bottoni e input di tipo data
 ion-button, ion-input[type ="date"] {
   --padding-top:    0;
   --padding-bottom: 0;
@@ -94,7 +92,7 @@ ion-button, ion-input[type ="date"] {
   text-align: center;
   cursor: pointer;
   border: none;
-  border-radius: 0.5em;
+  border-radius: 0.5rem;
 
   background: linear-gradient(
     to bottom right,
@@ -115,9 +113,3 @@ ion-button:active, ion-input[type ="date"]:active {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-
-ion-grid{
-  width: 100%;
-  max-width: 30rem;
-  overflow: hidden;
-}

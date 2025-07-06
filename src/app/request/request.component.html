@@ -1,6 +1,7 @@
 <ion-content class="container">
   @if (user?.role === 'professore') {
     <ion-card class="request-table">
+      <ion-card-content>
       <ion-title>Richiesta Creazione Esame</ion-title>
       <form [formGroup]="examRequestForm" (ngSubmit)="submitForm()">
         <ion-label for="course">Corso</ion-label>
@@ -16,6 +17,7 @@
           Invia Richiesta
         </ion-button>
       </form>
+    </ion-card-content>
     </ion-card>
   }
 
@@ -48,8 +50,8 @@
             </ion-col>
             <ion-col>
               @if (request.approved === null) {
-                <ion-button color="success" size="small" (click)="approveRequest(request.code, true)">Approva</ion-button>
-                <ion-button color="danger" size="small" (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
+                <ion-button type = "green" size="small" (click)="approveRequest(request.code, true)">Approva</ion-button>
+                <ion-button type = "red" size="small" (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
               }
             </ion-col>
           </ion-row>
