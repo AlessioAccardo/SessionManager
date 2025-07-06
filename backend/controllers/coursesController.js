@@ -14,7 +14,7 @@ class CoursesController {
     static async getAll(req, res, next) {
         try {
             const list = await Courses.getAllCourses();
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
+            if (!list) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -25,7 +25,7 @@ class CoursesController {
         try {
             const { student_id } = req.query;
             const list = await Courses.getCompStudentCourses(student_id);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
+            if (!list) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -36,7 +36,7 @@ class CoursesController {
         try {
             const { professor_id } = req.query;
             const list = await Courses.getCoursesByProfessorId(professor_id);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
+            if (!list) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -47,7 +47,7 @@ class CoursesController {
         try {
             const { first_name, last_name } = req.query;
             const list = await Courses.getCourseByProfessorFullName(first_name, last_name);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
+            if (!list) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -69,7 +69,7 @@ class CoursesController {
         try {
             const { name } = req.query;
             const list = await Courses.getCourseByName(name);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Corsi non trovati'});
+            if (!list) return res.status(404).json({ message: 'Corsi non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);

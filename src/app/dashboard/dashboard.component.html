@@ -12,7 +12,6 @@
               <ion-col>Esame</ion-col>
               <ion-col>CFU</ion-col>
               <ion-col>Voto</ion-col>
-              <ion-col>Accetta voto</ion-col>
             </ion-row>
             @for (exam of studentExams; track exam.exam_code) {
                 <ion-row>
@@ -20,6 +19,8 @@
                   <ion-col>{{ exam.course_name }}</ion-col>
                   <ion-col>{{ exam.course_credits }}</ion-col>
                   <ion-col>{{ exam.grade }}</ion-col>
+                  <ion-button (click)="accettazioneVoto(exam.exam_code, true, exam.course_id, exam.grade)">Accetta</ion-button>
+                  <ion-button (click)="accettazioneVoto(exam.exam_code, false)">Rifiuta</ion-button>
                 </ion-row>
               }
           </ion-grid>
@@ -33,35 +34,34 @@
 
 
   @if (this.user?.role === 'professore') {
+    @if (examsSet.length > 0) {
     <ng-container class="dashboard">
       <ion-title>Dashboard Risultati Esami</ion-title>
-      <ion-card class ="riquadri">
-        @for (exam of exams; track exam.exam_code) {
+        @for (exam of examsSet; track exam.exam_code) {
         <ion-card class="riquadro">
+          <ion-title>Codice Esame: {{ exam.exam_code }}</ion-title>
+          <ion-title>Nome Esame: {{ exam.exam_name}}</ion-title>
           <ion-grid>
               <ion-row>
-                <ion-col>Codice Esame</ion-col>
-                <ion-col>Nome Esame</ion-col>
                 <ion-col>Matricola Studente</ion-col>
                 <ion-col>Nome Studente</ion-col>
-                <ion-col>Voto</ion-col>
-                <ion-col>Azione</ion-col>
               </ion-row>
               <ion-row>
               @for (student of getStudents(exam.exam_code); track student.student_id) {
-                  
-                  <ion-col>{{ exam.exam_code }}</ion-col>
-                  <ion-col>{{ exam.exam_name}}</ion-col>
                   <ion-col>{{ student.student_id }}</ion-col>
                   <ion-col>{{ student.student_first_name }} {{ student.student_last_name }}</ion-col>
-                  <ion-button (click)="insertGrade(exam.exam_code, student.student_id)">Inserisci voto</ion-button>
+                  <ion-button (click)="insertGradeTakenExam(student.student_id, exam.exam_code)">Sostenuto</ion-button>
+                  <ion-button (click)="notTakenExam(student.student_id, exam.exam_code)">Non Sostenuto</ion-button>
               }
               </ion-row>
           </ion-grid>
         </ion-card>
         }
-      </ion-card>
     </ng-container>
+    } @else {
+     <ion-title>Non ci sono voti da registrare</ion-title> 
+    }
+
   }
 
 <!--

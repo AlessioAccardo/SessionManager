@@ -10,8 +10,6 @@ import { IonContent,IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabe
 @Component({
   selector: 'app-request',
   imports: [ReactiveFormsModule,
-            IonHeader,
-            IonToolbar,
             IonTitle,
             IonContent,
             IonLabel,
@@ -86,8 +84,7 @@ export class RequestComponent implements OnInit {
     // CONSUMO IL SERIVZIO DI CREATE EXAM DEFINITO IN EXAM.SERVICE.TS
     this.examService.createExam(dto).subscribe({
       next: (createdExam) => {
-        console.log('Esame creato: ', createdExam);
-        alert(`Esame ${createdExam.name} creato con ID ${createdExam.code}`);
+        alert(`Richiesta esame ${createdExam.name} con ID ${createdExam.code} mandata con successo`);
         this.examRequestForm.reset();
       },
       error: err => {
@@ -108,13 +105,7 @@ export class RequestComponent implements OnInit {
   // FUNZIONE PER APPROVARE LE RICHIESTE DEI PROFESSORI CHE UTILIZZA I SERVIZI DI EXAM.SERVICE.TS
   approveRequest(code: number, approved: boolean) {
     this.examService.approveExam(code, approved).subscribe({
-      next: (approvedExam) => {
-        console.log('Esame approvato', approvedExam);
-        if (approved) {
-          alert(`Richiesta creazione esame ${approvedExam.name} approvata`);
-        } else {
-          alert(`Richiesta creazione esame ${approvedExam.name} rifiutata`);
-        }
+      next: () => {
         this.requests = this.requests.filter(r => r.code !== code);
         this.loadRequests();
       },

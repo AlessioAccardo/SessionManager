@@ -31,12 +31,37 @@ class EnrolledStudents{
                 JOIN enrolledStudents AS es ON es.student_id = u.id
                 JOIN exams AS e ON e.code = es.exam_code
                 JOIN users AS us ON us.id = e.professor_id
-                WHERE e.professor_id = ?`,
+                WHERE e.professor_id = ? AND es.taken IS NULL`,
             [professor_id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
             });
         });
+    }
+
+    static async updateTaken(student_id, exam_code, taken) {
+        const takenInt = taken ? 1 : 0;
+        return new Promise((resolve, reject) => {
+            db.run(`UPDATE enrolledStudents SET taken = ? WHERE student_id = ? AND exam_code = ?`,
+                [takenInt, student_id, exam_code],
+                function(err) {
+                    if (err) return reject(err);
+                    resolve({ student_id, exam_code, taken: !!takenInt });
+                }
+            );
+        });
+    }
+
+    static async deleteEnrolledStudent(student_id, exam_code) {
+        return new Promise((resolve, reject) => {
+            db.run(`DELETE FROM enrolledStudents WHERE student_id = ? AND exam_code = ?`,
+                [student_id, exam_code],
+                function(err) {
+                    if (err) return reject(err);
+                    resolve({ student_id, exam_code });
+                }
+            );
+        })
     }
 
     // tutti gli esami ai quali uno studente è iscritto
@@ -50,7 +75,7 @@ class EnrolledStudents{
                 JOIN enrolledStudents AS es ON es.student_id = u.id
                 JOIN exams AS e ON e.code = es.exam_code
                 JOIN users AS us ON us.id = e.professor_id
-                WHERE es.student_id = ?`,
+                WHERE es.student_id = ? AND es.taken IS NULL`,
                 [student_id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
@@ -69,7 +94,7 @@ class EnrolledStudents{
                 JOIN enrolledStudents AS es ON es.student_id = u.id
                 JOIN exams AS e ON e.code = es.exam_code
                 JOIN users AS us ON us.id = e.professor_id
-                WHERE es.exam_code = ?`,
+                WHERE es.exam_code = ? AND es.taken IS NULL`,
                 [exam_code], (err, rows) => {
                     if(err) return reject(err);
                     resolve(rows);

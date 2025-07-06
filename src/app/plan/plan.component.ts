@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ExamService, Exam } from '../services/exam.service';
 import { Router } from '@angular/router';
 import { StudyPlan, StudyPlanService } from '../services/studyPlan.service';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '../services/enrolledStudents.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
@@ -43,6 +43,8 @@ export class PlanComponent implements OnInit {
   visualizzazione: boolean = true;
   searchText: string = '';
 
+  today = new Date();
+
   constructor(
     public examService: ExamService,
     public studyPlanService: StudyPlanService,
@@ -66,7 +68,7 @@ export class PlanComponent implements OnInit {
     return this.examService.getExamByCode(code);
   }
 
-  seleziona(code: number) {
+  async seleziona(code: number) {
     const exists = this.esamiPrenotati.some(e => e.exam_code === code);
     if (exists) {
       alert('Esame gia presente nel tuo piano di studi');
@@ -76,24 +78,13 @@ export class PlanComponent implements OnInit {
       student_id: this.user!.id,
       exam_code: code
     };
-    this.enrolledStudentService.enrollStudent(dto).subscribe({
-      next: () => {
-        this.examService.setEnrolledStudentsNumber(code).subscribe({
-          next: () => {
-            alert('Esame prenotato correttamente');
-            this.loadStudentExams();
-            this.esami = this.esami.filter(e => e.code !== code);
-            this.allEsami = this.allEsami.filter(e => e.code !== code);
-          },
-          error: () => {
-            alert("Errore nell'aggiornamento del numero di iscritti");
-          }
-        });
-      },
-      error: () => {
-        alert("Errore nell\'inserimento dell\'esame");
-      }
-    });
+    try {
+      await firstValueFrom(this.enrolledStudentService.enrollStudent(dto));
+      await firstValueFrom(this.examService.setEnrolledStudentsNumber(code));
+      this.loadStudentExams();
+    } catch (err) {
+      alert("Errore nell'inserimento dell'esame");
+    }
   }
 
   onSearch(event: Event): void {
@@ -112,14 +103,16 @@ export class PlanComponent implements OnInit {
   }
 
   //STUDENTE
-  loadStudentExams() {
-    this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id).subscribe((data) => {
-      this.esamiPrenotati = data;
-    });
+  async loadStudentExams() {
 
-    this.examService.getStudentExams(this.user!.id).subscribe((data) => {
-      this.esami = data; 
-    });
+    const obs1 = this.examService.getStudentExams(this.user!.id);
+    const data1 = await firstValueFrom(obs1);
+    this.esami = data1;
+
+    const obs2 = this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id);
+    const data2 = await firstValueFrom(obs2);
+    this.esamiPrenotati = data2;
+
   }
 
   async unenrollFromExam(exam_code: number, exam_name: string) {
@@ -128,18 +121,27 @@ export class PlanComponent implements OnInit {
       message: `L'iscrizione all'esame ${exam_name} verrà cancellata`,
       buttons: [
         { text: 'Annulla', role: 'cancel'},
-        { text: 'Conferma', role: 'confirm', handler: () => {
-          this.enrolledStudentService.unenrollStudent(this.user!.id, exam_code).subscribe({
-            next: () => {
-              this.esamiPrenotati = this.esamiPrenotati.filter(c => c.exam_code !== exam_code);
-              this.loadStudentExams();
-            }
-          });
+        { text: 'Conferma', role: 'confirm', handler: async () => {
+          try {
+            await firstValueFrom(this.enrolledStudentService.unenrollStudent(this.user!.id, exam_code));
+            await firstValueFrom(this.examService.setEnrolledStudentsNumber(exam_code));
+            this.loadStudentExams();
+          } catch (err) {
+           console.log(err);
+          }
         }}
       ],
       backdropDismiss: false,
     });
 
     await alert.present();
+  }
+
+  disabledButton(date: string): boolean {
+    const examDate = new Date(date);
+    examDate.setHours(0,0,0,0);
+    const today = new Date(this.today);
+    today.setHours(0,0,0,0);
+    return examDate <= today;
   }
 }

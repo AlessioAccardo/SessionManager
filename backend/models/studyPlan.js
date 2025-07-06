@@ -1,5 +1,4 @@
 const db = require('../db/database');
-const Courses = require('./courses')
 
 class StudyPlan {
     static async getStudyPlanByStudentId(student_id) {
@@ -34,6 +33,18 @@ class StudyPlan {
                     resolve(rows);
             });
         });
+    }
+
+    static async updateGrade(student_id, course_id, grade) {
+        return new Promise((resolve, reject) => {
+            db.run(`UPDATE studyPlan SET grade = ? WHERE student_id = ? AND course_id = ?`,
+                [grade, student_id, course_id],
+                function(err) {
+                    if (err) return reject(err);
+                    resolve({ student_id, course_id, grade});
+                }
+            );
+        })
     }
 
     /*

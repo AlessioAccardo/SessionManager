@@ -17,6 +17,7 @@ export interface EnrolledStudent {
     enrolled_students: number,
     professor_id: number,
     date: string,
+    taken: boolean,
     course_id: number,
     professor_first_name: string,
     professor_last_name: string
@@ -54,5 +55,13 @@ export class EnrolledStudentsService {
     getEnrolledStudentsByProfId(professor_id: number): Observable<EnrolledStudent[]> {
         const params = new HttpParams().set('professor_id', professor_id)
         return this.http.get<EnrolledStudent[]>(`${this.apiUrl}/search`, { params });
+    }
+
+    updateTaken(student_id: number, exam_code: number, takenParam: boolean): Observable<void> {
+        return this.http.put<void>(`${this.apiUrl}/${student_id}/${exam_code}/taken`, { taken: takenParam });
+    }
+
+    deleteEnrolledStudent(student_id: number, exam_code: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${student_id}/${exam_code}`);
     }
 }

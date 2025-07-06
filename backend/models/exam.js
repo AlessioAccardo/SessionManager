@@ -23,7 +23,8 @@ class Exam {
                 WHERE NOT EXISTS (
                     SELECT 1
                     FROM enrolledStudents AS en
-                    WHERE en.exam_code = e.code
+                    JOIN exams AS ex ON ex.code = en.exam_code
+                    WHERE en.student_id = s.student_id AND ex.course_id = e.course_id
                 ) AND s.student_id = ? AND s.grade IS NULL AND e.approved = ?`,
             [student_id, 1], (err, rows) => {
                 if (err) return reject(err);
@@ -54,12 +55,12 @@ class Exam {
     static async setEnrolledStudentsNumber(code) {
         return new Promise((resolve, reject) => {
             db.run(`
-                UPDATE exams
+                UPDATE exams AS e
                 SET enrolled_students = (
                     SELECT COUNT(*)
-                    FROM enrolledStudents es
-                    WHERE es.exam_code = exams.code)
-                WHERE code = ? AND approved = ?`,
+                    FROM enrolledStudents AS es
+                    WHERE es.exam_code = e.code)
+                WHERE e.code = ? AND e.approved = ?`,
                 [code, 1], (err) => {
                 if (err) return reject(err);
                 resolve({ code });

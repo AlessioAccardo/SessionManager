@@ -30,7 +30,7 @@
             <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
             <ion-col>{{ esame.enrolled_students }}</ion-col>
             <ion-col>
-                <ion-button  (click)="unenrollFromExam(esame.exam_code, esame.exam_name)">Disiscriviti</ion-button>
+                <ion-button  (click)="unenrollFromExam(esame.exam_code, esame.exam_name)" [disabled]="disabledButton(esame.date)"> {{ disabledButton(esame.date) ? 'bloccato' : 'disiscriviti'}}</ion-button>
               </ion-col>
           </ion-row>
         }

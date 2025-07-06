@@ -11,4 +11,7 @@ router.get('/search', studyPlanCtrl.getByStudentFullName);
 // POST to create a studyplan
 router.post('/', studyPlanCtrl.create);
 
+// PUT to update the grade
+router.put('/:student_id/:course_id/grade', studyPlanCtrl.updateGrade);
+
 module.exports = router;

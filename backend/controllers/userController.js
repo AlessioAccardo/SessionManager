@@ -4,7 +4,7 @@ class UserController {
     static async getAll(req, res, next) {
         try {
             const list = await User.getAllUsers();
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Lista degli utenti vuota' });
+            if (!list) return res.status(404).json({ message: 'Lista degli utenti vuota' });
 
             // Rimuovo la password da ciascun oggetto user
             const safeList = list.map(({ password, ...user }) => user);
@@ -18,7 +18,7 @@ class UserController {
     static async getAllProfessors(req, res, next) {
         try{
             const list = await User.getAllProfessors();
-            if(!list || list.length === 0) return res.status(404).json({message: 'Lista dei professori vuota'});
+            if(!list) return res.status(404).json({message: 'Lista dei professori vuota'});
             const professors = list.map(({ password, ...prof }) => prof);
             return res.status(200).json(professors);
         }catch(err){
@@ -31,7 +31,7 @@ class UserController {
             const { first_name } = req.query;
             const list = await User.getByFName(first_name);
             const safeList = list.map(({ password, ...user }) => user);
-            if (!list || list.lenght === 0) return res.status(404).json({ message: 'Lista degli utenti vuota'});
+            if (!list) return res.status(404).json({ message: 'Lista degli utenti vuota'});
             res.status(200).json(safeList);
         } catch (err) {
             next(err);
@@ -43,7 +43,7 @@ class UserController {
             const { last_name } = req.query;
             const list = await User.getByLName(last_name);
             const safeList = list.map(({ password, ...user }) => user);
-            if (!list || list.lenght === 0) return res.status(404).json({ message: 'Lista degli utenti vuota'});
+            if (!list) return res.status(404).json({ message: 'Lista degli utenti vuota'});
             res.status(200).json(safeList);
         } catch (err) {
             next(err);
@@ -54,7 +54,7 @@ class UserController {
         try {
             const { first_name, last_name } = req.query;
             const list = await User.getByFullName(first_name, last_name);
-            if (!list || list.lenght === 0) return res.status(404).json({ message: 'Lista degli utenti vuota'});
+            if (!list) return res.status(404).json({ message: 'Lista degli utenti vuota'});
             const safeList = list.map(({ password, ...user }) => user);
             res.status(200).json(safeList);
         } catch (err) {

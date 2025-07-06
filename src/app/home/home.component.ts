@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { IonContent, IonCard, IonCardContent, IonList, IonItem, IonLabel, IonButton, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, IonSelect, IonSelectOption, IonInput } from '@ionic/angular/standalone';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
@@ -48,10 +49,8 @@ export class HomeComponent implements OnInit {
   totalCredits: number = 0;
   MAX_CFU: number = 180;
   studentWeightedMean: number = 0;
-  private creditMap: Map<number, number>
   
   constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService, public userService: UserService, private fb: FormBuilder) {
-    this.creditMap = new Map();
     this.coursesForm = this.fb.group({
       name: ['', Validators.required],
       professor_id: [null, Validators.required],
@@ -71,13 +70,7 @@ export class HomeComponent implements OnInit {
 
     // SEGRETERIA
     if (this.user?.role === 'segreteria') {
-      this.userService.getAllProfessors().subscribe((data) => {
-        this.professors = data;
-      });
-
-      this.coursesService.getAll().subscribe((data) => {
-        this.courses = data;
-      });
+      this.loadAdmin();
     }
 
     // STUDENTE
@@ -88,52 +81,45 @@ export class HomeComponent implements OnInit {
 
     // PROFESSORE
     if (this.user?.role === 'professore') {
-      this.coursesService.getByProfessorId(this.user.id).subscribe((data) => {
-        this.courses = data;
-      });
+      this.loadProfessor();
     }
   }
   
   // CREA CORSO SEGRETERIA
-  createCourse() {
+  async createCourse() {
     if (this.coursesForm.invalid) {
       alert('Form non valido');
       return;
     }
     const dto: CreateCourseDto = this.coursesForm.value;
-    this.coursesService.create(dto).subscribe({
-      next: () => {
-        alert('Corso creato con successo');
-        this.coursesForm.reset();
-      },
-      error: () => {
-        alert('Errore nella creazione del corso');
-      }
-    });
+
+    try {
+      await firstValueFrom(this.coursesService.create(dto));
+      this.coursesForm.reset();
+      this.loadAdmin();
+    } catch (err) {
+      alert('Errore nella creazione del corso');
+    }
   }
 
   // AGGIUNZIONE CORSO DA PARTE DELLO STUDENTE
-  salvaPiano(courseId: number) {
+  async salvaPiano(courseId: number) {
     
     if (this.totalCredits < 180) {
       const dto = {
         student_id: this.user!.id,
         course_id: +courseId
-      }
+      };
+    
+      try {
+        await firstValueFrom(this.studyPlanService.create(dto));
 
-      this.studyPlanService.create(dto).subscribe({
-        next: () => {
-          alert('Piano aggiunto correttamente');
-          this.courses = this.courses.filter(c => c.id !== courseId);
-          this.studyPlan.push;
-          this.loadStudyPlan;
-          this.loadStudentCourses();
-          
-        },
-        error: () => {
-          alert(`Errore nell'aggiunzione del piano`);
-        }
-      });
+        this.loadStudyPlan();
+        this.loadStudentCourses();
+      } catch (err) {
+        console.log(err);
+        alert("Errore nell'aggiunzione del piano");
+      }
     } else {
       alert('180 CFU raggiunti, congratulazioni!');
     }
@@ -141,17 +127,17 @@ export class HomeComponent implements OnInit {
 
   // MEDIA PESATA STUDENTE
   weightedMeanCompute() {
-    let weightedSum = 0;
+    let weightedSum: number = 0;
+    let creditsCounter: number = 0;
 
     for (const record of this.studyPlan) {
       if (record.grade !== null) {
-        const element = this.creditMap.get(record.course_id);
-        if (element) {
-          weightedSum += record.grade * element;
-        }
+        weightedSum += record.grade * record.credits;
+        creditsCounter += record.credits
       }
     }
-    this.studentWeightedMean = (this.totalCredits > 0) ? (weightedSum / this.totalCredits) : 0;
+    let stdWMean: number = parseFloat((weightedSum / creditsCounter).toFixed(2));
+    this.studentWeightedMean = (this.totalCredits > 0) ? stdWMean : 0;
   }
 
   visualizzaCorsi() {
@@ -160,21 +146,55 @@ export class HomeComponent implements OnInit {
 
 
   // CARICA PIANO STUDENTE
-  loadStudyPlan() {
-    this.studyPlanService.getByStudentId(this.user!.id).subscribe((plan) => {
-        this.studyPlan = plan;
-        this.totalCredits = this.studyPlan
+  async loadStudyPlan() {
+    try {
+    const observable = this.studyPlanService.getByStudentId(this.user!.id);
+    const plan = await firstValueFrom(observable);
+    this.studyPlan = plan;
+    this.totalCredits = this.studyPlan
           .filter(course => course.grade !== null)
           .reduce((acc, course) => acc + course.credits, 0);
-    });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   // CARICA CORSI CHE LO STUDENTE PUO AGGIUNGERE
-  loadStudentCourses() {
-    this.coursesService.getCompStudent(this.user!.id).subscribe((course) => {
-        this.courses = course;
-        this.creditMap = new Map(this.courses.map(c => [c.id, c.credits]));
-        this.weightedMeanCompute();
-    });
+  async loadStudentCourses() {
+    try {
+      const observable = this.coursesService.getCompStudent(this.user!.id);
+      const course = await firstValueFrom(observable);
+      this.courses = course;
+      this.weightedMeanCompute();
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // CARICA I DATI DA VISUALIZZARE DELLA SEGRETERIA
+  async loadAdmin() {
+    try {
+      const obs1 = this.userService.getAllProfessors();
+      const data1 = await firstValueFrom(obs1);
+      this.professors = data1;
+
+      const obs2 = this.coursesService.getAll();
+      const data2 = await firstValueFrom(obs2);
+      this.courses = data2;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // CARICA I DATI DA VISUALIZZARE DEL PROFESSORE
+  async loadProfessor() {
+    try {
+      const observable = this.coursesService.getByProfessorId(this.user!.id);
+      const data = await firstValueFrom(observable);
+      this.courses = data;
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

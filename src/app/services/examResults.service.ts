@@ -6,7 +6,7 @@ import { Exam } from "../models/exam.model";
 export interface ExamResultDto {
     student_id: number,
     exam_code: number,
-    grade: number,
+    grade: number
 }
 
 export interface ExamResult {

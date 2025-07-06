@@ -4,7 +4,7 @@ class ExamController {
     static async getAll(req, res, next) {
         try {
             const list = await Exam.getAllExams();
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            if (!list) return res.status(404).json({ message: 'Esami non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -15,7 +15,7 @@ class ExamController {
         try {
             const { student_id } = req.params;
             const list = await Exam.getStudentExams(student_id);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami dello studente non trovati'});
+            if (!list) return res.status(404).json({ message: 'Esami dello studente non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -25,7 +25,7 @@ class ExamController {
     static async getAllApproved(req, res, next) {
         try {
             const list = await Exam.getAllApprovedExams();
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami approvati non trovati'});
+            if (!list) return res.status(404).json({ message: 'Esami approvati non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -36,7 +36,7 @@ class ExamController {
         try {
             const { professor_id } = req.params;
             const list = await Exam.getAllApprovedExamsByProfId(professor_id);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami approvati non trovati'});
+            if (!list) return res.status(404).json({ message: 'Esami approvati non trovati'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -68,7 +68,7 @@ class ExamController {
         try {
             const { name } = req.params;
             const examRows = await Exam.getExamsByName(name);
-            if (!examRows || examRows.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            if (!examRows) return res.status(404).json({ message: 'Esami non trovati'});
             res.status(200).json(examRows);
         } catch (err) {
             next(err);
@@ -79,7 +79,7 @@ class ExamController {
         try {
             const { professor_id } = req.params;
             const examRows = await Exam.getExamsByProfessorId(professor_id);
-            if (!examRows || examRows.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            if (!examRows) return res.status(404).json({ message: 'Esami non trovati'});
             res.status(200).json(examRows);
         } catch (err) {
             next(err);
@@ -111,7 +111,7 @@ class ExamController {
     static async requested(req, res, next) {
         try {
             const list = await Exam.examsRequested();
-            if (!list || list.length === 0) return res.status(404).json({ message: 'Esami in attesa di approvazione non troviati' });
+            if (!list) return res.status(404).json({ message: 'Esami in attesa di approvazione non troviati' });
             res.status(200).json(list);
         } catch (err) {
             next(err);

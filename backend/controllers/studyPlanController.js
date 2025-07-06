@@ -5,7 +5,7 @@ class StudyPlanController {
         try {
             const { student_id } = req.params;
             const list = await StudyPlan.getStudyPlanByStudentId(student_id);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'StudyPlan non trovato'});
+            if (!list) return res.status(404).json({ message: 'StudyPlan non trovato'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -16,11 +16,22 @@ class StudyPlanController {
         try {
             const { first_name, last_name } = req.query;
             const list = await StudyPlan.getStudyPlanByStudentFullName(first_name, last_name);
-            if (!list || list.length === 0) return res.status(404).json({ message: 'StudyPlan non trovato'});
+            if (!list) return res.status(404).json({ message: 'StudyPlan non trovato'});
             res.status(200).json(list);
         } catch (err) {
             next(err);
         }
+    }
+
+    static async updateGrade(req, res, next) {
+        try {
+            const { student_id, course_id } = req.params;
+            const { grade } = req.body;
+            await StudyPlan.updateGrade(student_id, course_id, grade);
+            res.sendStatus(204);
+        } catch (err) {
+            next(err);
+        } 
     }
 
     /*

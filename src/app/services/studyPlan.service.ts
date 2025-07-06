@@ -40,4 +40,7 @@ export class StudyPlanService {
         return this.http.post<CreateStudyPlanDto>(this.apiUrl, dto);
     }
 
+    updateGrade(student_id: number, course_id: number, grade: number): Observable<void> {
+        return this.http.put<void>(`${this.apiUrl}/${student_id}/${course_id}/grade`, { grade });
+    }
 }

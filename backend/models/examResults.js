@@ -24,7 +24,7 @@ class ExamResults {
                 JOIN users AS u ON u.id = er.student_id
                 JOIN users AS prof ON prof.id = ex.professor_id
                 JOIN courses AS c ON c.id = ex.course_id
-                WHERE er.student_id = ?`,
+                WHERE er.student_id = ? AND er.accepted IS NULL`,
                 [student_id], (err, rows) => {
                     if (err) return reject(err);
                     resolve(rows);
