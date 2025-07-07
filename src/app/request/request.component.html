@@ -2,7 +2,7 @@
   @if (user?.role === 'professore') {
     <ion-card class="request-table">
       <ion-card-content>
-      <ion-title>Richiesta Creazione Esame</ion-title>
+      <ion-title>Richiesta Esame</ion-title>
       <form [formGroup]="examRequestForm" (ngSubmit)="submitForm()">
         <ion-label for="course">Corso</ion-label>
         <ion-select formControlName="course_id" interface="popover" placeholder="Scegli corso..." required>
@@ -13,7 +13,7 @@
 
         <ion-label for="date">Data Appello</ion-label>
         <ion-input formControlName="date" type="date" required></ion-input>
-        <ion-button expand="block" type="submit" [disabled]="examRequestForm.invalid"> 
+        <ion-button class="buttons" expand="block" type="submit" [disabled]="examRequestForm.invalid"> 
           Invia Richiesta
         </ion-button>
       </form>
@@ -23,7 +23,7 @@
 
   @if (user?.role === 'segreteria') {
     <ion-card class="request-table">
-      <ion-title>Gestione Richieste Appelli</ion-title>
+      <ion-title>Richieste Appelli</ion-title>
       <ion-grid>
         <ion-row>
           <ion-col>Code</ion-col>
@@ -50,8 +50,8 @@
             </ion-col>
             <ion-col>
               @if (request.approved === null) {
-                <ion-button type = "green" size="small" (click)="approveRequest(request.code, true)">Approva</ion-button>
-                <ion-button type = "red" size="small" (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
+                <ion-button class="buttons" type = "green" size="small" (click)="approveRequest(request.code, true)">Approva</ion-button>
+                <ion-button class="buttons" type = "red" size="small" (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
               }
             </ion-col>
           </ion-row>

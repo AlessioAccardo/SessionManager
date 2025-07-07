@@ -89,10 +89,19 @@ class ExamController {
     static async getByProfessorName(req, res, next) {
         try {
             const { first_name, last_name } = req.query;
-            if (!first_name || !last_name) return res.status(400).json({ message: 'Devi fornire first_name e last_name' });
             const examRows = await Exam.getExamsByProfessorName(first_name, last_name);
-            if (!examRows || examRows.length === 0) return res.status(404).json({ message: 'Esami non trovati'});
+            if (!examRows) return res.status(404).json({ message: 'Esami non trovati'});
             res.status(200).json(examRows);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async getExamsByCourseId(req, res, next) {
+        try {
+            const { course_id } = req.query;
+            const list = await Exam.getExamsByCourseId(course_id);
+            res.status(200).json(list);
         } catch (err) {
             next(err);
         }
@@ -126,6 +135,15 @@ class ExamController {
         } catch (err) {
             next(err);
         }
+    }
+
+    static async search(req, res, next) {
+        const { course_id, first_name, last_name } = req.query;
+
+        if (course_id) return ExamController.getExamsByCourseId(req, res, next);
+        if (first_name && last_name) return ExamController.getByProfessorName(req, res, next);
+
+        return res.status(400).json({ message: 'Devi fornire almeno un parametro di ricerca per ottenere gli esami' });
     }
 }
 

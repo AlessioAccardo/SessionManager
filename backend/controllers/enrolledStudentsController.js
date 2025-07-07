@@ -5,7 +5,6 @@ class EnrolledStudentsController {
     static async getAll(req, res, next) {
         try {
             const list = await EnrolledStudents.getAll();
-            if (list.length === 0) return res.status(404).json({ message: 'Lista vuota' });
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -16,7 +15,6 @@ class EnrolledStudentsController {
         try {
             const { professor_id } = req.query;
             const list = await EnrolledStudents.getEnrolledStudentsByProfId(professor_id);
-            if (list.length === 0) return res.status(404).json({ message: 'Lista vuota' });
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -48,7 +46,6 @@ class EnrolledStudentsController {
         try {
             const { student_id } = req.query;
             const list = await EnrolledStudents.getExamsByEnrolledStudentId(student_id);
-            if (list.length === 0) return res.status(404).json({ message: 'Esami a cui lo studente è iscritto non trovati' });
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -59,7 +56,6 @@ class EnrolledStudentsController {
         try {
             const { exam_code } = req.query;
             const list = await EnrolledStudents.getEnrolledStudentsByExam(exam_code);
-            if (list.length === 0) return res.status(404).json({ message: `Studenti iscritti all'esame non trovati` });
             res.status(200).json(list);
         } catch(err) {
             next(err);

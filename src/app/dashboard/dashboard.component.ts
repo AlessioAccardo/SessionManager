@@ -2,13 +2,16 @@ import { Component, inject, OnInit } from '@angular/core';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../services/user.service';
+import { UserService, User } from '../services/user.service';
 import { ExamService } from '../services/exam.service';
 import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController} from '@ionic/angular/standalone';
 import { ExamResult, ExamResultDto, ExamResultsService } from '../services/examResults.service';
 import { EnrolledStudent, EnrolledStudentsService } from '../services/enrolledStudents.service';
 import { firstValueFrom } from 'rxjs';
 import { StudyPlanService } from '../services/studyPlan.service';
+import { RouterLink } from '@angular/router';
+import { Courses, CoursesService } from '../services/courses.service';
+import { CoursesDetailsForAdmin } from '../interfaces/coursesDetailsForAdmin.interface';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +26,8 @@ import { StudyPlanService } from '../services/studyPlan.service';
     IonButton, 
     IonGrid, 
     IonRow, 
-    IonCol
+    IonCol,
+    RouterLink
   ]
 })
 export class DashboardComponent implements OnInit {
@@ -34,6 +38,7 @@ export class DashboardComponent implements OnInit {
   examResultsService = inject(ExamResultsService);
   alertCtrl = inject(AlertController);
   studyPlanService = inject(StudyPlanService)
+  coursesService = inject(CoursesService);
 
   user: LoggedUser | null = null;
   user$ = inject(AuthService).user$;
@@ -43,6 +48,12 @@ export class DashboardComponent implements OnInit {
   
   studentExams: ExamResult[] = [];
 
+  // SEGRETERIA
+  professors: User[] = [];
+  examResultsForStats: ExamResult[] = [];
+  coursesDetailsForAdmin: CoursesDetailsForAdmin[] = [];
+  showCoursesController: boolean = false;
+  selectedProfessorId: number | null = null;
 
   ngOnInit() {
     const raw = localStorage.getItem('currentUser');
@@ -164,27 +175,27 @@ export class DashboardComponent implements OnInit {
 
 
   // RUOLO STUDENTE
-  async accettazioneVoto(exam_code: number, value: boolean, course_id?: number, grade?: number) {
-    this.examResultsService.accept(this.user!.id, exam_code, value).subscribe
-    
+  async acceptGrade(exam_code: number, value: boolean, course_id?: number, grade?: number) {   
     const alert = await this.alertCtrl.create({
       header: 'Confermi la risposta?',
       buttons: [
         { text: 'Annulla', role: 'cancel' },
         {
           text: 'Conferma',
-          // rendiamo handler async, così possiamo usare await dentro
           handler: async () => {
             try {
               await firstValueFrom(this.examResultsService.accept(this.user!.id, exam_code, value));
+
               if (value) {
                 await firstValueFrom(this.studyPlanService.updateGrade(this.user!.id, course_id!, grade!))
+              } 
+
+              if (!value) {
+                await firstValueFrom(this.enrolledStudentService.deleteEnrolledStudent(this.user!.id, exam_code));
               }
+
+              this.loadStudent();
               
-              //this.studentExams.filter(e => e.exam_code !== exam_code);
-              const observable = this.examResultsService.getResultsByStudentId(this.user!.id);
-              const data = await firstValueFrom(observable);
-              this.studentExams = data;
             } catch(err){
               console.log(err);
             }
@@ -194,6 +205,69 @@ export class DashboardComponent implements OnInit {
     });
     await alert.present();
   }
+
+
+  // RUOLO SEGRETERIA
+
+  async showCourses(professorId: number) {
+    this.coursesDetailsForAdmin.length = 0;
+    // chiude visualizzazione
+    if (this.selectedProfessorId === professorId) {
+      this.selectedProfessorId = null;
+      return;
+    }
+
+    // apre visualizzazione
+    this.selectedProfessorId = professorId;
+    const obs = this.examResultsService.getExamResultsAndCoursesByProfessorId(professorId);
+    this.examResultsForStats = await firstValueFrom(obs);
+
+    this.loadStats(professorId);
+
+  }
+
+
+  async loadStats(professor_id: number) {
+    const obs = this.examResultsService.getExamResultsAndCoursesByProfessorId(professor_id);
+    this.examResultsForStats = await firstValueFrom(obs);
+    this.coursesDetailsForAdmin = [];
+
+    let array: number[] = [];
+
+    for (const result of this.examResultsForStats) {
+      const { course_id, course_name, course_credits, grade } = result;
+      if (!array.includes(course_id)) {
+        let newArr: ExamResult[] = this.examResultsForStats.filter(r => r.course_id === course_id);
+        let passedGrades: number = 0;
+        let failedGrades: number = 0;
+        const studentLength: number = newArr.filter(e => e.grade !== null).length;
+        array.push(course_id);
+        for (let r of newArr) {
+          if (r.grade >= 18 && r.grade !== null) passedGrades++;
+          if (r.grade < 18 && r.grade !== null) failedGrades++; 
+        }   
+
+        let passed = parseFloat(((passedGrades / studentLength) * 100).toFixed(2));
+        let failed = parseFloat(((failedGrades / studentLength) * 100).toFixed(2));
+
+        const stat: CoursesDetailsForAdmin = {
+          id: course_id,
+          name: course_name,
+          credits: course_credits,
+          passed: passed,
+          failed: failed
+        }
+
+        this.coursesDetailsForAdmin.push(stat);
+      }  
+    }
+
+    
+    
+  }
+
+
+
 
   // SCARICA DATI PROFESSORI 
   async loadProfessor() {
@@ -212,9 +286,9 @@ export class DashboardComponent implements OnInit {
 
   // SCARICA DATI SEGRETERIA
   async loadAdmin() {
-    const observable = this.enrolledStudentService.getAll();
+    const observable = this.userService.getAllProfessors();
     const data = await firstValueFrom(observable);
-    this.exams = data;
+    this.professors = data;
   }
 
 }

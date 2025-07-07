@@ -5,7 +5,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  imports: [IonApp, IonMenu, IonRouterOutlet,IonHeader, IonToolbar, IonTitle,IonContent, NavBarComponent],
+  imports: [IonApp, IonRouterOutlet,IonHeader, IonToolbar, IonTitle,IonContent, NavBarComponent],
 })
 export class AppComponent {
   

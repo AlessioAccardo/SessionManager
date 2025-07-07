@@ -1,0 +1,46 @@
+<ion-card>
+  <ng-container class="dashboard">
+    <ion-title> Dashboard Segreteria </ion-title>
+    <ion-card class="riquadro"> </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col> Codice Esame </ion-col>
+        <ion-col> Nome Corso </ion-col>
+        <ion-col> Data </ion-col>
+        <ion-col> Studenti iscritti </ion-col>
+      </ion-row>
+      @for (exam of exams; track exam.code) {
+      <ng-container class="professors-list">
+        <ion-grid>
+          <ion-row>
+            <ion-col> {{ exam.code }} </ion-col>
+            <ion-col> {{ exam.name }} </ion-col>
+            <ion-col> {{ exam.date }} </ion-col>
+            <ion-col> {{ exam.enrolled_students }} </ion-col>
+            <ion-button class="showing-button" size="small" (click)="showExams(exam.code)">{{ selectedExamCode
+              === exam.code ? 'Nascondi Corsi' : 'Mostra Corsi'}}</ion-button>
+          </ion-row>
+        </ion-grid>
+        @if (selectedExamCode === exam.code) {
+        <ion-card class="showing-courses">
+          <ion-grid>
+            <ion-row>
+              <ion-col> Matricola </ion-col>
+              <ion-col> Nome Studente </ion-col>
+              <ion-col> Voto </ion-col>
+            </ion-row>
+            @for (student of studentsOfAnExam; track student.student_id) {
+            <ion-row>
+              <ion-col> {{ student.student_id }} </ion-col>
+              <ion-col> {{ student.student_first_name }} {{ student.student_last_name}} </ion-col>
+              <ion-col> {{ student.grade }} </ion-col>
+            </ion-row>
+            }
+          </ion-grid>
+        </ion-card>
+        }
+      </ng-container>
+      }
+    </ion-grid>
+  </ng-container>
+</ion-card>

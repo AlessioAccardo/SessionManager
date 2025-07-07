@@ -4,21 +4,21 @@ import { Observable } from "rxjs";
 
 
 export interface CreateExamDto {
-  course_id: number;
-  date:      string;
+  course_id: number,
+  date:      string
 }
 
 export interface Exam {
+    code: number,
+    name: string,
+    credits: number,
+    enrolled_students: number,
+    professor_id: number,
+    approved?: boolean | null,
+    date: string,
+    course_id: number,
     professor_first_name?: string,
     professor_last_name?: string,
-    code: number
-    name: string;
-    credits: number;
-    enrolled_students: number;
-    professor_id: number;
-    approved?: boolean | null;
-    date: string;
-    course_id: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -53,6 +53,11 @@ export class ExamService {
 
     getExamByProfessorFullName(first_name: string, last_name: string): Observable<Exam[]> {
         const params = new HttpParams().set('first_name', first_name).set('last_name', last_name);
+        return this.http.get<Exam[]>(`${this.apiUrl}/search`, { params });
+    }
+
+    getExamsByCourseId(course_id: number): Observable<Exam[]> {
+        const params = new HttpParams().set('course_id', course_id);
         return this.http.get<Exam[]>(`${this.apiUrl}/search`, { params });
     }
 

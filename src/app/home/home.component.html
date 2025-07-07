@@ -15,7 +15,7 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-button expand="block" (click)="visualizzaCorsi()">
+      <ion-button class="buttons" expand="block" (click)="visualizzaCorsi()">
         {{ libretto ? 'Aggiungi corso' : 'Vai al libretto' }}
       </ion-button>
 
@@ -57,7 +57,7 @@
                   <ion-col>{{ course.name }}</ion-col>
                   <ion-col>{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
                   <ion-col>{{ course.credits }}</ion-col>
-                 <ion-button (click) = "salvaPiano(course.id)"> Aggiungi </ion-button>
+                 <ion-button class="buttons" (click)="salvaPiano(course.id)"> Aggiungi </ion-button>
               </ion-row>
               }
           </ion-grid>
@@ -131,7 +131,7 @@
               <ion-label position="stacked">Crediti (CFU)</ion-label>
               <ion-input formControlName="credits"></ion-input>
             </ion-item>
-            <ion-button expand="block" type="submit" [disabled]="coursesForm.invalid">Crea</ion-button>
+            <ion-button class="buttons" expand="block" type="submit" [disabled]="coursesForm.invalid">Crea</ion-button>
           </ion-list>
         </form>
         </ion-card-content>

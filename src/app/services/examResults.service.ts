@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Exam } from "../models/exam.model";
 
 export interface ExamResultDto {
     student_id: number,
@@ -35,14 +34,27 @@ export class ExamResultsService {
         return this.http.get<ExamResult[]>(`${this.apiUrl}/search`, { params });
     }
 
-    getResultsByProfessorId(professor_id: number): Observable<ExamResult[]> {
-        const params = new HttpParams().set('professor_id', professor_id.toString());
-        return this.http.get<ExamResult[]>(`${this.apiUrl}/search`, { params });
+    getResultsGroupedByProfessor(): Observable<ExamResult[]> {
+        return this.http.get<ExamResult[]>(`${this.apiUrl}/grouped`);
     }
     
     getExamResults(professor_id: number, exam_code: number): Observable<ExamResult[]> {
         const params = new HttpParams().set('professor_id', professor_id.toString()).set('exam_code', exam_code.toString());
         return this.http.get<ExamResult[]>(`${this.apiUrl}/search`, { params });
+    }
+
+    getExamResultsByCode(exam_code: number): Observable<ExamResult[]> {
+        const params = new HttpParams().set('exam_code', exam_code.toString());
+        return this.http.get<ExamResult[]>(`${this.apiUrl}/search`, { params });
+    }
+
+    getExamResultsByCourseId(course_id: number): Observable<ExamResult[]> {
+        const params = new HttpParams().set('course_id', course_id.toString());
+        return this.http.get<ExamResult[]>(`${this.apiUrl}/search`, { params });
+    }
+
+    getExamResultsAndCoursesByProfessorId(professor_id: number): Observable<ExamResult[]> {
+        return this.http.get<ExamResult[]>(`${this.apiUrl}/stats/${professor_id}`);
     }
 
     accept(student_id: number, exam_code: number, valueparam: boolean): Observable<void> {

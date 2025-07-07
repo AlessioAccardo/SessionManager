@@ -56,7 +56,7 @@
                   }
                 </ion-select>
               </ion-item>
-              <ion-button expand="block" type="submit">Registrati</ion-button>
+              <ion-button expand="block" type="submit" [disabled]="registrationForm.invalid">Registrati</ion-button>
               <p class="toggle-text">
                 Hai già un account? <a (click)="toggle()">Accedi</a>
               </p>

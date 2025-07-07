@@ -1,4 +1,4 @@
-ion-button[type="green"]{
+.buttons[type="green"]{
   width:100%;
   padding: 0.25rem 0.25rem;
   font-size: 12px;
@@ -10,7 +10,7 @@ ion-button[type="green"]{
   );
 }
 
-ion-button[type="red"]{
+.buttons[type="red"]{
   width:100%;
   padding: 0.25rem 0.25rem;
   font-size: 12px;
@@ -20,4 +20,33 @@ ion-button[type="red"]{
     #f09797,
     #d82525   
   );
+}
+
+a {
+  color: black;
+}
+
+.professors-list {
+  transition: 
+    filter 0.3s ease-in,
+    box-shadow 0.3s ease-in;
+    background-color: 0.3s ease-in;
+  cursor: pointer;        
+  background-color: #ffffff;
+  border-radius: 4px;
+}
+
+.professors-list:hover {
+  filter: brightness(90%);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  background-color: #ccc;
+}
+
+/* CAMBIARE CON UN COLORE PIU APPROPRIATO, HO MESSO QUESTO PER PROVA */
+.showing-courses {
+  background-color: lightsalmon;
+}
+
+.showing-button {
+  width: 10rem;
 }

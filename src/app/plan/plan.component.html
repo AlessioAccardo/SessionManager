@@ -6,7 +6,7 @@
 
 <ion-content class="container">
   @if (visualizzazione) {
-    <ion-button expand="block" (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</ion-button>
+    <ion-button class="buttons" expand="block" (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</ion-button>
     <ion-card class="summary">
       <ion-title>Esami</ion-title>
       <ion-grid>
@@ -30,14 +30,14 @@
             <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
             <ion-col>{{ esame.enrolled_students }}</ion-col>
             <ion-col>
-                <ion-button  (click)="unenrollFromExam(esame.exam_code, esame.exam_name)" [disabled]="disabledButton(esame.date)"> {{ disabledButton(esame.date) ? 'bloccato' : 'disiscriviti'}}</ion-button>
+                <ion-button [disabled]="esame.taken === true" class="buttons" (click)="unenrollFromExam(esame.exam_code, esame.exam_name)" [disabled]="disabledButton(esame.date)"> {{ disabledButton(esame.date) ? 'bloccato' : 'disiscriviti'}}</ion-button>
               </ion-col>
           </ion-row>
         }
       </ion-grid>
     </ion-card>
   } @else {
-    <ion-button expand="block" (click)="visualizzaEsami()">Visualizza esami prenotati</ion-button>
+    <ion-button class="buttons" expand="block" (click)="visualizzaEsami()">Visualizza esami prenotati</ion-button>
     <ion-card class="esami">
       <ion-title>Seleziona gli esami</ion-title>
       <form>
@@ -64,7 +64,7 @@
               <ion-col>{{ esame.date }}</ion-col>
               <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
               <ion-col>
-                <ion-button (click)="seleziona(esame.code!)">Aggiungi</ion-button>
+                <ion-button class="buttons" (click)="seleziona(esame.code!)">Aggiungi</ion-button>
               </ion-col>
             </ion-row>
           }

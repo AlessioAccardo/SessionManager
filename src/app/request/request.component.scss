@@ -1,3 +1,7 @@
+ion-title {
+  padding: 2rem;
+  padding-left: 1rem;
+}
 
 .request-table form {
   display: grid;
@@ -7,18 +11,37 @@
   align-items: center; 
 }
 
+/*
+.request-table-segreteria {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+*/
 
-  ion-select{
-     margin-top: 24px;
-  }
+
+ion-col {
+  margin: 1rem;
+}
+
+ion-row {
+  justify-content: center;
+  align-items: center;
+}
 
 
-  ion-input[type ="date"] {
+ion-select{
+  margin-top: 24px;
+}
+
+
+ion-input[type="date"] {
   width:40%;
   padding: 0.5rem 0.5rem;
   text-align: center;
   border-radius: 0.5rem;
-
 }
 
 @media (max-width: 768PX){
@@ -27,10 +50,11 @@
     }
 }
 
-ion-button[type="green"]{
+.buttons[type="green"]{
   width:100%;
   padding: 0.25rem 0.25rem;
   font-size: 12px;
+  background-color: #33c553;
 
   background: linear-gradient(
     to bottom right,
@@ -39,7 +63,7 @@ ion-button[type="green"]{
   );
 }
 
-ion-button[type="red"]{
+.buttons[type="red"]{
   width:100%;
   padding: 0.25rem 0.25rem;
   font-size: 12px;

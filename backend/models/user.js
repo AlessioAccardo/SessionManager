@@ -2,10 +2,9 @@ const db = require('../db/database');
 
 class User {
 
-    // get all
     static async getAllUsers() {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM users', [], (err, rows) => {
+            db.all('SELECT id, first_name, last_name, email, role, credits, mean FROM users', [], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
             });
@@ -14,7 +13,7 @@ class User {
 
     static async getAllProfessors(){
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM users WHERE role = ?', ['professore'], (err, rows) =>{
+            db.all('SELECT id, first_name, last_name, email, role FROM users WHERE role = ?', ['professore'], (err, rows) =>{
                 if(err) return reject(err);
                 resolve(rows);
             });
@@ -54,7 +53,7 @@ class User {
     // ricerca per ID
     static async getById(id) {
         return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
+            db.get('SELECT id, first_name, last_name, email, role, credits, mean FROM users WHERE id = ?', [id], (err, row) => {
                 if (err) return reject(err);
                 resolve(row);
             });
@@ -63,7 +62,7 @@ class User {
 
     static async getProfessorById(id) {
         return new Promise((resolve, reject) => {
-            db.get('SELECT * FROM users WHERE id = ? AND role = ?', [id, 'professore'], (err, row) => {
+            db.get('SELECT id, first_name, last_name, email, role FROM users WHERE id = ? AND role = ?', [id, 'professore'], (err, row) => {
                 if (err) return reject(err);
                 resolve(row);
             });

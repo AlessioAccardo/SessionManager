@@ -24,10 +24,10 @@ class ExamResultsController {
         }
     }
 
-    static async getResultsByProfessorId(req, res, next) {
+    static async getResultsGroupedByProfessor(req, res, next) {
         try {
             const { professor_id } = req.query;
-            const list = await ExamResults.getResultsByProfessorId(professor_id);
+            const list = await ExamResults.getResultsGroupedByProfessor(professor_id);
             if (!list) return res.status(404).json({ message: 'Risultati esami del professore non troviati' });
             res.status(200).json(list);
         } catch (err) {
@@ -46,6 +46,36 @@ class ExamResultsController {
         }
     }
 
+    static async getExamResultsByCode(req, res, next) {
+        try {
+            const { exam_code } = req.query;
+            const list = await ExamResults.getExamResultsByCode(exam_code);
+            res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async getExamResultsByCourseId(req, res, next) {
+        try {
+            const { course_id } = req.query;
+            const list = await ExamResults.getExamResultsByCourseId(course_id);
+            res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    static async getExamResultsAndCoursesByProfessorId(req, res, next) {
+        try {
+            const { professor_id } = req.params;
+            const list = await ExamResults.getExamResultsAndCoursesByProfessorId(professor_id);
+            res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
+    }
+
     static async acceptResult(req, res, next) {
         try {
             const { student_id, exam_code } = req.params;
@@ -58,13 +88,17 @@ class ExamResultsController {
     }
 
     static async search(req, res, next) {
-        const { student_id, professor_id, exam_code } = req.query;
-        
-        if (student_id) return ExamResultsController.getResultsByStudentId(req, res, next);
-
-        if (professor_id) return ExamResultsController.getResultsByProfessorId(req, res, next);
+        const { student_id, professor_id, exam_code, course_id } = req.query;
 
         if (professor_id && exam_code) return ExamResultsController.getExamResults(req, res, next);
+
+        if (exam_code) return ExamResultsController.getExamResultsByCode(req, res, next);
+
+        if (student_id) return ExamResultsController.getResultsByStudentId(req, res, next);
+
+        if (professor_id) return ExamResultsController.getResultsGroupedByProfessor(req, res, next);
+
+        if (course_id) return ExamResultsController.getExamResultsByCourseId(req, res, next);
 
         // nessun parametro: errore o lista vuota
         return res.status(400).json({ message: 'Devi fornire almeno un parametro di ricerca per ottenere i risultati degli esami' });

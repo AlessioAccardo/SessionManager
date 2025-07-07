@@ -2,12 +2,25 @@ const db = require('../db/database');
 const Courses = require('../models/courses');
 
 class Exam {
+
     static async getAllExams() {
         return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM exams', [], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
-            });
+            db.all(`
+                SELECT e.*, stud.first_name AS student_first_name, stud.last_name AS student_last_name,
+                prof.first_name AS professor_first_name, prof.last_name AS professor_last_name
+                FROM exams AS e
+                JOIN studyPlan as s ON s.course_id = e.course_id
+                JOIN users AS stud ON stud.id = s.student_id
+                JOIN users as prof ON prof.id = e.professor_id
+                WHERE e.approved = ?
+                GROUP BY prof.id
+                ORDER BY prof.id ASC`,
+                [1],
+                (err, rows) => {
+                    if (err) return reject(err);
+                    resolve(rows);
+                }
+            );
         });
     }
 
@@ -109,6 +122,15 @@ class Exam {
                 [first_name, last_name], (err, rows) => {
                 if (err) return reject (err);
                 resolve(rows)
+            });
+        });
+    }
+
+    static async getExamsByCourseId(course_id) {
+        return new Promise((resolve, reject) => {
+            db.all(`SELECT * FROM exams WHERE course_id = ? AND approved = ?`, [course_id, 1], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows);
             });
         });
     }

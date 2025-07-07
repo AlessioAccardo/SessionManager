@@ -1,7 +1,7 @@
 <ion-content>
-<ng-container class="container" *ngIf="user$ | async as user"> 
+  <ng-container class="container" *ngIf="user$ | async as user">
 
-@if (this.user?.role === 'studente') {
+    @if (this.user?.role === 'studente') {
     <ng-container class="dashboard">
       <ion-title>Risultati Esami</ion-title>
       <ion-card class="riquadri">
@@ -14,82 +14,113 @@
               <ion-col>Voto</ion-col>
             </ion-row>
             @for (exam of studentExams; track exam.exam_code) {
-                <ion-row>
-                  <ion-col>{{ exam.exam_code }}</ion-col>
-                  <ion-col>{{ exam.course_name }}</ion-col>
-                  <ion-col>{{ exam.course_credits }}</ion-col>
-                  <ion-col>{{ exam.grade }}</ion-col>
-                  <ion-button (click)="accettazioneVoto(exam.exam_code, true, exam.course_id, exam.grade)">Accetta</ion-button>
-                  <ion-button (click)="accettazioneVoto(exam.exam_code, false)">Rifiuta</ion-button>
-                </ion-row>
-              }
+            <ion-row>
+              <ion-col>{{ exam.exam_code }}</ion-col>
+              <ion-col>{{ exam.course_name }}</ion-col>
+              <ion-col>{{ exam.course_credits }}</ion-col>
+              <ion-col>{{ exam.grade }}</ion-col>
+              <ion-button class="buttons"
+                (click)="acceptGrade(exam.exam_code, true, exam.course_id, exam.grade)">Accetta</ion-button>
+              <ion-button class="buttons" (click)="acceptGrade(exam.exam_code, false)">Rifiuta</ion-button>
+            </ion-row>
+            }
           </ion-grid>
         </ion-card>
       </ion-card>
     </ng-container>
-  }
-
-
-
-
-
-  @if (this.user?.role === 'professore') {
-    @if (examsSet.length > 0) {
-    <ng-container class="dashboard">
-      <ion-title>Dashboard Risultati Esami</ion-title>
-        @for (exam of examsSet; track exam.exam_code) {
-        <ion-card class="riquadro">
-          <ion-title>Codice Esame: {{ exam.exam_code }}</ion-title>
-          <ion-title>Nome Esame: {{ exam.exam_name}}</ion-title>
-          <ion-grid>
-              <ion-row>
-                <ion-col>Matricola Studente</ion-col>
-                <ion-col>Nome Studente</ion-col>
-                <ion-col> </ion-col>
-                <ion-col> </ion-col>
-              </ion-row>
-              <ion-row>
-              @for (student of getStudents(exam.exam_code); track student.student_id) {
-                  <ion-col>{{ student.student_id }}</ion-col>
-                  <ion-col>{{ student.student_first_name }} {{ student.student_last_name }}</ion-col>
-                  <ion-col><ion-button type = "green" (click)="insertGradeTakenExam(student.student_id, exam.exam_code)">Sostenuto</ion-button></ion-col>
-                  <ion-col><ion-button type = "red" (click)="notTakenExam(student.student_id, exam.exam_code)">Non Sostenuto</ion-button></ion-col>
-              }
-              </ion-row>
-          </ion-grid>
-        </ion-card>
-        }
-    </ng-container>
-    } @else {
-     <ion-title>Non ci sono voti da registrare</ion-title> 
     }
 
-  }
 
-<!--
-  @if(this.user?.role === "segreteria") {
-    <ng-container class = "dashboard">
-      <ion-title> Dashboard Segreteria </ion-title>
-      <ion-card class = "riquadri">
-        <ion-card class = "riquadro">
-          <ion-grid>
+
+
+
+    @if (this.user?.role === 'professore') {
+    @if (examsSet.length > 0) {
+    <ion-card class="riquadro">
+      <ng-container class="dashboard">
+        <ion-title>Dashboard Risultati Esami</ion-title>
+        @for (exam of examsSet; track exam.exam_code) {
+        <ion-title>Codice Esame: {{ exam.exam_code }}</ion-title>
+        <ion-title>Nome Esame: {{ exam.exam_name}}</ion-title>
+        <ion-grid>
+          <ion-row>
+            <ion-col>Matricola Studente</ion-col>
+            <ion-col>Nome Studente</ion-col>
+            <ion-col> </ion-col>
+            <ion-col> </ion-col>
+          </ion-row>
+          <ion-row>
+            @for (student of getStudents(exam.exam_code); track student.student_id) {
+            <ion-col>{{ student.student_id }}</ion-col>
+            <ion-col>{{ student.student_first_name }} {{ student.student_last_name }}</ion-col>
+            <ion-col><ion-button class="buttons" type="green"
+                (click)="insertGradeTakenExam(student.student_id, exam.exam_code)">Sostenuto</ion-button></ion-col>
+            <ion-col><ion-button class="buttons" type="red"
+                (click)="notTakenExam(student.student_id, exam.exam_code)">Non
+                Sostenuto</ion-button></ion-col>
+            }
+          </ion-row>
+        </ion-grid>
+        }
+      </ng-container>
+    </ion-card>
+    } @else {
+    <ion-title>Non ci sono voti da registrare</ion-title>
+    }
+    }
+
+
+    @if(this.user?.role === "segreteria") {
+    <ion-card>
+      <ng-container class="dashboard">
+        <ion-title> Dashboard Segreteria </ion-title>
+        <ion-card class="riquadro"> </ion-card>
+        <ion-grid>
+          <ion-row>
+            <ion-col> ID </ion-col>
+            <ion-col> Nome e Cognome </ion-col>
+            <ion-col> Email </ion-col>
+          </ion-row>
+          @for(prof of professors; track prof.id){
+          <ng-container class="professors-list">
+            <ion-grid>
               <ion-row>
-                <ion-col> ID </ion-col>
-                <ion-col> Professore </ion-col>
-                <ion-col> Esami gestiti </ion-col>
-              </ion-row>
-              @for(prof of professors; track prof.id){
-               <ion-row>
                 <ion-col> {{ prof.id }} </ion-col>
                 <ion-col> {{ prof.first_name }} {{prof.last_name}} </ion-col>
-                <ion-col> {{getAllExamByProfessorID(prof.id)}} </ion-col>
-               </ion-row>
-              }
+                <ion-col> {{ prof.email }} </ion-col>
+                <ion-button class="showing-button" size="small" (click)="showCourses(prof.id)">{{ selectedProfessorId
+                  === prof.id ? 'Nascondi Corsi' : 'Mostra Corsi'}}</ion-button>
+              </ion-row>
             </ion-grid>
-          </ion-card>
-        </ion-card>
+            @if (selectedProfessorId === prof.id) {
+            <ion-card class="showing-courses">
+              <ion-grid>
+                <ion-row>
+                  <ion-col> ID </ion-col>
+                  <ion-col> Nome Corso </ion-col>
+                  <ion-col> Crediti </ion-col>
+                  <ion-col> Promossi </ion-col>
+                  <ion-col> Bocciati </ion-col>
+                </ion-row>
+                @for (course of coursesDetailsForAdmin; track course.id) {
+                <ion-row>
+                  <a [routerLink]="['/admin-exams', course.id]">
+                    <ion-col> {{ course.id }} </ion-col>
+                    <ion-col> {{ course.name }} </ion-col>
+                    <ion-col> {{ course.credits }} </ion-col>
+                    <ion-col> {{ course.passed }}% </ion-col>
+                    <ion-col> {{ course.failed }}% </ion-col>
+                  </a>
+                </ion-row>
+                }
+              </ion-grid>
+            </ion-card>
+            }
+          </ng-container>
+          }
+        </ion-grid>
       </ng-container>
-
-  } -->
+    </ion-card>
+    }
   </ng-container>
 </ion-content>

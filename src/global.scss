@@ -76,7 +76,7 @@ ion-select {
   cursor: pointer;
 }
 
-ion-button, ion-input[type ="date"] {
+.buttons, ion-input[type ="date"] {
   --padding-top:    0;
   --padding-bottom: 0;
   --padding-start:  0;
@@ -103,13 +103,21 @@ ion-button, ion-input[type ="date"] {
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-ion-button:hover, ion-input[type="date"]:hover{
-  transform: translateY(-2px);
+ion-button {
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.buttons, ion-button:hover, ion-input[type="date"]:hover{
+  transform: translateY(-1px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-ion-button:active, ion-input[type ="date"]:active {
+.buttons, ion-button:active, ion-input[type ="date"]:active {
  transform: translateY(0);
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
 }
 
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
