@@ -18,21 +18,21 @@
 
       <!-- PROFESSORE -->
       @if (user.role === 'professore'){
-        <ng-container>
+        <div class = "nav-links">
           <ion-button [routerLink]="['/']"> Home </ion-button>
           <ion-button [routerLink]="['/dashboard']">Dashboard</ion-button>
           <ion-button [routerLink]="['request']"> Richieste </ion-button>
           <ion-button (click)="logout()">Logout</ion-button>
-        </ng-container>
+        </div>
       }
 
       <!-- SEGRETERIA -->
       @if (user.role === 'segreteria'){
-        <ng-container>
+        <div class = "nav-links">
           <ion-button [routerLink]="['/']"> Home </ion-button>
           <ion-button [routerLink]="['/dashboard']">Dashboard</ion-button>
           <ion-button [routerLink]="['request']"> Richieste </ion-button>
           <ion-button (click)="logout()">Logout</ion-button>
-        </ng-container>
+        </div>
       }
     </ion-buttons>
