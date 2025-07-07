@@ -25,7 +25,7 @@
       <div class = "container">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>{{ libretto ? 'Libretto' : 'Aggiungi corsi al tuo piano di studi' }}</ion-card-title>
+          <ion-title>{{ libretto ? 'Libretto' : 'Aggiungi corsi al tuo piano di studi' }}</ion-title>
         </ion-card-header>
         <ion-card-content>
           @if (libretto) {
@@ -75,7 +75,7 @@
       <div class = "container">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>I tuoi corsi</ion-card-title>
+          <ion-title>I tuoi corsi</ion-title>
         </ion-card-header>
         <ion-card-content>
           @if (courses.length !== 0) {
@@ -111,7 +111,7 @@
     <div class = "container">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>Crea un Nuovo Corso</ion-card-title>
+          <ion-title>Crea un Nuovo Corso</ion-title>
         </ion-card-header>
         <ion-card-content>
           <form [formGroup]="coursesForm" (ngSubmit)="createCourse()">
@@ -133,17 +133,19 @@
               <ion-label position="stacked">Crediti (CFU)</ion-label>
               <ion-input formControlName="credits"></ion-input>
             </ion-item>
+            <div class = "container">
             <ion-button class="buttons" expand="block" type="submit" [disabled]="coursesForm.invalid">Crea</ion-button>
+            </div>
           </ion-list>
         </form>
         </ion-card-content>
       </ion-card>
     </div>
 
-    <div class = "container">
+      <div class = "container">
       <ion-card>
         <ion-card-header>
-          <ion-card-title>Elenco Corsi</ion-card-title>
+          <ion-title>Elenco Corsi</ion-title>
         </ion-card-header>
         <ion-card-content>
           @if (courses.length !== 0) {

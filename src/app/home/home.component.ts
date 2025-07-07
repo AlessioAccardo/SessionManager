@@ -6,7 +6,7 @@ import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IonContent, IonCard, IonCardContent, IonList, IonItem, IonLabel, IonButton, IonCardHeader, IonCardTitle, IonGrid, IonRow, IonCol, IonSelect, IonSelectOption, IonInput } from '@ionic/angular/standalone';
+import { IonContent, IonCard, IonCardContent, IonList, IonItem, IonLabel, IonButton, IonCardHeader, IonTitle, IonGrid, IonRow, IonCol, IonSelect, IonSelectOption, IonInput } from '@ionic/angular/standalone';
 import { firstValueFrom } from 'rxjs';
 
 @Component({
@@ -21,8 +21,8 @@ import { firstValueFrom } from 'rxjs';
     IonItem, 
     IonLabel, 
     IonButton, 
-    IonCardHeader, 
-    IonCardTitle, 
+    IonCardHeader,  
+    IonTitle,
     IonGrid, 
     IonRow, 
     IonCol, 

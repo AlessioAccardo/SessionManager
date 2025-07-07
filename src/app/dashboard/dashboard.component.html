@@ -12,7 +12,7 @@
           <ion-col>Esame</ion-col>
           <ion-col>CFU</ion-col>
           <ion-col>Voto</ion-col>
-          <ion-col colspan="2">Azioni</ion-col>
+          <ion-col colspan="2"> </ion-col>
         </ion-row>
         @for (exam of studentExams; track exam.exam_code) {
         <ion-row>
@@ -50,7 +50,7 @@
           <ion-row class="header">
             <ion-col>Matricola</ion-col>
             <ion-col>Studente</ion-col>
-            <ion-col colspan="2">Azioni</ion-col>
+            <ion-col colspan="2"> </ion-col>
           </ion-row>
           @for (student of getStudents(exam.exam_code); track student.student_id) {
           <ion-row>
@@ -91,7 +91,7 @@
           <ion-col>ID</ion-col>
           <ion-col>Nome e Cognome</ion-col>
           <ion-col>Email</ion-col>
-          <ion-col>Azioni</ion-col>
+          <ion-col colspan = "2"> </ion-col>
         </ion-row>
         @for(prof of professors; track prof.id){
         <ion-row>
