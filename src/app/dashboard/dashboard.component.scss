@@ -44,9 +44,20 @@ a {
 
 /* CAMBIARE CON UN COLORE PIU APPROPRIATO, HO MESSO QUESTO PER PROVA */
 .showing-courses {
-  background-color: lightsalmon;
+  background: linear-gradient(
+    to bottom right,
+    #b0e6fa,
+    #1da4e2   
+  );
+  color: white;
 }
 
-.showing-button {
-  width: 10rem;
+.buttons {
+  width: 100px;
+  height: 50px;
+  font-size: 12px;
+}
+
+ion-title{
+  text-align: center;
 }

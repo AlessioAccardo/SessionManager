@@ -3,7 +3,8 @@
 
     <!-- Studente -->
     @if (this.user?.role === 'studente') {
-    <ion-card class="riquadro">
+  <div class = "container">
+    <ion-card>
       <ion-title>Risultati Esami</ion-title>
       <ion-grid>
         <ion-row class="header">
@@ -31,14 +32,17 @@
         }
       </ion-grid>
     </ion-card>
+  </div>
     }
 
     <!-- Professore -->
     @if (this.user?.role === 'professore') {
     @if (examsSet.length > 0) {
-    <ion-card class="riquadro">
+    <div class = "container">
+    <ion-card>
       <ion-title>Dashboard Risultati Esami</ion-title>
       @for (exam of examsSet; track exam.exam_code) {
+      <div class = "container">
       <ion-card class="exam-box">
         <ion-title>Codice Esame: {{ exam.exam_code }}</ion-title>
         <ion-title>Nome Esame: {{ exam.exam_name }}</ion-title>
@@ -64,15 +68,22 @@
           }
         </ion-grid>
       </ion-card>
+    </div>
       }
     </ion-card>
+  </div>
     } @else {
-    <ion-title>Non ci sono voti da registrare</ion-title>
+    <div class = "container">
+    <ion-card color = "danger">
+      <ion-title>Non ci sono voti da registrare</ion-title>
+   </ion-card>   
+   </div>
     }
     }
 
     <!-- Segreteria -->
     @if(this.user?.role === "segreteria") {
+  <div class = "container">
     <ion-card>
       <ion-title>Dashboard Segreteria</ion-title>
       <ion-grid>
@@ -88,12 +99,13 @@
           <ion-col>{{ prof.first_name }} {{ prof.last_name }}</ion-col>
           <ion-col>{{ prof.email }}</ion-col>
           <ion-col>
-            <ion-button class="showing-button" size="small" (click)="showCourses(prof.id)">
+            <ion-button class="buttons" (click)="showCourses(prof.id)">
               {{ selectedProfessorId === prof.id ? 'Nascondi Corsi' : 'Mostra Corsi' }}
             </ion-button>
           </ion-col>
         </ion-row>
         @if (selectedProfessorId === prof.id) {
+        <div class = "container">
         <ion-card class="showing-courses">
           <ion-grid>
             <ion-row class="header">
@@ -114,10 +126,12 @@
             }
           </ion-grid>
         </ion-card>
+      </div>
         }
         }
       </ion-grid>
     </ion-card>
+  </div>
     }
   </ng-container>
 </ion-content>

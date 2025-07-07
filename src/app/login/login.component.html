@@ -1,5 +1,5 @@
 <ion-content>
-  <ng-container class="container">
+  <div class="container">
       @if (display === false) {
         <ion-card>
           <ion-card-header>
@@ -15,7 +15,9 @@
                 <ion-label position="floating">Password</ion-label>
                 <ion-input formControlName="password" type="password" id="login-password" required></ion-input>
               </ion-item>
+              <div class = "container">
               <ion-button class = "buttons" expand="block" type="submit" [disabled]="loginForm.invalid">Accedi</ion-button>
+              </div>
               <p class="toggle-text">
                 Non hai un account? <a (click)="toggle()">Registrati</a>
               </p>
@@ -56,7 +58,9 @@
                   }
                 </ion-select>
               </ion-item>
+              <div class = "container">
               <ion-button class = "buttons" expand="block" type="submit" [disabled]="registrationForm.invalid">Registrati</ion-button>
+              </div>
               <p class="toggle-text">
                 Hai già un account? <a (click)="toggle()">Accedi</a>
               </p>
@@ -64,5 +68,5 @@
           </ion-card-content>
         </ion-card>
       }
-  </ng-container>
+  </div>
 </ion-content>

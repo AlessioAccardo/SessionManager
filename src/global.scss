@@ -36,9 +36,17 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+.container{
+  display: flex;
+   justify-content: center;;
+}
 
 
-
+ion-card{
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
 ion-title{
   font-size: 30px;
   font-family: 'Gill Sans', Calibri; 

@@ -1,12 +1,17 @@
+
 <ion-header>
   <ion-toolbar>
     <ion-title>Piano di Studi</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="container">
+
+<ion-content>
   @if (visualizzazione) {
+    <div class = "container">
     <ion-button class="buttons" expand="block" (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</ion-button>
+    </div>
+    <div class = "container">
     <ion-card class="summary">
       <ion-title>Esami</ion-title>
       <ion-grid>
@@ -36,8 +41,12 @@
         }
       </ion-grid>
     </ion-card>
+    </div>
   } @else {
+    <div class = "container">
     <ion-button class="buttons" expand="block" (click)="visualizzaEsami()">Visualizza esami prenotati</ion-button>
+    </div>
+    <div class = "container">
     <ion-card class="esami">
       <ion-title>Seleziona gli esami</ion-title>
       <form>
@@ -71,5 +80,6 @@
         </ion-grid>
       </form>
     </ion-card>
+    </div>
   }
 </ion-content>

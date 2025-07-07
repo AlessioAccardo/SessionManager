@@ -1,4 +1,5 @@
 <ion-content class="error-container">
+  <div class = "container">
   <ion-card color="danger">
     <ion-card-header>
       <ion-card-title>Accesso Negato</ion-card-title>
@@ -6,9 +7,12 @@
 
     <ion-card-content>
       <p>Non hai i permessi per visualizzare questa pagina.</p>
+      <div class = "container">
       <ion-button class="buttons" expand="block" [routerLink]="['/login']">
         Effettua il login
       </ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
+  </div>
 </ion-content>

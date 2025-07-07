@@ -1,5 +1,6 @@
 <ion-content class="container">
   @if (user?.role === 'professore') {
+    <div class = "container">
     <ion-card class="request-table">
       <ion-card-content>
       <ion-title>Richiesta Esame</ion-title>
@@ -19,9 +20,11 @@
       </form>
     </ion-card-content>
     </ion-card>
+    </div>
   }
 
   @if (user?.role === 'segreteria') {
+    <div class = "container">
     <ion-card class="request-table">
       <ion-title>Richieste Appelli</ion-title>
       <ion-grid>
@@ -58,5 +61,6 @@
         }
       </ion-grid>
     </ion-card>
+    </div>S
   }
 </ion-content>

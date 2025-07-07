@@ -3,7 +3,8 @@
 
     <!-- PIANO DI STUDI STUDENTE -->
     @if (user.role === 'studente'){
-    <ng-container>
+
+      <div class = "container">
       <ion-card class = "summary">
         <ion-card-content>
           <ion-grid>
@@ -14,15 +15,14 @@
           </ion-grid>
         </ion-card-content>
       </ion-card>
-
-      <div class = "bottone">
+      </div> 
+      <div class = "container">
       <ion-button class="buttons" expand="block" (click)="visualizzaCorsi()">
         {{ libretto ? 'Aggiungi corso' : 'Vai al libretto' }}
       </ion-button>
       </div>
 
-
-
+      <div class = "container">
       <ion-card>
         <ion-card-header>
           <ion-card-title>{{ libretto ? 'Libretto' : 'Aggiungi corsi al tuo piano di studi' }}</ion-card-title>
@@ -66,20 +66,20 @@
           }
         </ion-card-content>
       </ion-card>
-    </ng-container>
+      </div>
     }
 
     <!-- VISUALIZZAZIONE PROFESSORE -->
     @if(user.role === 'professore') {
 
-    <ng-container>
+      <div class = "container">
       <ion-card>
         <ion-card-header>
           <ion-card-title>I tuoi corsi</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           @if (courses.length !== 0) {
-          <ng-container>
+          <div class = "container">
             <ion-grid>
               <ion-row class="header">
                 <ion-col>ID</ion-col>
@@ -95,20 +95,20 @@
               }
 
             </ion-grid>
-          </ng-container>
+            </div>
           } @else {
             <h2>Non hai ancora alcun corso assegnato</h2>
           }
         </ion-card-content>
       </ion-card>
-    </ng-container>
+      </div>
     }
 
 
 
     <!-- CREAZIONE CORSI SEGRETERIA -->
     @if(user.role === 'segreteria') {
-    <ng-container>
+    <div class = "container">
       <ion-card>
         <ion-card-header>
           <ion-card-title>Crea un Nuovo Corso</ion-card-title>
@@ -138,14 +138,16 @@
         </form>
         </ion-card-content>
       </ion-card>
+    </div>
 
+    <div class = "container">
       <ion-card>
         <ion-card-header>
           <ion-card-title>Elenco Corsi</ion-card-title>
         </ion-card-header>
         <ion-card-content>
           @if (courses.length !== 0) {
-          <ng-container>
+          <div class = "container">
             <ion-grid>
               <ion-row class="header">
                 <ion-col>ID</ion-col>
@@ -164,7 +166,7 @@
               </ion-row>
               }
             </ion-grid>
-          </ng-container>
+          </div>
           } @else {
           <ng-template>
             <p>Nessun corso creato al momento.</p>
@@ -172,7 +174,7 @@
           }
         </ion-card-content>
       </ion-card>
-    </ng-container>
+      </div>
     }
   </ng-container>
 </ion-content>
