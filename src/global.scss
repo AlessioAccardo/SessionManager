@@ -154,13 +154,12 @@ ion-grid ion-col {
 }
 
 
-
-/* Tablet portrait e schermi piccoli */
 @media (max-width: 768px) {
     .logo {
     font-size: 1.5rem;
     border-bottom-width: 4px;
   }
+
   .container {
     flex-direction: column;
     padding: 0 1rem;
@@ -168,8 +167,10 @@ ion-grid ion-col {
 
   ion-card {
     width: 100%;
+    margin: 0;
   }
 
+    
   ion-title {
     font-size: 24px;
   }
@@ -182,43 +183,7 @@ ion-grid ion-col {
     max-width: none;
   }
 
-  .buttons,
-  ion-input[type="date"] {
-    padding: 0.75rem;
-  }
-}
-
-/* Smartphone */
-@media (max-width: 480px) {
-   .logo {
-    font-size: 1.2rem;
-    border-bottom-width: 3px;
-  }
-  ion-title {
-    font-size: 20px;
-    margin-top: 1rem;
-  }
-
-  ion-card {
-    width: 100%;
-    margin: 0;
-  }
-
-  ion-select {
-    font-size: 0.9rem;
-    padding: 0.5rem;
-  }
-
-  .buttons,
-  ion-button,
-  ion-input[type="date"] {
-    width: 100% !important;
-    padding: 0.6rem;
-    font-size: 0.9rem;
-  }
-
-  ion-grid ion-col {
+ ion-grid ion-col {
     padding: 0.5rem !important;
   }
 }
-

@@ -25,3 +25,16 @@ form{
 ion-input{
   margin-top: 1rem;
 }
+
+
+
+/* Smartphone */
+@media (max-width: 576px) {
+  
+  ion-label,
+  ion-input{
+    font-size: 12px;
+  }
+ }
+
+ 

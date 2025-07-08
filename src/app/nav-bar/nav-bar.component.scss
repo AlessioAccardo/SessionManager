@@ -14,13 +14,6 @@ ion-button{
 } 
 */
 
-@media (prefers-color-scheme: dark) {
-  ion-button {
-    background: #333; 
-    color: white; 
-  }
-}
-
 
 /*Hamburger menu*/
 .nav-toggle {
@@ -40,12 +33,14 @@ ion-button{
   display: block;
   height: 3px;
   border-radius: 2px;
-  background: #fff;
+  background:#333;
 }
 
 .nav-links{
   display: flex;
 }
+
+
 
 
 @media (max-width: 768px) {
@@ -56,11 +51,23 @@ ion-button{
     display: none;           
     flex-direction: column;  
     width: 100%;
-    background: #333;
+    background: linear-gradient(
+    to bottom right,
+    #b0e6fa,
+    #1da4e2   
+   );
+    color: white;
     padding: 1rem;
   }
 
   .nav-toggle:checked ~ .nav-links {
     display: flex;
   }
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav-toggle-label span  {
+    background: white;
+  }
+
 }
