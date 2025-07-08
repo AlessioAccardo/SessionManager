@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Exam, ExamService } from '../services/exam.service';
 import { firstValueFrom } from 'rxjs';
+import { RouterLink } from '@angular/router';
 import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController} from '@ionic/angular/standalone';
 import { ExamResult, ExamResultsService } from '../services/examResults.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
@@ -9,6 +10,7 @@ import { LoggedUser } from '../interfaces/loggedUser.interface';
 @Component({
   selector: 'app-admin-exams-results',
   imports: [
+    RouterLink,
     IonCard, 
     IonTitle, 
     IonButton, 

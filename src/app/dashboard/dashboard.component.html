@@ -18,7 +18,8 @@
           <ion-col>Esame</ion-col>
           <ion-col>CFU</ion-col>
           <ion-col>Voto</ion-col>
-          <ion-col colspan="2"> </ion-col>
+          <ion-col> </ion-col>
+          <ion-col> </ion-col>
         </ion-row>
         @for (exam of studentExams; track exam.exam_code) {
         <ion-row>
@@ -50,15 +51,13 @@
     <ion-card>
       <ion-title>Dashboard Risultati Esami</ion-title>
       @for (exam of examsSet; track exam.exam_code) {
-      <div class="container">
-        <ion-card class="exam-box">
-          <ion-title>Codice Esame: {{ exam.exam_code }}</ion-title>
-          <ion-title>Nome Esame: {{ exam.exam_name }}</ion-title>
+          <ion-title class = "esame">Esame: {{ exam.exam_name }} ID: {{ exam.exam_code }}</ion-title>
           <ion-grid>
             <ion-row class="header">
               <ion-col>Matricola</ion-col>
               <ion-col>Studente</ion-col>
-              <ion-col colspan="2"> </ion-col>
+              <ion-col> </ion-col>
+              <ion-col> </ion-col>
             </ion-row>
             @for (student of getStudents(exam.exam_code); track student.student_id) {
             <ion-row>
@@ -75,8 +74,6 @@
             </ion-row>
             }
           </ion-grid>
-        </ion-card>
-      </div>
       }
     </ion-card>
   </div>

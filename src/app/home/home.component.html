@@ -55,6 +55,7 @@
             <ion-col>Nome Corso</ion-col>
             <ion-col>Docente</ion-col>
             <ion-col>CFU</ion-col>
+            <ion-col> </ion-col>
           </ion-row>
           @for(course of courses; track course.id) {
           <ion-row>
@@ -62,7 +63,9 @@
             <ion-col>{{ course.name }}</ion-col>
             <ion-col>{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
             <ion-col>{{ course.credits }}</ion-col>
+            <ion-col>
             <ion-button class="buttons" (click)="salvaPiano(course.id)"> Aggiungi </ion-button>
+            </ion-col>
           </ion-row>
           }
         </ion-grid>
@@ -162,6 +165,7 @@
               <ion-col>Prof ID</ion-col>
               <ion-col>Professore</ion-col>
               <ion-col>CFU</ion-col>
+              <ion-col> </ion-col>
             </ion-row>
             @for (course of courses; track course.id) {
             <ion-row>
@@ -170,7 +174,9 @@
               <ion-col>{{ course.professor_id }}</ion-col>
               <ion-col>{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
               <ion-col>{{ course.credits }}</ion-col>
+              <ion-col>
               <ion-button class="buttons" (click)="deleteCourse(course.id)">elimina</ion-button>
+              </ion-col>
             </ion-row>
             }
           </ion-grid>

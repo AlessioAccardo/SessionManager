@@ -3,7 +3,7 @@
       @if (display === false) {
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Login</ion-card-title>
+            <ion-title>Login</ion-title>
           </ion-card-header>
           <ion-card-content>
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -27,7 +27,7 @@
       } @else {
         <ion-card>
           <ion-card-header>
-            <ion-card-title>Registrazione</ion-card-title>
+            <ion-title>Registrazione</ion-title>
           </ion-card-header>
           <ion-card-content>
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">

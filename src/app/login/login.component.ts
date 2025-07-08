@@ -7,7 +7,7 @@ import { TitleCasePipe, isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 
-import { IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonItem, IonLabel, IonInput, IonButton, IonSelect, IonSelectOption } from '@ionic/angular/standalone'
+import { IonContent, IonCard, IonCardContent, IonCardHeader,IonTitle, IonItem, IonLabel, IonInput, IonButton, IonSelect, IonSelectOption } from '@ionic/angular/standalone'
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,7 @@ import { IonContent, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonIt
     IonCard, 
     IonCardContent, 
     IonCardHeader, 
-    IonCardTitle, 
+    IonTitle,
     IonItem, 
     IonLabel, 
     IonInput, 
@@ -59,7 +59,7 @@ export class LoginComponent {
 
     this.loginForm = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required, Validators.minLength(8)]
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
 
     this.registrationForm = this.fb.group({

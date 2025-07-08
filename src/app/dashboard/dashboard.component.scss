@@ -1,17 +1,18 @@
 .buttons[type="green"]{
-  width:100%;
-  padding: 0.25rem 0.25rem;
   font-size: 12px;
-
   background: linear-gradient(
     to bottom right,
     #b3e286,
     #33c553   
   );
+  margin-left: 1rem;
+  margin-right: 0.5rem;
 }
 
+
+
+
 .buttons[type="red"]{
-  width:100%;
   padding: 0.25rem 0.25rem;
   font-size: 12px;
 
@@ -20,6 +21,8 @@
     #f09797,
     #d82525   
   );
+  margin-left: 0.5rem;
+  margin-right: 1rem;
 }
 
 a {
@@ -68,4 +71,8 @@ a {
 
 .clickable-row {
   cursor: pointer;
+}
+
+.esame{
+  text-align: left;
 }

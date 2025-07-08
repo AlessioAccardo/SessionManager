@@ -1,5 +1,6 @@
 <div class = "container">
 <ion-card>
+  <ion-button class="buttons" [routerLink] = "['/dashboard']" > <- Torna indietro </ion-button>
     <ion-title> Dashboard Segreteria </ion-title>
     <ion-grid>
       <ion-row class = "header">
@@ -7,6 +8,7 @@
         <ion-col> Nome Corso </ion-col>
         <ion-col> Data </ion-col>
         <ion-col> Studenti iscritti </ion-col>
+        <ion-col> </ion-col>
       </ion-row>
       @for (exam of exams; track exam.code) {
         <ion-grid>
@@ -15,8 +17,10 @@
             <ion-col> {{ exam.name }} </ion-col>
             <ion-col> {{ exam.date }} </ion-col>
             <ion-col> {{ exam.enrolled_students }} </ion-col>
+            <ion-col>
             <ion-button class="buttons" (click)="showExams(exam.code)">{{ selectedExamCode
               === exam.code ? 'Nascondi Esami' : 'Mostra Esami'}}</ion-button>
+            </ion-col>
           </ion-row>
         </ion-grid>
         @if (selectedExamCode === exam.code) {
