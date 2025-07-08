@@ -42,6 +42,7 @@ export class LoginComponent {
   ]
 
   display: boolean = false;
+  displayPassError: boolean = false;
 
   router = inject(Router);
   private titleCase = new TitleCasePipe();
@@ -58,14 +59,15 @@ export class LoginComponent {
 
     this.loginForm = this.fb.group({
       email:    ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required, Validators.minLength(8)]
     });
 
     this.registrationForm = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email:    ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', Validators.required, Validators.minLength(8)],
+      passwordConfirm: ['', Validators.required, Validators.minLength(8)],
       role: ['studente', Validators.required]
     });
   }
@@ -89,9 +91,14 @@ export class LoginComponent {
           this.loginForm.reset();
         }
       });
+      
     } else {
       if (this.registrationForm.invalid) {
       return;
+      }
+      if (this.registrationForm.get('password')?.value !== this.registrationForm.get('passwordConfirm')?.value) {
+        this.displayPassError = true;
+        return;
       }
       if (this.isBrowser) {
         let { first_name, last_name, email, password, role } = this.registrationForm.value;

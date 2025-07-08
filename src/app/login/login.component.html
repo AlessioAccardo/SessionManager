@@ -9,14 +9,14 @@
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input formControlName="email" type="email" id="login-email" required></ion-input>
+                <ion-input formControlName="email" type="email" id="login-email"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Password</ion-label>
-                <ion-input formControlName="password" type="password" id="login-password" required></ion-input>
+                <ion-input formControlName="password" type="password" id="login-password"></ion-input>
               </ion-item>
               <div class = "container">
-              <ion-button class = "buttons" expand="block" type="submit" [disabled]="loginForm.invalid">Accedi</ion-button>
+              <ion-button class = "buttons loginButton" expand="block" type="submit" [disabled]="loginForm.invalid">Accedi</ion-button>
               </div>
               <p class="toggle-text">
                 Non hai un account? <a (click)="toggle()">Registrati</a>
@@ -33,19 +33,23 @@
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
               <ion-item>
                 <ion-label position="floating">Nome</ion-label>
-                <ion-input formControlName="first_name" type="text" id="reg-first-name" required></ion-input>
+                <ion-input formControlName="first_name" type="text" id="reg-first-name"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Cognome</ion-label>
-                <ion-input formControlName="last_name" type="text" id="reg-last-name" required></ion-input>
+                <ion-input formControlName="last_name" type="text" id="reg-last-name"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input formControlName="email" type="email" id="reg-email" required></ion-input>
+                <ion-input formControlName="email" type="email" id="reg-email"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-label position="floating">Password</ion-label>
-                <ion-input formControlName="password" type="password" id="reg-password" required></ion-input>
+                <ion-input formControlName="password" type="password" id="reg-password" placeholder="Inserisci con lunghezza minima 8 caratteri"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="floating">Conferma Password</ion-label>
+                <ion-input formControlName="passwordConfirm" type="password" id="conf-password"></ion-input>
               </ion-item>
               <ion-item>
                 <ion-label>Ruolo</ion-label>
@@ -58,8 +62,11 @@
                   }
                 </ion-select>
               </ion-item>
+              @if (displayPassError) {
+                <p id="pass-err">LE PASSWORD NON COMBACIANO</p>
+              }
               <div class = "container">
-              <ion-button class = "buttons" expand="block" type="submit" [disabled]="registrationForm.invalid">Registrati</ion-button>
+              <ion-button class = "buttons loginButton" expand="block" type="submit" [disabled]="registrationForm.invalid">Registrati</ion-button>
               </div>
               <p class="toggle-text">
                 Hai già un account? <a (click)="toggle()">Accedi</a>

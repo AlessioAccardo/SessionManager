@@ -16,7 +16,7 @@
             <ion-col> {{ exam.date }} </ion-col>
             <ion-col> {{ exam.enrolled_students }} </ion-col>
             <ion-button class="buttons" (click)="showExams(exam.code)">{{ selectedExamCode
-              === exam.code ? 'Nascondi Corsi' : 'Mostra Corsi'}}</ion-button>
+              === exam.code ? 'Nascondi Esami' : 'Mostra Esami'}}</ion-button>
           </ion-row>
         </ion-grid>
         @if (selectedExamCode === exam.code) {

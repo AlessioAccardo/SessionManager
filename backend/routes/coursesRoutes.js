@@ -14,5 +14,8 @@ router.get('/', coursesCtrl.getAll);
 // POST to create a course
 router.post('/', coursesCtrl.create);
 
+// DELETE course
+router.delete('/:id', coursesCtrl.deleteCourseById);
+
 module.exports = router;
 

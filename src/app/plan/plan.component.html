@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-toolbar>
     <ion-title>Piano di Studi</ion-title>
@@ -7,15 +6,23 @@
 
 
 <ion-content>
+  @if(isLoading) {
+  <div>
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  } @else {
+  @if (user) {
+  @if (user.role === 'studente') {
   @if (visualizzazione) {
-    <div class = "container">
-    <ion-button class="buttons" expand="block" (click)="visualizzaEsami()">Visualizza esami disponibili alla prenotazione</ion-button>
-    </div>
-    <div class = "container">
+  <div class="container">
+    <ion-button class="buttons" expand="block" (click)="visualizzaEsami()">Visualizza esami disponibili alla
+      prenotazione</ion-button>
+  </div>
+  <div class="container">
     <ion-card class="summary">
       <ion-title>Esami</ion-title>
       <ion-grid>
-        <ion-row class = "header">
+        <ion-row class="header">
           <ion-col>Codice Corso</ion-col>
           <ion-col>Codice Esame</ion-col>
           <ion-col>Nome Corso</ion-col>
@@ -26,36 +33,39 @@
           <ion-col> </ion-col>
         </ion-row>
         @for (esame of esamiPrenotati; track esame.exam_code) {
-          <ion-row>
-            <ion-col>{{ esame.course_id }}</ion-col>
-            <ion-col>{{ esame.exam_code }}</ion-col>
-            <ion-col>{{ esame.exam_name }}</ion-col>
-            <ion-col>{{ esame.date }}</ion-col>
-            <ion-col>{{ esame.credits }}</ion-col>
-            <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
-            <ion-col>{{ esame.enrolled_students }}</ion-col>
-            <ion-col>
-                <ion-button [disabled]="esame.taken === true" class="buttons" (click)="unenrollFromExam(esame.exam_code, esame.exam_name)" [disabled]="disabledButton(esame.date)"> {{ disabledButton(esame.date) ? 'bloccato' : 'disiscriviti'}}</ion-button>
-              </ion-col>
-          </ion-row>
+        <ion-row>
+          <ion-col>{{ esame.course_id }}</ion-col>
+          <ion-col>{{ esame.exam_code }}</ion-col>
+          <ion-col>{{ esame.exam_name }}</ion-col>
+          <ion-col>{{ esame.date }}</ion-col>
+          <ion-col>{{ esame.credits }}</ion-col>
+          <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
+          <ion-col>{{ esame.enrolled_students }}</ion-col>
+          <ion-col>
+            <ion-button [disabled]="esame.taken === true || disabledButton(esame.date)" class="buttons"
+              (click)="unenrollFromExam(esame.exam_code, esame.exam_name)"> {{ disabledButton(esame.date) ? 'bloccato' :
+              'disiscriviti'}}</ion-button>
+          </ion-col>
+        </ion-row>
         }
       </ion-grid>
     </ion-card>
-    </div>
+  </div>
   } @else {
-    <div class = "container">
+  <div class="container">
     <ion-button class="buttons" expand="block" (click)="visualizzaEsami()">Visualizza esami prenotati</ion-button>
-    </div>
-    <div class = "container">
+  </div>
+  <div class="container">
     <ion-card class="esami">
       <ion-title>Seleziona gli esami</ion-title>
       <form>
         <ion-item class="search">
-          <ion-input type="text" placeholder="Cerca esame per codice o nome esame..." (ionInput)="onSearch($event)"></ion-input>
+          <ion-input type="text" placeholder="Cerca esame per codice o nome esame..."
+            (ionInput)="onSearch($event)"></ion-input>
         </ion-item>
 
         <ion-grid class="esami-table">
-          <ion-row class = "header">
+          <ion-row class="header">
             <ion-col>Codice Corso</ion-col>
             <ion-col>Nome Esame</ion-col>
             <ion-col>CFU</ion-col>
@@ -65,21 +75,25 @@
             <ion-col> </ion-col>
           </ion-row>
           @for (esame of esami; track esame.code) {
-            <ion-row>
-              <ion-col>{{ esame.course_id }}</ion-col>
-              <ion-col>{{ esame.name }}</ion-col>
-              <ion-col>{{ esame.credits }}</ion-col>
-              <ion-col>{{ esame.enrolled_students }}</ion-col>
-              <ion-col>{{ esame.date }}</ion-col>
-              <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
-              <ion-col>
-                <ion-button class="buttons" (click)="seleziona(esame.code!)">Aggiungi</ion-button>
-              </ion-col>
-            </ion-row>
+
+          <ion-row>
+            <ion-col>{{ esame.course_id }}</ion-col>
+            <ion-col>{{ esame.name }}</ion-col>
+            <ion-col>{{ esame.credits }}</ion-col>
+            <ion-col>{{ esame.enrolled_students }}</ion-col>
+            <ion-col>{{ esame.date }}</ion-col>
+            <ion-col>{{ esame.professor_first_name }} {{ esame.professor_last_name }}</ion-col>
+            <ion-col>
+              <ion-button class="buttons" (click)="seleziona(esame.code!)">Aggiungi</ion-button>
+            </ion-col>
+          </ion-row>
           }
         </ion-grid>
       </form>
     </ion-card>
-    </div>
+  </div>
+  }
+  }
+  }
   }
 </ion-content>

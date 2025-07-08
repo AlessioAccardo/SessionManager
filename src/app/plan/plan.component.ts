@@ -1,12 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { ExamService, Exam } from '../services/exam.service';
 import { Router } from '@angular/router';
 import { StudyPlan, StudyPlanService } from '../services/studyPlan.service';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '../services/enrolledStudents.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
-import { IonContent,IonButton,IonGrid, IonRow, IonCol, IonInput, IonHeader, IonToolbar, IonTitle, IonCard, IonItem} from '@ionic/angular/standalone';
+import { 
+  IonContent,IonButton,IonGrid, IonRow, IonCol, IonInput,
+  IonHeader, IonToolbar, IonTitle, IonCard, IonItem, IonSpinner 
+} from '@ionic/angular/standalone';
+
 import { AlertController } from '@ionic/angular';
 
 
@@ -23,17 +27,26 @@ import { AlertController } from '@ionic/angular';
     IonToolbar,
     IonTitle,
     IonCard,
-    IonItem],
+    IonItem,
+    IonSpinner
+  ],
   templateUrl: './plan.component.html',
   styleUrl: './plan.component.scss'
 })
-export class PlanComponent implements OnInit {
 
-  private alertController = inject(AlertController);
-
+// CLASSE PURAMENTE PER STUDENTE
+export class PlanComponent implements OnInit, OnDestroy {
+  
+  examService = inject(ExamService);
+  studyPlanService = inject(StudyPlanService);
+  alertController = inject(AlertController);
+  enrolledStudentService = inject(EnrolledStudentsService)
   router = inject(Router);
+  authService = inject(AuthService);
+
   user: LoggedUser | null = null;
-  user$ = inject(AuthService).user$;
+
+  private userSubscription: Subscription | undefined;
 
   esamiPrenotati: EnrolledStudent[] = [];
   studyPlan: StudyPlan[] = [];
@@ -45,29 +58,29 @@ export class PlanComponent implements OnInit {
 
   today = new Date();
 
-  constructor(
-    public examService: ExamService,
-    public studyPlanService: StudyPlanService,
-    public enrolledStudentService: EnrolledStudentsService
-  ) {}
+  isLoading: boolean = false;
 
   ngOnInit() {
-    const raw = localStorage.getItem('currentUser');
-    if (!raw) {
-      console.log('Nessun utente in local storage');
-    } else {
-      this.user = JSON.parse(raw) as LoggedUser;
-    }
+    this.userSubscription = this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.resetComponents()
 
-    if (this.user?.role === 'studente') {
-      this.loadStudentExams();
-    }
+      if (user) {
+        this.isLoading = true;
+        if (user.role === 'studente') {
+          this.loadStudentExams();
+        }
+      }
+    });
   }
 
-  getExamByCode(code: number): Observable<Exam> {
-    return this.examService.getExamByCode(code);
+  ngOnDestroy() {
+      if (this.userSubscription) {
+        this.userSubscription.unsubscribe();
+      }
   }
 
+  // ISCRIZIONE ALL'ESAME
   async seleziona(code: number) {
     const exists = this.esamiPrenotati.some(e => e.exam_code === code);
     if (exists) {
@@ -79,8 +92,11 @@ export class PlanComponent implements OnInit {
       exam_code: code
     };
     try {
+      // iscrive lo studente all'esame
       await firstValueFrom(this.enrolledStudentService.enrollStudent(dto));
+      // aggiorna numero di iscritti all'esame
       await firstValueFrom(this.examService.setEnrolledStudentsNumber(code));
+      // aggiorna la visualizzazione
       this.loadStudentExams();
     } catch (err) {
       alert("Errore nell'inserimento dell'esame");
@@ -102,19 +118,7 @@ export class PlanComponent implements OnInit {
     this.visualizzazione = !this.visualizzazione;
   }
 
-  //STUDENTE
-  async loadStudentExams() {
-
-    const obs1 = this.examService.getStudentExams(this.user!.id);
-    const data1 = await firstValueFrom(obs1);
-    this.esami = data1;
-
-    const obs2 = this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id);
-    const data2 = await firstValueFrom(obs2);
-    this.esamiPrenotati = data2;
-
-  }
-
+  // DISISCRIZIONE DALL'ESAME
   async unenrollFromExam(exam_code: number, exam_name: string) {
     const alert = await this.alertController.create({
       header: 'Sei sicuro di voler disiscriverti?',
@@ -123,8 +127,11 @@ export class PlanComponent implements OnInit {
         { text: 'Annulla', role: 'cancel'},
         { text: 'Conferma', role: 'confirm', handler: async () => {
           try {
+            // disiscrive lo studente dall'esame
             await firstValueFrom(this.enrolledStudentService.unenrollStudent(this.user!.id, exam_code));
+            // aggiorna numero di iscritti all'esame
             await firstValueFrom(this.examService.setEnrolledStudentsNumber(exam_code));
+            // aggiorna la visualizzazione
             this.loadStudentExams();
           } catch (err) {
            console.log(err);
@@ -143,5 +150,37 @@ export class PlanComponent implements OnInit {
     const today = new Date(this.today);
     today.setHours(0,0,0,0);
     return examDate <= today;
+  }
+
+  // CARICA DATI STUDENTE
+  async loadStudentExams() {
+    if (!this.user) return;
+    this.isLoading = true;
+
+    try {
+      const obs1 = this.examService.getStudentExams(this.user!.id);
+      const data1 = await firstValueFrom(obs1);
+      this.esami = data1;
+
+      const obs2 = this.enrolledStudentService.getExamsByEnrolledStudent(this.user!.id);
+      const data2 = await firstValueFrom(obs2);
+      this.esamiPrenotati = data2;
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.isLoading = false;
+    }
+
+  }
+
+
+  resetComponents() {
+    this.esamiPrenotati = [];
+    this.studyPlan = [];
+    this.esami = [];
+    this.allEsami = [];
+    this.today = new Date();
+    this.isLoading = false;
   }
 }

@@ -1,5 +1,8 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guard/auth.guard';
+import { adminGuard } from './guard/admin.guard';
+import { notStudentGuard } from './guard/not-student.guard';
+import { studentGuard } from './guard/student.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -7,9 +10,9 @@ export const routes: Routes = [
 
   { path: 'home', loadComponent: () => import('./home/home.component').then((m) => m.HomeComponent), canActivate: [authGuard] },
   { path: "dashboard", loadComponent: () => import('./dashboard/dashboard.component').then((m) => m.DashboardComponent), canActivate: [authGuard] },
-  { path: "plan", loadComponent: () => import('./plan/plan.component').then((m) => m.PlanComponent), canActivate: [authGuard] },
-  { path: "request", loadComponent: () => import('./request/request.component').then((m) => m.RequestComponent), canActivate: [authGuard] },
-  { path: "admin-exams/:course_id", loadComponent: () => import('./admin-exams-results/admin-exams-results.component').then((m) => m.AdminExamsResultsComponent), canActivate: [authGuard] },
+  { path: "plan", loadComponent: () => import('./plan/plan.component').then((m) => m.PlanComponent), canActivate: [authGuard, studentGuard] },
+  { path: "request", loadComponent: () => import('./request/request.component').then((m) => m.RequestComponent), canActivate: [authGuard, notStudentGuard] },
+  { path: "admin-exams/:course_id", loadComponent: () => import('./admin-exams-results/admin-exams-results.component').then((m) => m.AdminExamsResultsComponent), canActivate: [authGuard, adminGuard] },
   
   
   { path: "no-role", loadComponent: () => import('./no-role/no-role.component').then((m) => m.NoRoleComponent) },

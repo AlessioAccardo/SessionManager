@@ -98,6 +98,17 @@ class Courses {
             });
         });
     }
+
+    static async deleteCourseById(id) {
+        return new Promise((resolve, reject) => {
+            db.run(`DELETE FROM courses WHERE id = ?`, [id],
+                function(err) {
+                    if (err) return reject(err);
+                    resolve({ id });
+                }
+            );
+        });
+    }
 }
 
 module.exports = Courses;

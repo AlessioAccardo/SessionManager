@@ -1,9 +1,10 @@
 // auth.service.ts
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { LoggedUser } from '../../interfaces/loggedUser.interface';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -14,7 +15,8 @@ export class AuthService {
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     // Verifico se sono in un browser
     this.isBrowser = isPlatformBrowser(platformId);
@@ -40,14 +42,33 @@ export class AuthService {
   }
 
   logout() {
-    const loggingOut = window.confirm("Sei sicuro di voler fare il logout?");
-    if (loggingOut) {
-      if (this.isBrowser) {
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('token');
-      }
-      this.userSubject.next(null);
-      this.router.navigateByUrl('/login');
-    }    
+    if (this.isBrowser) {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('token');
+    }
+    this.userSubject.next(null);
+    this.router.navigateByUrl('/login');  
   }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  async verify(): Promise<any> {
+    const token = this.getToken();
+    if (!token) throw new Error('Nessun token in storage');
+    return await firstValueFrom(this.http.post('/api/auth/verify', {}, { headers: { Authorization: `Bearer ${token}`}}));
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return Date.now() / 1000 > payload.exp;
+    } catch {
+      return true;
+    }
+  }
+
 }

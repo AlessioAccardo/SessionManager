@@ -1,13 +1,13 @@
-import { Component, inject, OnInit } from '@angular/core'; 
+import { Component, inject, OnDestroy, OnInit } from '@angular/core'; 
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { UserService, User } from '../services/user.service';
 import { ExamService } from '../services/exam.service';
-import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController} from '@ionic/angular/standalone';
+import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController, IonSpinner} from '@ionic/angular/standalone';
 import { ExamResult, ExamResultDto, ExamResultsService } from '../services/examResults.service';
 import { EnrolledStudent, EnrolledStudentsService } from '../services/enrolledStudents.service';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, forkJoin, Subscription } from 'rxjs';
 import { StudyPlanService } from '../services/studyPlan.service';
 import { RouterLink } from '@angular/router';
 import { Courses, CoursesService } from '../services/courses.service';
@@ -27,10 +27,11 @@ import { CoursesDetailsForAdmin } from '../interfaces/coursesDetailsForAdmin.int
     IonGrid, 
     IonRow, 
     IonCol,
+    IonSpinner,
     RouterLink
   ]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   examService = inject(ExamService);
   userService = inject(UserService);
@@ -39,9 +40,11 @@ export class DashboardComponent implements OnInit {
   alertCtrl = inject(AlertController);
   studyPlanService = inject(StudyPlanService)
   coursesService = inject(CoursesService);
+  authService = inject(AuthService);
 
   user: LoggedUser | null = null;
-  user$ = inject(AuthService).user$;
+
+  private userSubscription: Subscription | undefined;
 
   exams: EnrolledStudent[] = [];
   examsSet: EnrolledStudent[] = [];
@@ -55,25 +58,32 @@ export class DashboardComponent implements OnInit {
   showCoursesController: boolean = false;
   selectedProfessorId: number | null = null;
 
+  isLoading: boolean = false;
+
+
   ngOnInit() {
-    const raw = localStorage.getItem('currentUser');
-    if (!raw) {
-      console.log('Nessun utente in local storage');
-    } else {
-      this.user = JSON.parse(raw) as LoggedUser;
-    }
-    
-    // PROFESSORE
-    if (this.user?.role === 'professore') {
-      this.loadProfessor()
-    }
+    this.userSubscription = this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.resetComponents()
 
-    if (this.user?.role === 'studente') {
-      this.loadStudent();
-    } 
+      if (user) {
+        this.isLoading = true;
 
-    if (this.user?.role === 'segreteria') {
-      this.loadAdmin();
+        if (user.role === 'professore') {
+          this.loadProfessor();
+        } else if (user.role === 'studente') {
+          this.loadStudent();
+        } else if (user.role === 'segreteria') {
+          this.loadAdmin();
+        }
+      }
+    });
+  }
+
+  // evita memory leak
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 
@@ -109,10 +119,8 @@ export class DashboardComponent implements OnInit {
 
             try {
               // converto l'Observable in Promise e aspetto il risultato
-              await firstValueFrom(this.examResultsService.create(dto));
-              await firstValueFrom(this.enrolledStudentService.updateTaken(studentId, examCode, true));
-              const dati = await firstValueFrom(this.enrolledStudentService.getEnrolledStudentsByProfId(this.user!.id));
-              this.exams = dati;
+              await firstValueFrom(forkJoin([this.examResultsService.create(dto), this.enrolledStudentService.updateTaken(studentId, examCode, true)]));
+              await this.loadProfessor();
               // chiude l'alert al successo
               return true;    
             } catch (err) {
@@ -175,7 +183,7 @@ export class DashboardComponent implements OnInit {
 
 
   // RUOLO STUDENTE
-  async acceptGrade(exam_code: number, value: boolean, course_id?: number, grade?: number) {   
+  async acceptGrade(exam_code: number, value: boolean, course_id?: number, grade?: number) {
     const alert = await this.alertCtrl.create({
       header: 'Confermi la risposta?',
       buttons: [
@@ -260,35 +268,68 @@ export class DashboardComponent implements OnInit {
 
         this.coursesDetailsForAdmin.push(stat);
       }  
-    }
-
-    
-    
+    }    
   }
-
 
 
 
   // SCARICA DATI PROFESSORI 
   async loadProfessor() {
-    const observable = this.enrolledStudentService.getEnrolledStudentsByProfId(this.user!.id);
-    const data = await firstValueFrom(observable);
-    this.exams = data;
-    this.computeExamsSet();
+    if (!this.user) return;
+    this.isLoading = true;
+    try {
+      const observable = this.enrolledStudentService.getEnrolledStudentsByProfId(this.user!.id);
+      const data = await firstValueFrom(observable);
+      this.exams = data;
+      this.computeExamsSet();
+    } catch (err) {
+      console.log('Errore caricamento dati professore', err);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   // SCARICA DATI STUDENTE
   async loadStudent() {
-    const observable = this.examResultsService.getResultsByStudentId(this.user!.id);
-    const data = await firstValueFrom(observable);
-    this.studentExams = data;
+    if (!this.user) return;
+    this.isLoading = true;
+    try {
+      const observable = this.examResultsService.getResultsByStudentId(this.user!.id);
+      const data = await firstValueFrom(observable);
+      this.studentExams = data; 
+    } catch (err) {
+      console.log('Errore caricamento dati studente', err);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   // SCARICA DATI SEGRETERIA
   async loadAdmin() {
-    const observable = this.userService.getAllProfessors();
-    const data = await firstValueFrom(observable);
-    this.professors = data;
+    if (!this.user) return;
+    this.isLoading = true;
+    try {
+      const observable = this.userService.getAllProfessors();
+      const data = await firstValueFrom(observable);
+      this.professors = data;      
+    } catch (err) {
+      console.log('Errore caricamento segreteria', err);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+
+
+  resetComponents() {
+    this.isLoading = false;
+    this.exams = [];
+    this.examsSet = [];
+    this.studentExams = [];
+    this.professors = [];
+    this.examResultsForStats = [];
+    this.coursesDetailsForAdmin = [];
+    this.selectedProfessorId = null;
   }
 
 }

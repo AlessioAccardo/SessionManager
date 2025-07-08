@@ -56,6 +56,15 @@ app.use('/api/enrolledStudents', enrolledStudentsRoutes);
 // routes definite nel file examResultsRoutes
 app.use('/api/examResults', examResultsRoutes);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);       
+  const status = err.status || 500;
+  res.status(status).json({
+    success: false,
+    message: err.message || 'Internal Server Error'
+  });
+});
+
 // Avvio server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

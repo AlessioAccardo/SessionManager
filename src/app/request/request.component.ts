@@ -1,45 +1,56 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
 import { CoursesService, Courses } from '../services/courses.service';
 import { AuthService } from '../services/auth/auth.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
-import { IonContent,IonCardContent, IonButton,IonInput, IonHeader, IonToolbar, IonTitle, IonLabel, IonSelect, IonSelectOption, IonGrid, IonCol, IonRow, IonCard} from '@ionic/angular/standalone';
+import { 
+  IonContent,IonCardContent, IonButton,IonInput, IonHeader, IonToolbar,
+  IonTitle, IonLabel, IonSelect, IonSelectOption, IonGrid, IonCol, IonRow, IonCard,
+  IonSpinner
+} from '@ionic/angular/standalone';
+import { firstValueFrom, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-request',
-  imports: [ReactiveFormsModule,
-            IonTitle,
-            IonContent,
-            IonLabel,
-            IonSelect,
-            IonSelectOption,
-            IonButton,
-            IonInput,
-            IonGrid,
-            IonCol,
-            IonRow,
-            IonCard,
-            IonCardContent],
+  imports: [
+    ReactiveFormsModule,
+    IonTitle,
+    IonContent,
+    IonLabel,
+    IonSelect,
+    IonSelectOption,
+    IonButton,
+    IonInput,
+    IonGrid,
+    IonCol,
+    IonRow,
+    IonCard,
+    IonCardContent,
+    IonSpinner
+  ],
   templateUrl: './request.component.html',
   styleUrl: './request.component.scss',
   standalone: true,
 })
-export class RequestComponent implements OnInit {
+export class RequestComponent implements OnInit, OnDestroy {
   router = inject(Router);
-
-  examRequestForm: FormGroup;
+  authService = inject(AuthService);
+  examService = inject(ExamService);
+  coursesService = inject(CoursesService);
 
   user: LoggedUser | null = null;
-  user$ = inject(AuthService).user$;
+  private userSubscription: Subscription | undefined;
 
   requests: Exam[] = [];
-
   courses: Courses[] = [];
 
+  examRequestForm: FormGroup;
+  isLoading: boolean = false;
 
-  constructor(private examService: ExamService, private coursesService: CoursesService, private fb: FormBuilder) {
+
+  constructor(private fb: FormBuilder) {
     this.examRequestForm = this.fb.group({
       course_id: [null, Validators.required],
       date: ['', Validators.required]
@@ -47,29 +58,35 @@ export class RequestComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // OTTENGO L'OGGETTO USER
-    const raw = localStorage.getItem('currentUser');
-    if (!raw) {
-      console.log('Nessun utente in local storage');
-    } else {
-      this.user = JSON.parse(raw) as LoggedUser;
-    }
 
-    
-    if (this.user?.role === 'segreteria') {
-      this.loadRequests();
-    }
+    this.userSubscription = this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.resetComponents()
 
-    if (this.user?.role === 'professore') {
-      this.coursesService.getByProfessorId(this.user.id).subscribe((data) => {
-        this.courses = data;
-      })
+      if (user) {
+        this.isLoading = true;
+
+        if (user.role === 'professore') {
+          this.loadCourses();
+        } else if (user.role === 'segreteria') {
+          this.loadRequests();
+        }
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
     }
   }
 
-  // FUNZIONE PER IL FORM DI RICHIESTA DI CREAZIONE DELL'ESAME DEL PROFESSORE 
-  submitForm() {
-    // SE IL FORM NON E VALIDO MOSTRO ALERT E RITORNO
+
+  // ------- PROFESSORE -------
+
+  // funzione per il form di richiesta di creazione dell'esame del professore
+  async submitForm() {
+    // se il form non e' valido mostro alert e ritorno
     if (this.examRequestForm.invalid) {
       alert('Dati inseriti nel form mancanti o non validi');
       return;
@@ -80,40 +97,59 @@ export class RequestComponent implements OnInit {
       return;
     }
     // ALTRIMENTI
-    // CREO IL DTO
+    // creo il dto
     const dto: CreateExamDto = this.examRequestForm.value
-    // CONSUMO IL SERIVZIO DI CREATE EXAM DEFINITO IN EXAM.SERVICE.TS
-    this.examService.createExam(dto).subscribe({
-      next: (createdExam) => {
-        alert(`Richiesta esame ${createdExam.name} con ID ${createdExam.code} mandata con successo`);
-        this.examRequestForm.reset();
-      },
-      error: err => {
-        console.log(err);
-        alert(`Errore nella creazione dell'esame`);
-        this.examRequestForm.reset();
-      }
-    });
+    // consumo il servizio di create exam e resetto il form
+    await firstValueFrom(this.examService.createExam(dto))
+    this.examRequestForm.reset();
   }
 
-  // FUNZIONE PER CARICARE LE RICHIESTE DI CREAZIONE DI UN ESAME DEI PROFESSORI
-  loadRequests() {
-    this.examService.getExamRequests().subscribe((data) => {
-      this.requests = data;
-    });
+  // per caricare i corsi del professore per i quali puo mandare le richieste di creazione esame
+  async loadCourses() {
+    if (!this.user) return;
+    this.isLoading = true;
+    try {
+      const obs = this.coursesService.getByProfessorId(this.user!.id);
+      this.courses = await firstValueFrom(obs);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.isLoading = false;
+    }
+
   }
 
-  // FUNZIONE PER APPROVARE LE RICHIESTE DEI PROFESSORI CHE UTILIZZA I SERVIZI DI EXAM.SERVICE.TS
-  approveRequest(code: number, approved: boolean) {
-    this.examService.approveExam(code, approved).subscribe({
-      next: () => {
-        this.requests = this.requests.filter(r => r.code !== code);
-        this.loadRequests();
-      },
-      error: err => {
-        console.log(err);
-        alert(`Errore nell'approvazione dell'esame`);
-      }
-    });
+
+
+  //  ------- SEGRETERIA --------
+
+  // per approvare o meno le richieste di creazione di un esame dei professori
+  async approveRequest(code: number, approved: boolean) {
+    await firstValueFrom(this.examService.approveExam(code, approved));
+    this.loadRequests();
+  }
+
+    // per caricare le richieste di creazione di un esame dei professori
+  async loadRequests() {
+    if (!this.user) return;
+    this.isLoading = true;
+
+    try {
+      const obs = this.examService.getExamRequests();
+      this.requests = await firstValueFrom(obs);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+
+
+  // RESET COMPONENTS
+  resetComponents() {
+    this.courses = [];
+    this.requests = [];
+    this.isLoading = false;
   }
 }

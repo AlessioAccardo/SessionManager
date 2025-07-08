@@ -37,12 +37,13 @@ class AuthController {
 
     static async verify(req, res) {
         try {
-            const token = req.headers['authorization']?.split(' ')[1];
+            const authHeader = req.headers['authorization'] || '';
+            const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
             if (!token || AuthService.isTokenBlackListed(token)) {
                 return res.status(401).json({ success: false, message: "Token non valido" });
             }
-        
-            const user = await AuthService.verifyUser(req.user.id);
+            const payload = jwt.verify(token, process.env.JWT_SECRET);
+            const user = await AuthService.verifyUser(payload.id);
             res.json({
                 success: true,
                 data: user

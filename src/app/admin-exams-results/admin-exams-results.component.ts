@@ -4,6 +4,7 @@ import { Exam, ExamService } from '../services/exam.service';
 import { firstValueFrom } from 'rxjs';
 import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController} from '@ionic/angular/standalone';
 import { ExamResult, ExamResultsService } from '../services/examResults.service';
+import { LoggedUser } from '../interfaces/loggedUser.interface';
 
 @Component({
   selector: 'app-admin-exams-results',
@@ -24,6 +25,8 @@ export class AdminExamsResultsComponent  implements OnInit {
   examService = inject(ExamService)
   examResultsService = inject(ExamResultsService);
 
+  user: LoggedUser | null = null;
+
   courseId: number = 0;
   exams: Exam[] = [];
 
@@ -32,6 +35,14 @@ export class AdminExamsResultsComponent  implements OnInit {
   selectedExamCode: number | null = null;
     
   ngOnInit() {
+    this.user = null;
+    const raw = localStorage.getItem('currentUser');
+    if (!raw) {
+      console.log('Nessun utente in local storage');
+    } else {
+      this.user = JSON.parse(raw) as LoggedUser;
+    }
+
     this.courseId = +this.activatedRoute.snapshot.paramMap.get('course_id')!;
     this.loadProfExams();
   }

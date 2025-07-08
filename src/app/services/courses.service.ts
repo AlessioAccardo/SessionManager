@@ -55,4 +55,8 @@ export class CoursesService {
         return this.http.post<Courses>(this.apiUrl, dto);
     }
 
+    delete(course_id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${course_id}`);
+    }
+
 }

@@ -76,6 +76,16 @@ class CoursesController {
         }
     }
 
+    static async deleteCourseById(req, res, next) {
+        try {
+            const { id } = req.params;
+            await Courses.deleteCourseById(id);
+            res.sendStatus(204);
+        } catch (err) {
+            next(err);
+        }
+    }
+
     static search(req, res, next) {
         const { name, professor_id, first_name, last_name, student_id } = req.query;
 

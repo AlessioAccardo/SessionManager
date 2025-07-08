@@ -7,3 +7,17 @@ form{
   max-width: 40rem;
   margin: 0 auto; 
 }
+
+#pass-err {
+  color: red;
+  padding: 1rem;
+}
+
+.toggle-text {
+  color: black;
+  padding: 1rem;
+}
+
+.loginButton {
+  margin-top: 1.5rem;
+}

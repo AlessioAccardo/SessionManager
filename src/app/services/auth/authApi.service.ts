@@ -44,18 +44,4 @@ export class AuthApiService {
     login(payload: LoginDetails): Observable<AuthResponse> {
       return this.http.post<AuthResponse>(`${this.apiUrl}/login`, payload);
     }
-
-    /*
-    logout(): Observable<void> {
-      return this.http.post<void>(`${this.apiUrl}/logout`, {});
-    }
-
-    isLoggedIn(): boolean {
-      return !!localStorage.getItem('token'); 
-    }
-
-    me(): Observable<AuthResponse['data']> {
-      return this.http.get<AuthResponse['data']>(`${this.apiUrl}/me`);
-    }
-    */
 }

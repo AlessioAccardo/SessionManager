@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { CoursesService, Courses, CreateCourseDto } from '../services/courses.service';
 import { UserService, User} from '../services/user.service';
 import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
@@ -6,8 +6,14 @@ import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IonContent, IonCard, IonCardContent, IonList, IonItem, IonLabel, IonButton, IonCardHeader, IonTitle, IonGrid, IonRow, IonCol, IonSelect, IonSelectOption, IonInput } from '@ionic/angular/standalone';
-import { firstValueFrom } from 'rxjs';
+import { 
+  IonContent, IonCard, IonCardContent, IonList, IonItem, IonLabel,
+  IonButton, IonCardHeader, IonTitle, IonGrid, IonRow, IonCol, IonSelect,
+  IonSelectOption, IonInput, IonSpinner 
+} from '@ionic/angular/standalone';
+
+import { firstValueFrom, Subscription } from 'rxjs';
+import { AlertController } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-courses',
@@ -28,19 +34,28 @@ import { firstValueFrom } from 'rxjs';
     IonCol, 
     IonSelect, 
     IonSelectOption, 
-    IonInput
+    IonInput,
+    IonSpinner
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+
+  coursesService = inject(CoursesService);
+  studyPlanService = inject(StudyPlanService);
+  userService = inject(UserService);
+  alertCtrl = inject(AlertController);
+  authService = inject(AuthService);
+
+  user: LoggedUser | null = null;
+  private userSubscription: Subscription | undefined;
 
   courses: Courses[] = [];
   studyPlan: StudyPlan[] = [];
   professors: User[] = [];
 
-  user: LoggedUser | null = null;
-  user$ = inject(AuthService).user$;
+  isLoading: boolean = false;
 
   coursesForm: FormGroup;
 
@@ -49,8 +64,9 @@ export class HomeComponent implements OnInit {
   totalCredits: number = 0;
   MAX_CFU: number = 180;
   studentWeightedMean: number = 0;
+
   
-  constructor(public coursesService: CoursesService, public studyPlanService: StudyPlanService, public userService: UserService, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.coursesForm = this.fb.group({
       name: ['', Validators.required],
       professor_id: [null, Validators.required],
@@ -59,31 +75,34 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+      this.userSubscription = this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.resetComponents()
 
-    // OTTENGO L'OGGETTO USER
-    const raw = localStorage.getItem('currentUser');
-    if (!raw) {
-      console.log('Nessun utente in local storage');
-    } else {
-      this.user = JSON.parse(raw) as LoggedUser;
-    }
+      if (user) {
+        this.isLoading = true;
 
-    // SEGRETERIA
-    if (this.user?.role === 'segreteria') {
-      this.loadAdmin();
-    }
-
-    // STUDENTE
-    if (this.user!.role === 'studente') {
-      this.loadStudyPlan();
-      this.loadStudentCourses();
-    }
-
-    // PROFESSORE
-    if (this.user?.role === 'professore') {
-      this.loadProfessor();
-    }
+        if (user.role === 'professore') {
+          this.loadProfessor();
+        } else if (user.role === 'studente') {
+          this.loadStudent();
+        } else if (user.role === 'segreteria') {
+          this.loadAdmin();
+        }
+      }
+    });
   }
+
+  // evita memory leak
+  ngOnDestroy() {
+      if (this.userSubscription) {
+        this.userSubscription.unsubscribe();
+      }
+  }
+
+
+
+  // ----- SEZIONE SEGRETERIA -----
   
   // CREA CORSO SEGRETERIA
   async createCourse() {
@@ -101,6 +120,32 @@ export class HomeComponent implements OnInit {
       alert('Errore nella creazione del corso');
     }
   }
+
+  // ELIMINA CORSO SEGRETERIA
+  async deleteCourse(course_id: number) {
+    const alert = await this.alertCtrl.create({
+      header: 'Conferma eliminazione',
+      buttons: [
+        { text: 'Cancella', role: 'cancel'},
+        { 
+          text: 'Conferma',
+          handler: async () => {
+            try {
+              await firstValueFrom(this.coursesService.delete(course_id));
+              this.loadAdmin();
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        }
+      ]
+    });
+    await alert.present()
+  }
+
+
+  
+  // ----- SEZIONE STUDENTE -----
 
   // AGGIUNZIONE CORSO DA PARTE DELLO STUDENTE
   async salvaPiano(courseId: number) {
@@ -145,6 +190,11 @@ export class HomeComponent implements OnInit {
   }
 
 
+
+
+  // FUNZIONI PER IL CARICAMENTO DEI DATI
+
+
   // CARICA PIANO STUDENTE
   async loadStudyPlan() {
     try {
@@ -172,8 +222,29 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+
+
+  // CARICA I DATI DA VISUALIZZARE DEL PROFESSORE
+  async loadProfessor() {
+    if (!this.user) return;
+    this.isLoading = true;
+    try {
+      const observable = this.coursesService.getByProfessorId(this.user!.id);
+      const data = await firstValueFrom(observable);
+      this.courses = data;
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+
   // CARICA I DATI DA VISUALIZZARE DELLA SEGRETERIA
   async loadAdmin() {
+    if (!this.user) return;
+    this.isLoading = true;  
     try {
       const obs1 = this.userService.getAllProfessors();
       const data1 = await firstValueFrom(obs1);
@@ -184,17 +255,36 @@ export class HomeComponent implements OnInit {
       this.courses = data2;
     } catch (err) {
       console.log(err);
+    } finally {
+      this.isLoading = false;
     }
   }
 
-  // CARICA I DATI DA VISUALIZZARE DEL PROFESSORE
-  async loadProfessor() {
+  // CARICA I DATI DA VISUALIZZARE DELLO STUDENTE
+  async loadStudent() {
+    if (!this.user) return;
+    this.isLoading = true;    
     try {
-      const observable = this.coursesService.getByProfessorId(this.user!.id);
-      const data = await firstValueFrom(observable);
-      this.courses = data;
+      this.loadStudyPlan();
+      this.loadStudentCourses();
     } catch (err) {
       console.log(err);
+    } finally {
+      this.isLoading = false;
     }
   }
+
+
+  // resetta le componenti
+  resetComponents() {
+    this.courses = [];
+    this.professors = [];
+    this.studyPlan = [];
+    this.totalCredits = 0;
+    this.MAX_CFU = 180;
+    this.studentWeightedMean = 0;
+    this.isLoading = false;
+    this.libretto = true;
+  }
+
 }

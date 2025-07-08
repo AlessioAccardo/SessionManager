@@ -1,66 +1,87 @@
 <ion-content class="container">
-  @if (user?.role === 'professore') {
-    <div class = "container">
+  @if (isLoading) {
+  <div>
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  } @else {
+
+  @if (user) {
+
+  <!-- PROFESSORE -->
+  @if (user.role === 'professore') {
+  <div class="container">
     <ion-card class="request-table">
       <ion-card-content>
-      <ion-title>Richiesta Esame</ion-title>
-      <form [formGroup]="examRequestForm" (ngSubmit)="submitForm()">
-        <ion-label for="course">Corso</ion-label>
-        <ion-select formControlName="course_id" interface="popover" placeholder="Scegli corso..." required>
-          @for (course of courses; track course.id) {
+        <ion-title>Richiesta Esame</ion-title>
+        <form [formGroup]="examRequestForm" (ngSubmit)="submitForm()">
+          <ion-label for="course">Corso</ion-label>
+          <ion-select formControlName="course_id" interface="popover" placeholder="Scegli corso..." required>
+            @for (course of courses; track course.id) {
             <ion-select-option [value]="course.id">{{ course.name }}</ion-select-option>
-          }
-        </ion-select>
+            }
+          </ion-select>
 
-        <ion-label for="date">Data Appello</ion-label>
-        <ion-input formControlName="date" type="date" required></ion-input>
-        <ion-button class="buttons" expand="block" type="submit" [disabled]="examRequestForm.invalid"> 
-          Invia Richiesta
-        </ion-button>
-      </form>
-    </ion-card-content>
+          <ion-label for="date">Data Appello</ion-label>
+          <ion-input formControlName="date" type="date" required></ion-input>
+          <ion-button class="buttons" expand="block" type="submit" [disabled]="examRequestForm.invalid">
+            Invia Richiesta
+          </ion-button>
+        </form>
+      </ion-card-content>
     </ion-card>
-    </div>
+  </div>
   }
 
-  @if (user?.role === 'segreteria') {
-    <div class = "container">
+
+
+
+  <!-- SEGRETERIA -->
+  @if (user!.role === 'segreteria') {
+  <div class="container">
     <ion-card class="request-table">
       <ion-title>Richieste Appelli</ion-title>
       <ion-grid>
-        <ion-row class = "header">
+        <ion-row class="header">
           <ion-col>Code</ion-col>
           <ion-col>Corso</ion-col>
           <ion-col>Data</ion-col>
           <ion-col>Stato</ion-col>
           <ion-col></ion-col>
         </ion-row>
+        @if (requests.length === 0) {
+        <ion-title>Nessuna richiesta al momento</ion-title>
+        } @else {
         @for (request of requests; track request.code) {
-          <ion-row>
-            <ion-col>{{ request.code }}</ion-col>
-            <ion-col>{{ request.name }}</ion-col>
-            <ion-col>{{ request.date }}</ion-col>
-            <ion-col>
-              @if (request.approved === null) {
-                <p class="pending">In attesa</p>
-              }
-              @else if (request.approved === true) {
-                <p class="approved">Approvato</p>
-              }
-              @else {
-                <p class="rejected">Rifiutato</p>
-              }
-            </ion-col>
-            <ion-col>
-              @if (request.approved === null) {
-                <ion-button class="buttons" type = "green" size="small" (click)="approveRequest(request.code, true)">Approva</ion-button>
-                <ion-button class="buttons" type = "red" size="small" (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
-              }
-            </ion-col>
-          </ion-row>
+        <ion-row>
+          <ion-col>{{ request.code }}</ion-col>
+          <ion-col>{{ request.name }}</ion-col>
+          <ion-col>{{ request.date }}</ion-col>
+          <ion-col>
+            @if (request.approved === null) {
+            <p class="pending">In attesa</p>
+            }
+            @else if (request.approved === true) {
+            <p class="approved">Approvato</p>
+            }
+            @else {
+            <p class="rejected">Rifiutato</p>
+            }
+          </ion-col>
+          <ion-col>
+            @if (request.approved === null) {
+            <ion-button class="buttons" type="green" size="small"
+              (click)="approveRequest(request.code, true)">Approva</ion-button>
+            <ion-button class="buttons" type="red" size="small"
+              (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
+            }
+          </ion-col>
+        </ion-row>
+        }
         }
       </ion-grid>
     </ion-card>
-    </div>S
+  </div>
+  }
+  }
   }
 </ion-content>
