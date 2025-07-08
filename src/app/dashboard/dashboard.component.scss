@@ -42,7 +42,6 @@ a {
   background-color: #ccc;
 }
 
-/* CAMBIARE CON UN COLORE PIU APPROPRIATO, HO MESSO QUESTO PER PROVA */
 .showing-courses {
   background: linear-gradient(
     to bottom right,
@@ -57,3 +56,16 @@ a {
   height: 50px;
   font-size: 12px;
 }
+
+.alert{
+  background: linear-gradient(
+    to bottom right,
+    #f09797,
+    #d82525   
+  );
+  color: white;
+}
+
+
+
+
