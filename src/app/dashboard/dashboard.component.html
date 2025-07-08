@@ -21,6 +21,7 @@
           <ion-col> </ion-col>
           <ion-col> </ion-col>
         </ion-row>
+        @if (studentExams.length !== 0) {
         @for (exam of studentExams; track exam.exam_code) {
         <ion-row>
           <ion-col>{{ exam.exam_code }}</ion-col>
@@ -39,6 +40,9 @@
             </ion-col>
           }
         </ion-row>
+        }
+        } @else {
+          <ion-title>Nessun Risultato</ion-title>
         }
       </ion-grid>
     </ion-card>

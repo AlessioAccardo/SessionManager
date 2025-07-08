@@ -69,6 +69,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
         if (user.role === 'professore') {
           this.loadCourses();
+          this.loadProfessorRequests();
         } else if (user.role === 'segreteria') {
           this.loadRequests();
         }

@@ -132,18 +132,19 @@ export class PlanComponent implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  disabledButton(date: string): boolean {
+  hideOldExams(date: string): boolean {
     const examDate = new Date(date);
     examDate.setHours(0,0,0,0);
     const today = new Date(this.today);
     today.setHours(0,0,0,0);
-    return examDate <= today;
+    return examDate < today;
   }
 
   // CARICA DATI STUDENTE
   async loadStudentExams() {
     if (!this.user) return;
     this.isLoading = true;
+    console.log(this.today);
 
     try {
       const obs1 = this.examService.getStudentExams(this.user!.id);

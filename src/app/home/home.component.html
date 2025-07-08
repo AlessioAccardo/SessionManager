@@ -11,8 +11,8 @@
     <ion-card class="summary">
       <ion-card-content>
         <ion-grid>
-          <ion-row>{{ user!.first_name }} {{ user!.last_name }} </ion-row>
-          <ion-row>Matricola: {{ user!.id }}</ion-row>
+          <ion-row>{{ user.first_name }} {{ user.last_name }} </ion-row>
+          <ion-row>Matricola: {{ user.id }}</ion-row>
           <ion-row>Media: {{ studentWeightedMean }} </ion-row>
           <ion-row>CFU Totali: <strong>{{ totalCredits }}</strong> / {{ MAX_CFU }}</ion-row>
         </ion-grid>
@@ -39,13 +39,17 @@
             <ion-col>CFU</ion-col>
             <ion-col>Voto</ion-col>
           </ion-row>
-          @for(course of studyPlan; track course.course_id) {
-          <ion-row>
-            <ion-col>{{ course.course_id }}</ion-col>
-            <ion-col>{{ course.course_name }}</ion-col>
-            <ion-col>{{ course.credits }}</ion-col>
-            <ion-col>{{ course.grade !== null ? course.grade : '-' }}</ion-col>
-          </ion-row>
+          @if (studyPlan.length !== 0) {
+            @for(course of studyPlan; track course.course_id) {
+              <ion-row>
+                <ion-col>{{ course.course_id }}</ion-col>
+                <ion-col>{{ course.course_name }}</ion-col>
+                <ion-col>{{ course.credits }}</ion-col>
+                <ion-col>{{ course.grade !== null ? course.grade : '-' }}</ion-col>
+              </ion-row>
+            }
+          } @else {
+            <ion-title>Nessun Corso</ion-title>
           }
         </ion-grid>
         } @else {
@@ -57,6 +61,7 @@
             <ion-col>CFU</ion-col>
             <ion-col> </ion-col>
           </ion-row>
+          @if (courses.length !== 0) {
           @for(course of courses; track course.id) {
           <ion-row>
             <ion-col>{{ course.id }}</ion-col>
@@ -67,6 +72,9 @@
             <ion-button class="buttons" (click)="salvaPiano(course.id)"> Aggiungi </ion-button>
             </ion-col>
           </ion-row>
+          }            
+          } @else {
+            <ion-title>Nessun Corso Disponibile</ion-title>
           }
         </ion-grid>
         }
@@ -183,7 +191,7 @@
         </div>
         } @else {
         <ng-template>
-          <p>Nessun corso creato al momento.</p>
+          <ion-title> Nessun corso creato al momento.</ion-title>
         </ng-template>
         }
       </ion-card-content>
