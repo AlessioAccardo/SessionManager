@@ -137,9 +137,20 @@ class ExamController {
         }
     }
 
-    static async search(req, res, next) {
-        const { course_id, first_name, last_name } = req.query;
+    static async showExamsRequestsByProfId(req, res, next) {
+        try {
+            const { professor_id } = req.query;
+            const list = await Exam.showExamsRequestsByProfId(professor_id);
+            res.status(200).json(list);
+        } catch (err) {
+            next(err);
+        }
+    }
 
+    static async search(req, res, next) {
+        const { course_id, first_name, last_name, professor_id } = req.query;
+
+        if (professor_id) return ExamController.showExamsRequestsByProfId(req, res, next);
         if (course_id) return ExamController.getExamsByCourseId(req, res, next);
         if (first_name && last_name) return ExamController.getByProfessorName(req, res, next);
 

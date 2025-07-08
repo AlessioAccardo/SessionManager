@@ -54,7 +54,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   allEsami: Exam[] = []; 
 
   visualizzazione: boolean = true;
-  searchText: string = '';
 
   today = new Date();
 
@@ -101,17 +100,6 @@ export class PlanComponent implements OnInit, OnDestroy {
     } catch (err) {
       alert("Errore nell'inserimento dell'esame");
     }
-  }
-
-  onSearch(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = input.value.toLowerCase();
-    this.searchText = value;
-
-    this.esami = this.allEsami.filter(esame =>
-      esame.name.toLowerCase().includes(value) ||
-      String(esame.course_id).includes(value)
-    );
   }
 
   visualizzaEsami() {

@@ -27,13 +27,17 @@
           <ion-col>{{ exam.course_name }}</ion-col>
           <ion-col>{{ exam.course_credits }}</ion-col>
           <ion-col>{{ exam.grade }}</ion-col>
-          <ion-col>
-            <ion-button class="buttons" type="green"
-              (click)="acceptGrade(exam.exam_code, true, exam.course_id, exam.grade)">Accetta</ion-button>
-          </ion-col>
-          <ion-col>
-            <ion-button class="buttons" type="red" (click)="acceptGrade(exam.exam_code, false)">Rifiuta</ion-button>
-          </ion-col>
+          @if (exam.grade < 19) {
+            <ion-col color="danger">Bocciato</ion-col>
+          } @else {
+            <ion-col>
+              <ion-button class="buttons" type="green"
+                (click)="acceptGrade(exam.exam_code, true, exam.course_id, exam.grade)">Accetta</ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button class="buttons" type="red" (click)="acceptGrade(exam.exam_code, false)">Rifiuta</ion-button>
+            </ion-col>
+          }
         </ion-row>
         }
       </ion-grid>

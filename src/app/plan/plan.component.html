@@ -32,6 +32,9 @@
           <ion-col>Numero Prenotati</ion-col>
           <ion-col> </ion-col>
         </ion-row>
+        @if (esamiPrenotati.length === 0) {
+          <ion-title>Nessun Esame Prenotato</ion-title>
+        } @else {
         @for (esame of esamiPrenotati; track esame.exam_code) {
         <ion-row>
           <ion-col>{{ esame.course_id }}</ion-col>
@@ -43,10 +46,11 @@
           <ion-col>{{ esame.enrolled_students }}</ion-col>
           <ion-col>
             <ion-button [disabled]="esame.taken === true || disabledButton(esame.date)" class="buttons"
-              (click)="unenrollFromExam(esame.exam_code, esame.exam_name)"> {{ disabledButton(esame.date) ? 'bloccato' :
+              (click)="unenrollFromExam(esame.exam_code, esame.exam_name)"> {{ disabledButton(esame.date) || esame.taken ? 'bloccato' :
               'disiscriviti'}}</ion-button>
           </ion-col>
         </ion-row>
+        }
         }
       </ion-grid>
     </ion-card>
@@ -59,11 +63,6 @@
     <ion-card class="esami">
       <ion-title>Seleziona gli esami</ion-title>
       <form>
-        <ion-item class="search">
-          <ion-input type="text" placeholder="Cerca esame per codice o nome esame..."
-            (ionInput)="onSearch($event)"></ion-input>
-        </ion-item>
-
         <ion-grid class="esami-table">
           <ion-row class="header">
             <ion-col>Codice Corso</ion-col>
@@ -74,6 +73,9 @@
             <ion-col>Docente</ion-col>
             <ion-col> </ion-col>
           </ion-row>
+          @if (esami.length === 0) {
+            <ion-title>Nessun Esame Disponibile</ion-title>
+          } @else {
           @for (esame of esami; track esame.code) {
 
           <ion-row>
@@ -87,6 +89,7 @@
               <ion-button class="buttons" (click)="seleziona(esame.code!)">Aggiungi</ion-button>
             </ion-col>
           </ion-row>
+          }
           }
         </ion-grid>
       </form>

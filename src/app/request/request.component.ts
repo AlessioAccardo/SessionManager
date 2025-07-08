@@ -45,6 +45,7 @@ export class RequestComponent implements OnInit, OnDestroy {
 
   requests: Exam[] = [];
   courses: Courses[] = [];
+  showRequests: Exam[] = [];
 
   examRequestForm: FormGroup;
   isLoading: boolean = false;
@@ -101,6 +102,7 @@ export class RequestComponent implements OnInit, OnDestroy {
     const dto: CreateExamDto = this.examRequestForm.value
     // consumo il servizio di create exam e resetto il form
     await firstValueFrom(this.examService.createExam(dto))
+    await this.loadProfessorRequests();
     this.examRequestForm.reset();
   }
 
@@ -116,7 +118,19 @@ export class RequestComponent implements OnInit, OnDestroy {
     } finally {
       this.isLoading = false;
     }
+  }
 
+  async loadProfessorRequests() {
+    if (!this.user) return;
+    this.isLoading = true;
+
+    try {
+      this.showRequests = await firstValueFrom(this.examService.showExamsRequestsByProfId(this.user.id));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
 
@@ -149,6 +163,7 @@ export class RequestComponent implements OnInit, OnDestroy {
   // RESET COMPONENTS
   resetComponents() {
     this.courses = [];
+    this.showRequests = [];
     this.requests = [];
     this.isLoading = false;
   }

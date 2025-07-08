@@ -30,6 +30,35 @@
       </ion-card-content>
     </ion-card>
   </div>
+
+
+  <div>
+    <ion-card class="summary">
+      <ion-title>Esiti Richieste</ion-title>
+      <ion-grid>
+        <ion-row class="header">
+          <ion-col>Codice Esame</ion-col>
+          <ion-col>Nome Esame</ion-col>
+          <ion-col>Data</ion-col>
+          <ion-col>CFU</ion-col>
+          <ion-col>Approvato</ion-col>
+        </ion-row>
+        @if (showRequests.length === 0) {
+          <ion-title>Nessuna Richiesta Da Visualizzare</ion-title>
+        } @else {
+        @for (exam of showRequests; track exam.code) {
+        <ion-row>
+          <ion-col>{{ exam.code }}</ion-col>
+          <ion-col>{{ exam.name }}</ion-col>
+          <ion-col>{{ exam.date }}</ion-col>
+          <ion-col>{{ exam.credits }}</ion-col>
+          <ion-col>{{ exam.approved !== null ? (exam.approved ? 'Approvato' : 'Non approvato') : 'In attesa'}}</ion-col>
+        </ion-row>
+        }
+        }
+      </ion-grid>
+    </ion-card>
+  </div>
   }
 
 

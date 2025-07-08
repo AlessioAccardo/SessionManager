@@ -156,6 +156,22 @@ class Exam {
         });
     }
 
+    static async  showExamsRequestsByProfId(prof_id) {
+        return new Promise((resolve, reject) => {
+            db.all(`
+                SELECT e.*, prof.id AS professor_id, prof.first_name AS professor_first_name, prof.last_name AS professor_last_name
+                FROM exams AS e
+                JOIN users as prof ON prof.id = e.professor_id
+                WHERE prof.id = ?`,
+                [prof_id],
+                (err, rows) => {
+                    if (err) return reject(err);
+                    resolve(rows);
+                }
+            )
+        })
+    }
+
     static async approveExam(code, approved) {
         const approvedInt = approved ? 1 : 0;
         return new Promise((resolve, reject) => {

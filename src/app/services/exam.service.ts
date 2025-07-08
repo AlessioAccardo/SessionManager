@@ -80,4 +80,9 @@ export class ExamService {
     getStudentExams(student_id: number): Observable<Exam[]> {
         return this.http.get<Exam[]>(`${this.apiUrl}/studentexams/${student_id}`);
     }
+
+    showExamsRequestsByProfId(professor_id: number): Observable<Exam[]> {
+        const params = new HttpParams().set('professor_id', professor_id);
+        return this.http.get<Exam[]>(`${this.apiUrl}/search`, { params });
+    }
 }
