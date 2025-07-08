@@ -72,7 +72,7 @@ const db = new sqlite3.Database(dbFile, (err) => {
                 taken INTEGER CHECK(taken IN (0,1)),
                 PRIMARY KEY (student_id, exam_code),
                 FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE NO ACTION,
-                FOREIGN KEY (exam_code) REFERENCES exams(code)
+                FOREIGN KEY (exam_code) REFERENCES exams(code) ON DELETE CASCADE ON UPDATE NO ACTION
             )`);
         });
     }

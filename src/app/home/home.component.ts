@@ -132,7 +132,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           handler: async () => {
             try {
               await firstValueFrom(this.coursesService.delete(course_id));
-              this.loadAdmin();
+              this.loadCourses();
             } catch (err) {
               console.log(err);
             }
@@ -246,13 +246,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!this.user) return;
     this.isLoading = true;  
     try {
-      const obs1 = this.userService.getAllProfessors();
-      const data1 = await firstValueFrom(obs1);
-      this.professors = data1;
-
-      const obs2 = this.coursesService.getAll();
-      const data2 = await firstValueFrom(obs2);
-      this.courses = data2;
+      this.adminLoadProfessors();
+      this.loadCourses()
     } catch (err) {
       console.log(err);
     } finally {
@@ -260,6 +255,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  async adminLoadProfessors() {
+    const obs1 = this.userService.getAllProfessors();
+    const data1 = await firstValueFrom(obs1);
+    this.professors = data1;
+  }
+
+  async loadCourses() {
+    const obs2 = this.coursesService.getAll();
+    const data2 = await firstValueFrom(obs2);
+    this.courses = data2;    
+  }
+ 
   // CARICA I DATI DA VISUALIZZARE DELLO STUDENTE
   async loadStudent() {
     if (!this.user) return;
