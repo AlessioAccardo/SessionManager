@@ -1,11 +1,12 @@
-<!-- src/app/tabs/tabs.page.html -->
+
 <ion-tabs>
 
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar slot="bottom" class = "ion-hide-md-up">
     @if (user$ | async; as user) {
 
       @if (user.role === 'studente') {
-        <!-- MODIFICA: Usa 'href' invece di 'routerLink' per una migliore integrazione con le tabs -->
+     
+
         <ion-tab-button tab="home" href="/tabs/home">
           <ion-icon name="home"></ion-icon>
           <ion-label>Home</ion-label>

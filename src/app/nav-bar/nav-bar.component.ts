@@ -1,12 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { Router, RouterLink} from '@angular/router';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
-import { IonButton, IonButtons, IonTabBar, IonTabs, IonIcon, IonTabButton, IonLabel } from '@ionic/angular/standalone';
+import { IonButton, IonButtons } from '@ionic/angular/standalone';
 import { AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { Platform } from '@ionic/angular/standalone';
+
 
 @Component({
   selector: 'app-nav-bar',
@@ -15,11 +15,6 @@ import { Platform } from '@ionic/angular/standalone';
     IonButton,
     IonButtons,
     RouterLink,
-    IonTabBar,
-    IonTabs,
-    IonIcon,
-    IonTabButton,
-    IonLabel
   ],
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],

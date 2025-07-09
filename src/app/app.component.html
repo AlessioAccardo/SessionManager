@@ -1,11 +1,12 @@
-<!-- app.component.html -->
+
 <ion-app>
-    <!-- mostrato solo se NON è mobile -->
-    @if (!isMobile) {
+
+  @if (user$ | async) {
+
       <ion-header>
         <ion-toolbar>
           <ion-title class="logo">SessionManager</ion-title>
-          <app-nav-bar slot="end"></app-nav-bar>
+          <app-nav-bar slot="end" class="ion-hide-md-down"></app-nav-bar>
         </ion-toolbar>
       </ion-header>
 
@@ -13,8 +14,4 @@
         <ion-router-outlet></ion-router-outlet>
       </ion-content>
     }
-    @if (isMobile) {
-      <ion-router-outlet></ion-router-outlet>
-    }
-
 </ion-app>
