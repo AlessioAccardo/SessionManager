@@ -1,9 +1,13 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ExamService, Exam } from '../services/exam.service';
+import { ExamService } from '../services/exam.service';
+import { Exam } from '../interfaces/exam.interface';
 import { Router } from '@angular/router';
-import { StudyPlan, StudyPlanService } from '../services/studyPlan.service';
-import { firstValueFrom, Observable, Subscription } from 'rxjs';
-import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '../services/enrolledStudents.service';
+import { StudyPlanService } from '../services/studyPlan.service';
+import { StudyPlan } from '../interfaces/studyPlan.interface';
+import { firstValueFrom, Subscription } from 'rxjs';
+import { EnrolledStudentsService } from '../services/enrolledStudents.service';
+import { EnrolledStudent } from '../interfaces/enrolledStudent.interface';
+import { EnrolledStudentDto } from '../interfaces/enrolledStudentDto.interface';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { IonContent, IonButton, IonGrid, IonRow, IonCol, IonInput, IonHeader, IonToolbar, IonTitle, IonCard, IonItem, IonSpinner, IonCardContent } from '@ionic/angular/standalone';
@@ -109,7 +113,7 @@ export class PlanComponent implements OnInit, OnDestroy {
         { text: 'Conferma', role: 'confirm', handler: async () => {
           try {
             // disiscrive lo studente dall'esame
-            await firstValueFrom(this.enrolledStudentService.unenrollStudent(this.user!.id, exam_code));
+            await firstValueFrom(this.enrolledStudentService.deleteEnrolledStudent(this.user!.id, exam_code));
             // aggiorna numero di iscritti all'esame
             await firstValueFrom(this.examService.setEnrolledStudentsNumber(exam_code));
             // aggiorna la visualizzazione

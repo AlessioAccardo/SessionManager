@@ -72,17 +72,6 @@ class EnrolledStudentsController {
         }
     }
 
-    static async unenrollStudent(req, res, next){
-        try {
-            const { student_id, exam_code } = req.query;
-            if (!student_id || !exam_code) return res.status(400).json({ message: 'Parametri mancanti' });
-            await EnrolledStudents.unenrollStudent(student_id, exam_code); 
-            res.status(204).send();
-        } catch(err) {
-            next(err);
-        }
-    }
-
     static async search(req, res, next) {
         const { professor_id, student_id, exam_code } = req.query;
 

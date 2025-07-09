@@ -2,15 +2,19 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { UserService, User } from '../services/user.service';
+import { UserService } from '../services/user.service';
+import { User } from '../interfaces/user.interface';
 import { ExamService } from '../services/exam.service';
 import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController, IonSpinner} from '@ionic/angular/standalone';
-import { ExamResult, ExamResultDto, ExamResultsService } from '../services/examResults.service';
-import { EnrolledStudent, EnrolledStudentsService } from '../services/enrolledStudents.service';
+import { ExamResultsService } from '../services/examResults.service';
+import { ExamResult } from '../interfaces/examResult.interface';
+import { ExamResultDto } from '../interfaces/examResultDto.interface';
+import { EnrolledStudentsService } from '../services/enrolledStudents.service';
+import { EnrolledStudent } from '../interfaces/enrolledStudent.interface';
 import { firstValueFrom, forkJoin, Subscription } from 'rxjs';
 import { StudyPlanService } from '../services/studyPlan.service';
 import { RouterLink } from '@angular/router';
-import { Courses, CoursesService } from '../services/courses.service';
+import { CoursesService } from '../services/courses.service';
 import { CoursesDetailsForAdmin } from '../interfaces/coursesDetailsForAdmin.interface';
 
 @Component({

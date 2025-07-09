@@ -2,9 +2,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, AlertController } from '@ionic/angular/standalone';
-import { AuthService } from '../services/auth/auth.service'; // Assicurati che il percorso sia corretto
+import { AuthService } from '../services/auth/auth.service';
 import { Observable } from 'rxjs';
-import { LoggedUser } from '../interfaces/loggedUser.interface'; // Assicurati che il percorso sia corretto
+import { LoggedUser } from '../interfaces/loggedUser.interface';
 
 @Component({
   selector: 'app-tabs',

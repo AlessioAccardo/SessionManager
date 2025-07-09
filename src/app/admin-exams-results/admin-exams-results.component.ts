@@ -1,11 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Exam, ExamService } from '../services/exam.service';
+import { ExamService } from '../services/exam.service';
+import { Exam } from '../interfaces/exam.interface';
 import { firstValueFrom } from 'rxjs';
 import { RouterLink } from '@angular/router';
 import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController} from '@ionic/angular/standalone';
-import { ExamResult, ExamResultsService } from '../services/examResults.service';
+import { ExamResultsService } from '../services/examResults.service';
+import { ExamResult } from '../interfaces/examResult.interface';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-admin-exams-results',
@@ -26,27 +30,31 @@ export class AdminExamsResultsComponent  implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   examService = inject(ExamService)
   examResultsService = inject(ExamResultsService);
+  authService = inject(AuthService);
 
   user: LoggedUser | null = null;
 
+  private userSubscription: Subscription | undefined;
+
   courseId: number = 0;
   exams: Exam[] = [];
-
   studentsOfAnExam: ExamResult[] = [];
 
   selectedExamCode: number | null = null;
     
   ngOnInit() {
-    this.user = null;
-    const raw = localStorage.getItem('currentUser');
-    if (!raw) {
-      console.log('Nessun utente in local storage');
-    } else {
-      this.user = JSON.parse(raw) as LoggedUser;
-    }
+    this.userSubscription = this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.resetComponents()
 
-    this.courseId = +this.activatedRoute.snapshot.paramMap.get('course_id')!;
-    this.loadProfExams();
+      if (user) {
+
+        if (user.role === 'segreteria') {
+          this.courseId = +this.activatedRoute.snapshot.paramMap.get('course_id')!;
+          this.loadProfExams();
+        }
+      }
+    });
   }
 
   
@@ -70,6 +78,13 @@ export class AdminExamsResultsComponent  implements OnInit {
     const observable = this.examService.getExamsByCourseId(this.courseId);
     const data = await firstValueFrom(observable);
     this.exams = data;
+  }
+
+  resetComponents() {
+    this.courseId = 0;
+    this.exams = [];
+    this.studentsOfAnExam = [];
+    this.selectedExamCode = null;
   }
 
 }

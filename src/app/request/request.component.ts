@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ExamService, Exam, CreateExamDto } from '../services/exam.service';
-import { CoursesService, Courses } from '../services/courses.service';
+import { ExamService } from '../services/exam.service';
+import { Exam } from '../interfaces/exam.interface';
+import { CreateExamDto } from '../interfaces/createExamDto.interface';
+import { CoursesService } from '../services/courses.service';
+import { Courses } from '../interfaces/courses.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { 

@@ -2,21 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Capacitor } from "@capacitor/core";
-
-export interface Courses {
-    id: number,
-    name: string,
-    professor_id: number,
-    credits: number,
-    professor_first_name: string,
-    professor_last_name: string
-}
-
-export interface CreateCourseDto{
-    name: string,
-    professor_id: number,
-    credits: number
-}
+import { Courses } from "../interfaces/courses.interface";
+import { CreateCourseDto } from "../interfaces/createCourseDto.interface";
 
 @Injectable({ providedIn: 'root' })
 export class CoursesService {
@@ -39,7 +26,7 @@ export class CoursesService {
           const ip = window.location.hostname;
           this.apiUrl = `http://${ip}:3000/api/courses`;
         }
-        }
+    }
 
     getAll(): Observable<Courses[]> {
         return this.http.get<Courses[]>(`${this.apiUrl}`);

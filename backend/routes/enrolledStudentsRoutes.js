@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const enrolledStudentsCtrl = require('../controllers/enrolledStudentsController');
 
-// DELETE to unenroll a student
-router.delete('/unenroll', enrolledStudentsCtrl.unenrollStudent);
-
 // GET search
 router.get('/search', enrolledStudentsCtrl.search);
 

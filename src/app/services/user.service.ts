@@ -2,16 +2,7 @@ import { Injectable} from "@angular/core";
 import { HttpClient, HttpParams} from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Capacitor } from "@capacitor/core";
-
-export interface User{
-    id: number,
-    first_name: string,
-    last_name: string,
-    email: string,
-    role: string,
-    credits?: number,
-    mean?: number
-}
+import { User } from "../interfaces/user.interface";
 
 @Injectable({providedIn: 'root'})
 export class UserService{

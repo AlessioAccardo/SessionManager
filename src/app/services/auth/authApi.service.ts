@@ -2,35 +2,10 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Capacitor } from "@capacitor/core";
+import { AuthResponse } from "src/app/interfaces/auth/authResponse.interface";
+import { LoginDetails } from "src/app/interfaces/auth/loginDetails.interface";
+import { RegistrationDetails } from "src/app/interfaces/auth/registrationDetails.interface";
 
-export enum UserRole {
-  studente   = 'studente',
-  segreteria = 'segreteria',
-  professore = 'professore'
-}
-
-export interface RegistrationDetails {
-  first_name: string,
-  last_name: string,
-  email: string,
-  password: string,
-  role: UserRole
-}
-
-export interface LoginDetails {
-    email: string;
-    password: string;
-}
-
-export interface AuthResponse {
-    token: string;
-    data: {
-        first_name: string;
-        last_name: string;
-        email: string,
-        role: UserRole;
-    }
-}
 
 @Injectable({ providedIn: 'root'})
 export class AuthApiService {

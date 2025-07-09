@@ -2,7 +2,7 @@ import { Component, inject, Inject, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthApiService } from '../services/auth/authApi.service';
-import { UserRole } from '../services/auth/authApi.service';
+import { UserRole } from '../enum/userRole.enum';
 import { TitleCasePipe, isPlatformBrowser } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';

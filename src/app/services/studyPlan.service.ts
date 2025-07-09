@@ -2,25 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Capacitor } from "@capacitor/core";
+import { StudyPlan } from "../interfaces/studyPlan.interface";
+import { CreateStudyPlanDto } from "../interfaces/createStudyPlanDto.interface";
 
-
-export interface CreateStudyPlanDto {
-  student_id: number;
-  course_id: number;
-}
-
-export interface StudyPlan {
-    student_id: number,
-    course_id: number,
-    grade: number | null,
-    course_name: string,
-    credits: number,
-    student_first_name: string,
-    student_last_name: string,
-    professor_id: number,
-    professor_first_name: string,
-    professor_last_name: string
-}
 
 @Injectable({ providedIn: 'root'})
 export class StudyPlanService {

@@ -113,16 +113,6 @@ class EnrolledStudents{
                 });
         });
     }
-    
-    // disiscrizione studente da esame
-    static async unenrollStudent(student_id, exam_code) {
-        return new Promise((resolve, reject) => {
-            db.run('DELETE FROM enrolledStudents WHERE student_id = ? AND exam_code = ?', [student_id, exam_code], (err) => {
-                if (err) return reject(err);
-                resolve({ student_id, exam_code, deleted: this.changes});
-            });
-        });
-    }
 }
 
 module.exports = EnrolledStudents;

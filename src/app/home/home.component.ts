@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { CoursesService, Courses, CreateCourseDto } from '../services/courses.service';
+import { CoursesService } from '../services/courses.service';
+import { Courses } from '../interfaces/courses.interface';
+import { CreateCourseDto } from '../interfaces/createCourseDto.interface';
 import { UserService, User} from '../services/user.service';
 import { StudyPlanService, StudyPlan } from '../services/studyPlan.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';

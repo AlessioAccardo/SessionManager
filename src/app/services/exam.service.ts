@@ -2,24 +2,8 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Capacitor } from "@capacitor/core";
-
-export interface CreateExamDto {
-  course_id: number,
-  date:      string
-}
-
-export interface Exam {
-    code: number,
-    name: string,
-    credits: number,
-    enrolled_students: number,
-    professor_id: number,
-    approved?: boolean | null,
-    date: string,
-    course_id: number,
-    professor_first_name?: string,
-    professor_last_name?: string,
-}
+import { Exam } from "../interfaces/exam.interface";
+import { CreateExamDto } from "../interfaces/createExamDto.interface";
 
 @Injectable({ providedIn: 'root' })
 export class ExamService {
