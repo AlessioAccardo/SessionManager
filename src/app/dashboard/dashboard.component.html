@@ -28,8 +28,9 @@
           <ion-col>{{ exam.course_name }}</ion-col>
           <ion-col>{{ exam.course_credits }}</ion-col>
           <ion-col>{{ exam.grade }}</ion-col>
-          @if (exam.grade < 19) {
+          @if (exam.grade < 18) {
             <ion-col color="danger">Bocciato</ion-col>
+            <ion-col><ion-button (click)="deleteResult(exam.exam_code)">Elimina</ion-button></ion-col>
           } @else {
             <ion-col>
               <ion-button class="buttons" type="green"

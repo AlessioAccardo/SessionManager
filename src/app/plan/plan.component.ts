@@ -49,7 +49,6 @@ export class PlanComponent implements OnInit, OnDestroy {
   esamiPrenotati: EnrolledStudent[] = [];
   studyPlan: StudyPlan[] = [];
   esami: Exam[] = [];
-  allEsami: Exam[] = []; 
 
   visualizzazione: boolean = true;
 
@@ -166,7 +165,6 @@ export class PlanComponent implements OnInit, OnDestroy {
     this.esamiPrenotati = [];
     this.studyPlan = [];
     this.esami = [];
-    this.allEsami = [];
     this.today = new Date();
     this.isLoading = false;
   }

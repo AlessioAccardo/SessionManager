@@ -102,7 +102,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         { text: 'Annulla', role: 'cancel' },
         {
           text: 'Conferma',
-          // rendiamo handler async, così possiamo usare await dentro
           handler: async (data) => {
             const num = parseInt(data.value, 10);
             if (isNaN(num)) {
@@ -164,21 +163,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .filter((exam, i, arr) => 
         arr.findIndex(e => e.exam_code === exam.exam_code) === i
       )
-      .map(exam => ({
-        exam_code: exam.exam_code,
-        exam_name: exam.exam_name,
-        student_first_name: exam.student_first_name,
-        student_last_name: exam.student_last_name,
-        student_id: exam.student_id,
-        credits: exam.credits,
-        enrolled_students: exam.enrolled_students,
-        professor_id: exam.professor_id,
-        date: exam.date,
-        taken: exam.taken,
-        course_id: exam.course_id,
-        professor_first_name: exam.professor_first_name,
-        professor_last_name: exam.professor_last_name
-      }))
   }
 
 
@@ -212,6 +196,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
       ]
     });
     await alert.present();
+  }
+
+  async deleteResult(exam_code: number) {
+    await firstValueFrom(this.examResultsService.accept(this.user!.id, exam_code, false));
+    await firstValueFrom(this.enrolledStudentService.deleteEnrolledStudent(this.user!.id, exam_code));
+    this.loadStudent();
   }
 
 
