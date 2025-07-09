@@ -38,7 +38,7 @@ export class AuthService {
       localStorage.setItem('token', token);
     }
     this.userSubject.next(user);
-    this.router.navigate(['/home']);
+    this.router.navigate(['/tabs/home']);
   }
 
   logout() {
