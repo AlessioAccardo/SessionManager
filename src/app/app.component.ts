@@ -1,13 +1,9 @@
 // app.component.ts
 
-import { Component, inject} from '@angular/core';
+import { Component} from '@angular/core';
 import { IonApp, IonRouterOutlet, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { CommonModule } from '@angular/common';
-import { AuthService } from './services/auth/auth.service';
-import { Observable } from 'rxjs';
-import { LoggedUser } from './interfaces/loggedUser.interface';
-
 
 @Component({
   selector: 'app-root',
@@ -17,15 +13,5 @@ import { LoggedUser } from './interfaces/loggedUser.interface';
   standalone: true,
 })
 export class AppComponent{
-
-  public user$: Observable<LoggedUser | null>;
-  
-  private auth = inject(AuthService);
-
-
-  constructor() {
-    this.user$ = this.auth.user$;
-
-  }
 
 }
