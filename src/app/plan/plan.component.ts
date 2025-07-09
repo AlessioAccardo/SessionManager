@@ -22,12 +22,10 @@ import { AlertController } from '@ionic/angular';
     IonGrid, 
     IonRow, 
     IonCol,
-    IonInput,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonCard,
-    IonItem,
     IonSpinner
   ],
   templateUrl: './plan.component.html',

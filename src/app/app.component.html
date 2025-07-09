@@ -1,11 +1,30 @@
+<!-- app.component.html -->
 <ion-app>
-  <ion-header>
-    <ion-toolbar>
-      <ion-title class="logo">SessionManager</ion-title>
-      <app-nav-bar slot="end"> </app-nav-bar>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
+
+  @if (user$ | async) {
+
+    <!-- mostrato solo se NON è mobile -->
+    @if (!isMobile) {
+      <ion-header>
+        <ion-toolbar>
+          <ion-title class="logo">SessionManager</ion-title>
+          <app-nav-bar slot="end"></app-nav-bar>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-router-outlet></ion-router-outlet>
+      </ion-content>
+    }
+
+    <!-- LAYOUT MOBILE: Viene mostrato solo se È mobile -->
+    @if (isMobile) {
       <ion-router-outlet></ion-router-outlet>
-  </ion-content>
+    }
+
+  } @else {
+    <!-- Se l'utente non è loggato (pagina di login) -->
+    <ion-router-outlet></ion-router-outlet>
+  }
+
 </ion-app>

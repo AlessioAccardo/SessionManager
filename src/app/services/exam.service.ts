@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
-
+import { Capacitor } from "@capacitor/core";
 
 export interface CreateExamDto {
   course_id: number,
@@ -23,9 +23,26 @@ export interface Exam {
 
 @Injectable({ providedIn: 'root' })
 export class ExamService {
-    private apiUrl = 'http://localhost:3000/api/exam';
+    private apiUrl;
     
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+      if (Capacitor.getPlatform() === 'web') {
+      this.apiUrl = 'http://localhost:3000/api/exam';
+    }
+    // simulator Android
+    else if (Capacitor.getPlatform() === 'android') {
+      this.apiUrl = 'http://10.0.2.2:3000/api/exam';
+    }
+    // simulator iOS
+    else if (Capacitor.getPlatform() === 'ios') {
+      this.apiUrl = 'http://localhost:3000/api/exam';
+    }
+    // device fisico in live‑reload
+    else {
+      const ip = window.location.hostname;
+      this.apiUrl = `http://${ip}:3000/api/exam`;
+    }
+    }
 
     getAllExams(): Observable<Exam[]> {
         return this.http.get<Exam[]>(this.apiUrl);

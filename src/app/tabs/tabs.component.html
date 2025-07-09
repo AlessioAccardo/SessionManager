@@ -1,0 +1,65 @@
+<!-- src/app/tabs/tabs.page.html -->
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    @if (user$ | async; as user) {
+
+      @if (user.role === 'studente') {
+        <!-- MODIFICA: Usa 'href' invece di 'routerLink' per una migliore integrazione con le tabs -->
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon name="home"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="plan" href="/tabs/plan">
+          <ion-icon name="calendar"></ion-icon>
+          <ion-label>Esami</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="dashboard" href="/tabs/dashboard">
+          <ion-icon name="analytics"></ion-icon>
+          <ion-label>Risultati</ion-label>
+        </ion-tab-button>                            
+      }
+
+      @if (user.role === 'professore') {
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon name="home"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="dashboard" href="/tabs/dashboard">
+          <ion-icon name="analytics"></ion-icon>
+          <ion-label>Dashboard</ion-label>
+        </ion-tab-button> 
+        <ion-tab-button tab="request" href="/tabs/request">
+          <ion-icon name="document-text"></ion-icon>
+          <ion-label>Richieste</ion-label>
+        </ion-tab-button> 
+      }
+
+      @if (user.role === 'segreteria') {
+        <ion-tab-button tab="home" href="/tabs/home">
+          <ion-icon name="home"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-tab-button>
+        <ion-tab-button tab="dashboard" href="/tabs/dashboard">
+          <ion-icon name="analytics"></ion-icon>
+          <ion-label>Dashboard</ion-label>
+        </ion-tab-button> 
+        <ion-tab-button tab="request" href="/tabs/request">
+          <ion-icon name="document-text"></ion-icon>
+          <ion-label>Richieste</ion-label>
+        </ion-tab-button> 
+      }
+
+      <ion-tab-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+        <ion-label>Logout</ion-label>
+      </ion-tab-button>        
+    
+    }
+  </ion-tab-bar>
+  
+  <!-- !! MODIFICA FONDAMENTALE !! -->
+  <!-- Questo outlet è necessario per mostrare il contenuto della tab selezionata -->
+  <ion-router-outlet></ion-router-outlet>
+
+</ion-tabs>

@@ -71,3 +71,13 @@ ion-button{
   }
 
 }
+
+.tabs-container {
+  ion-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+}
