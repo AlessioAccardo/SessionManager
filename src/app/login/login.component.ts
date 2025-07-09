@@ -108,8 +108,8 @@ export class LoginComponent {
         .subscribe({
           next: res => {
             alert('Registrazione avvenuta con successo');
-            this.router.navigate(['/login']);
             this.registrationForm.reset();
+            this.router.navigate(['/login']);
             this.display = false;
           }, error: err => {
             this.errorMessage = err.error?.message || 'Errore nella registrazione';
@@ -128,9 +128,4 @@ export class LoginComponent {
   toggle() {
     this.display = !this.display;
   }
-
-  // onRoleChange(selectedText: string) {
-    //const selectedRole = this.roles[selectedIndex];
-    //this.registrationForm.get('role')!.setValue(selectedText);
-  //}
 }

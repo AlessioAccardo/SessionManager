@@ -1,7 +1,5 @@
-import { HttpInterceptorFn, HttpRequest, HttpHandler, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-import { firstValueFrom } from 'rxjs';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
