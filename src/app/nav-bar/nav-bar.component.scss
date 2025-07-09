@@ -14,64 +14,6 @@ ion-button{
 } 
 */
 
-
-/*Hamburger menu*/
-.nav-toggle {
-  display: none;
-}
-
-.nav-toggle-label {
-  display: none;         
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 21px;
-  cursor: pointer;
-}
-
-.nav-toggle-label span {
-  display: block;
-  height: 3px;
-  border-radius: 2px;
-  background:#333;
-}
-
-.nav-links{
-  display: flex;
-}
-
-
-
-
-@media (max-width: 768px) {
-  .nav-toggle-label {
-    display: flex;
-  }
-  .nav-links {
-    display: none;           
-    flex-direction: column;  
-    width: 100%;
-    background: linear-gradient(
-    to bottom right,
-    #b0e6fa,
-    #1da4e2   
-   );
-    color: white;
-    padding: 1rem;
-  }
-
-  .nav-toggle:checked ~ .nav-links {
-    display: flex;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .nav-toggle-label span  {
-    background: white;
-  }
-
-}
-
 .tabs-container {
   ion-tab-bar {
     position: fixed;
