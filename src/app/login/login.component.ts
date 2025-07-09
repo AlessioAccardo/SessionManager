@@ -66,8 +66,8 @@ export class LoginComponent {
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email:    ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required, Validators.minLength(8)],
-      passwordConfirm: ['', Validators.required, Validators.minLength(8)],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      passwordConfirm: ['', [Validators.required, Validators.minLength(8)]],
       role: ['studente', Validators.required]
     });
   }
