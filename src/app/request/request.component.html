@@ -37,22 +37,22 @@
       <ion-title>Esiti Richieste</ion-title>
       <ion-grid>
         <ion-row class="header">
-          <ion-col>Codice Esame</ion-col>
-          <ion-col>Nome Esame</ion-col>
-          <ion-col>Data</ion-col>
-          <ion-col>CFU</ion-col>
-          <ion-col>Stato</ion-col>
+          <ion-col size-xs="2" size-sm="1" size-md="2">Codice Esame</ion-col>
+          <ion-col size-xs="2" size-sm="2" size-md="3">Esame</ion-col>
+          <ion-col size-xs="2" size-sm="2" size-md="2">Data</ion-col>
+          <ion-col class="ion-hide-md-down" size-md="2">CFU</ion-col>
+          <ion-col size-xs="2" size-sm="2" size-md="3">Stato</ion-col>
         </ion-row>
         @if (showRequests.length === 0) {
           <ion-title>Nessuna Richiesta Da Visualizzare</ion-title>
         } @else {
         @for (exam of showRequests; track exam.code) {
         <ion-row>
-          <ion-col>{{ exam.code }}</ion-col>
-          <ion-col>{{ exam.name }}</ion-col>
-          <ion-col>{{ exam.date }}</ion-col>
-          <ion-col>{{ exam.credits }}</ion-col>
-          <ion-col>{{ exam.approved !== null ? (exam.approved ? 'Approvato' : 'Non approvato') : 'In attesa'}}</ion-col>
+          <ion-col size-xs="2" size-sm="1" size-md="2">{{ exam.code }}</ion-col>
+          <ion-col size-xs="2" size-sm="2" size-md="3">{{ exam.name }}</ion-col>
+          <ion-col size-xs="2" size-sm="2" size-md="2">{{ exam.date }}</ion-col>
+          <ion-col class="ion-hide-md-down" size-md="2">{{ exam.credits }}</ion-col>
+          <ion-col size-xs="2" size-sm="2" size-md="3">{{ exam.approved !== null ? (exam.approved ? 'Approvato' : 'Non approvato') : 'In attesa'}}</ion-col>
         </ion-row>
         }
         }
@@ -71,21 +71,20 @@
       <ion-title>Richieste Appelli</ion-title>
       <ion-grid>
         <ion-row class="header">
-          <ion-col>Code</ion-col>
-          <ion-col>Corso</ion-col>
-          <ion-col>Data</ion-col>
-          <ion-col>Stato</ion-col>
-          <ion-col></ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">Code</ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">Corso</ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">Data</ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">Stato</ion-col>
         </ion-row>
         @if (requests.length === 0) {
         <ion-title>Nessuna richiesta al momento</ion-title>
         } @else {
         @for (request of requests; track request.code) {
         <ion-row>
-          <ion-col>{{ request.code }}</ion-col>
-          <ion-col>{{ request.name }}</ion-col>
-          <ion-col>{{ request.date }}</ion-col>
-          <ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">{{ request.code }}</ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">{{ request.name }}</ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">{{ request.date }}</ion-col>
+          <ion-col size-xs="3" size-sm="3" size-md="3">
             @if (request.approved === null) {
             <p class="pending">In attesa</p>
             }
@@ -96,14 +95,16 @@
             <p class="rejected">Rifiutato</p>
             }
           </ion-col>
-          <ion-col>
             @if (request.approved === null) {
+            <ion-col size-xs="12" size-sm="12" size-md="12">
             <ion-button class="buttons" type="green" size="small"
               (click)="approveRequest(request.code, true)">Approva</ion-button>
+            </ion-col>
+          <ion-col size-xs="12" size-sm="12" size-md="12">
             <ion-button class="buttons" type="red" size="small"
               (click)="approveRequest(request.code, false)">Rifiuta</ion-button>
+              </ion-col>
             }
-          </ion-col>
         </ion-row>
         }
         }

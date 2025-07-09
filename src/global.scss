@@ -36,6 +36,13 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+ion-grid ion-col {
+  text-align: center !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 
 .logo{ 
     font-family: "Helvetica Neue", Arial, sans-serif;
@@ -51,7 +58,6 @@
 }
 
 
-
 .container{
    display: flex;
    justify-content: center;;
@@ -63,6 +69,7 @@ ion-card{
   align-items: center;
   width: 60%;
 }
+
 ion-title{
   font-size: 30px;
   font-family: 'Gill Sans', Calibri; 
@@ -70,14 +77,8 @@ ion-title{
   text-align: center;
 }
 
+
 ion-select {
-  --padding-top:    0;
-  --padding-bottom: 0;
-  --padding-start:  0;
-  --padding-end:    0;
-  --border-radius:  0;
-  --box-shadow:     none;
-  --background:     transparent;
   display: inline-block;
   width: 100%;
   max-width: 250px;     
@@ -104,15 +105,13 @@ ion-select {
   --border-radius:  0;
   --box-shadow:     none;
   --background:     transparent;
+  margin: 0;
   width:60%;
-  padding: 0.5rem 0.5rem;
   font-size: 16px;
   color: #fff;
   text-align: center;
   cursor: pointer;
-  border: none;
   border-radius: 0.5rem;
-
   background: linear-gradient(
     to bottom right,
     #b0e6fa,
@@ -122,7 +121,7 @@ ion-select {
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-ion-button {
+.buttons, ion-button {
   transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -141,21 +140,47 @@ a {
   cursor: pointer;
 }
 
-
-
 .header{
   font-weight: bold;
 }
 
-ion-grid ion-col {
-  padding: 0.75rem !important;   
-  text-align: center !important;    
+
+
+
+
+@media (max-width: 576px){
+  .logo {
+    font-size: 18px;
+    border-bottom-width: 4px;
+  }
+   .container {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  ion-card {
+    width: 100%;
+    margin: 0;
+  }
+
+    
+  ion-title {
+    font-size: 24px;
+  }
+
+  ion-select,
+  .buttons,
+  ion-input[type="date"],
+  ion-button {
+    width: 100% !important;
+    max-width: none;
+  }
+
 }
 
-
-@media (max-width: 768px) {
+@media (min-width: 577px) and (max-width: 768px) {
     .logo {
-    font-size: 1.5rem;
+    font-size: 24px;
     border-bottom-width: 4px;
   }
 
@@ -182,7 +207,4 @@ ion-grid ion-col {
     max-width: none;
   }
 
- ion-grid ion-col {
-    padding: 0.5rem !important;
-  }
 }

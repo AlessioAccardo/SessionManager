@@ -3,4 +3,17 @@
   height: 50px;
   font-size: 12px;
 }
+@media(min-width: 577px) and (max-width: 625px){
+  ion-col ion-button{
+      width: 80px;
+      font-size: 11px;
+    }
+}
 
+
+@media(min-width: 769px) and (max-width: 1041px){
+  ion-col ion-button{
+      width: 80px;
+      font-size: 11px;
+    }
+}

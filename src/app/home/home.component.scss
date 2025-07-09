@@ -19,14 +19,28 @@
   font-family: 'Gill Sans', Calibri;
 }
 
-ion-col ion-button{
-  font-size: 12px; 
-}
 
 ion-select{
      margin-top: 24px;
   }
   
+ion-col ion-button{
+    font-size: 14px;
+    width: 150px;
+}
+.buttons[type="segreteriaButton"]{
+  width: 80px;
+}
 
+@media(max-width: 768px){
+.buttons[type="segreteriaButton"]{
+  font-size: 14px;
+}
+    
+}
 
-
+@media(max-width: 576px){
+  .buttons[type="segreteriaButton"]{
+  font-size: 12px;
+}
+}

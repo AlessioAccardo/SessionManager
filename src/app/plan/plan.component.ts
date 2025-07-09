@@ -6,10 +6,7 @@ import { firstValueFrom, Observable, Subscription } from 'rxjs';
 import { EnrolledStudent, EnrolledStudentsService, EnrolledStudentDto } from '../services/enrolledStudents.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
-import { 
-  IonContent,IonButton,IonGrid, IonRow, IonCol, IonInput,
-  IonHeader, IonToolbar, IonTitle, IonCard, IonItem, IonSpinner 
-} from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonGrid, IonRow, IonCol, IonInput, IonHeader, IonToolbar, IonTitle, IonCard, IonItem, IonSpinner, IonCardContent } from '@ionic/angular/standalone';
 
 import { AlertController } from '@ionic/angular';
 
@@ -18,16 +15,15 @@ import { AlertController } from '@ionic/angular';
   selector: 'app-plan',
   standalone: true,
   imports: [IonContent,
-    IonButton, 
-    IonGrid, 
-    IonRow, 
+    IonButton,
+    IonGrid,
+    IonRow,
     IonCol,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonCard,
-    IonSpinner
-  ],
+    IonSpinner],
   templateUrl: './plan.component.html',
   styleUrl: './plan.component.scss'
 })

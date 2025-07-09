@@ -1,31 +1,5 @@
-ion-header{
-  text-align: center;
-}
-
-ion-grid{
-  width: 100%;
-  max-width: 80rem;
-  overflow: hidden;
-}
-
-ion-col{        
-  display: flex;
-  flex-direction: column;   
-  justify-content: center;  
-  align-items: center;   
-
-}
 
 ion-col ion-button{
-  width: 100px;
-  font-size: 12px;
+    height: 30px;
+    text-align: center;
 }
-
-  @media (max-width: 767px) {
-  ion-col ion-button {
-    display: block;
-    min-width: 550px;
-  }
-}
-
-

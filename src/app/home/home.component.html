@@ -34,18 +34,18 @@
         @if (libretto) {
         <ion-grid>
           <ion-row class="header">
-            <ion-col>ID Corso</ion-col>
-            <ion-col>Nome Corso</ion-col>
-            <ion-col>CFU</ion-col>
-            <ion-col>Voto</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="3">ID Corso</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="3">Corso</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="3">CFU</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="3">Voto</ion-col>
           </ion-row>
           @if (studyPlan.length !== 0) {
             @for(course of studyPlan; track course.course_id) {
               <ion-row>
-                <ion-col>{{ course.course_id }}</ion-col>
-                <ion-col>{{ course.course_name }}</ion-col>
-                <ion-col>{{ course.credits }}</ion-col>
-                <ion-col>{{ course.grade !== null ? course.grade : '-' }}</ion-col>
+                <ion-col size-xs="3" size-sm="3" size-md="3">{{ course.course_id }}</ion-col>
+                <ion-col size-xs="3" size-sm="3" size-md="3">{{ course.course_name }}</ion-col>
+                <ion-col size-xs="3" size-sm="3" size-md="3">{{ course.credits }}</ion-col>
+                <ion-col size-xs="3" size-sm="3" size-md="3">{{ course.grade !== null ? course.grade : '-' }}</ion-col>
               </ion-row>
             }
           } @else {
@@ -55,20 +55,20 @@
         } @else {
         <ion-grid>
           <ion-row class="header">
-            <ion-col>ID Corso</ion-col>
-            <ion-col>Nome Corso</ion-col>
-            <ion-col>Docente</ion-col>
-            <ion-col>CFU</ion-col>
-            <ion-col> </ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">ID Corso</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">Corso</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">Docente</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">CFU</ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="2"> </ion-col>
           </ion-row>
           @if (courses.length !== 0) {
           @for(course of courses; track course.id) {
           <ion-row>
-            <ion-col>{{ course.id }}</ion-col>
-            <ion-col>{{ course.name }}</ion-col>
-            <ion-col>{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
-            <ion-col>{{ course.credits }}</ion-col>
-            <ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">{{ course.id }}</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">{{ course.name }}</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">{{ course.credits }}</ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="2">
             <ion-button class="buttons" (click)="salvaPiano(course.id)"> Aggiungi </ion-button>
             </ion-col>
           </ion-row>
@@ -97,15 +97,15 @@
         <div class="container">
           <ion-grid>
             <ion-row class="header">
-              <ion-col>ID</ion-col>
-              <ion-col>Corso</ion-col>
-              <ion-col>CFU</ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4">ID</ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4">Corso</ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4">CFU</ion-col>
             </ion-row>
             @for(course of courses; track course.id) {
             <ion-row>
-              <ion-col>{{ course.id }}</ion-col>
-              <ion-col>{{ course.name }}</ion-col>
-              <ion-col>{{ course.credits }}</ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4">{{ course.id }}</ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4">{{ course.name }}</ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4">{{ course.credits }}</ion-col>
             </ion-row>
             }
 
@@ -168,22 +168,22 @@
         <div class="container">
           <ion-grid>
             <ion-row class="header">
-              <ion-col>ID</ion-col>
-              <ion-col>Corso</ion-col>
-              <ion-col>Prof ID</ion-col>
-              <ion-col>Professore</ion-col>
-              <ion-col>CFU</ion-col>
-              <ion-col> </ion-col>
+              <ion-col size-xs="2" size-sm="2" size-md="2">ID</ion-col>
+              <ion-col size-xs="3" size-sm="2" size-md="2">Corso</ion-col>
+              <ion-col size-xs="2" size-sm="2" size-md="2">Prof ID</ion-col>
+              <ion-col size-xs="3" size-sm="2" size-md="2">Professore</ion-col>
+              <ion-col size-xs="2" size-sm="2" size-md="2">CFU</ion-col>
+              <ion-col size-xs="12" size-sm="12" size-md="2"> </ion-col>
             </ion-row>
             @for (course of courses; track course.id) {
             <ion-row>
-              <ion-col>{{ course.id }}</ion-col>
-              <ion-col>{{ course.name }}</ion-col>
-              <ion-col>{{ course.professor_id }}</ion-col>
-              <ion-col>{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
-              <ion-col>{{ course.credits }}</ion-col>
-              <ion-col>
-              <ion-button class="buttons" (click)="deleteCourse(course.id)">elimina</ion-button>
+              <ion-col size-xs="2" size-sm="2" size-md="2">{{ course.id }}</ion-col>
+              <ion-col size-xs="3" size-sm="2" size-md="2">{{ course.name }}</ion-col>
+              <ion-col size-xs="2" size-sm="2" size-md="2">{{ course.professor_id }}</ion-col>
+              <ion-col size-xs="3" size-sm="2" size-md="2">{{ course.professor_first_name }} {{ course.professor_last_name }}</ion-col>
+              <ion-col size-xs="2" size-sm="2" size-md="2">{{ course.credits }}</ion-col>
+              <ion-col size-xs="12" size-sm="12" size-md="2">
+              <ion-button class="buttons" type ="segreteriaButton" (click)="deleteCourse(course.id)">elimina</ion-button>
               </ion-col>
             </ion-row>
             }

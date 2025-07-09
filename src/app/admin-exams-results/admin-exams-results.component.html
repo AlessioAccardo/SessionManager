@@ -4,42 +4,44 @@
     <ion-title> Dashboard Segreteria </ion-title>
     <ion-grid>
       <ion-row class = "header">
-        <ion-col> Codice Esame </ion-col>
-        <ion-col> Nome Corso </ion-col>
-        <ion-col> Data </ion-col>
-        <ion-col> Studenti iscritti </ion-col>
-        <ion-col> </ion-col>
+        <ion-col size-xs="2" size-sm="2" size-md="2"> Codice Esame </ion-col>
+        <ion-col size-xs="3" size-sm="3" size-md="3"> Nome Corso </ion-col>
+        <ion-col size-xs="2" size-sm="2" size-md="2"> Data </ion-col>
+        <ion-col size-xs="3" size-sm="3" size-md="3"> Studenti iscritti </ion-col>
+        <ion-col size-xs="2" size-sm="2" size-md="2"> </ion-col>
       </ion-row>
       @for (exam of exams; track exam.code) {
         <ion-grid>
           <ion-row>
-            <ion-col> {{ exam.code }} </ion-col>
-            <ion-col> {{ exam.name }} </ion-col>
-            <ion-col> {{ exam.date }} </ion-col>
-            <ion-col> {{ exam.enrolled_students }} </ion-col>
-            <ion-col>
+            <ion-col size-xs="2" size-sm="2" size-md="2"> {{ exam.code }} </ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="3"> {{ exam.name }} </ion-col>
+            <ion-col size-xs="2" size-sm="2" size-md="2"> {{ exam.date }} </ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="3"> {{ exam.enrolled_students }} </ion-col>
+            <ion-col size-xs="12" size-sm="2" size-md="2">
             <ion-button class="buttons" (click)="showExams(exam.code)">{{ selectedExamCode
               === exam.code ? 'Nascondi Esami' : 'Mostra Esami'}}</ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
         @if (selectedExamCode === exam.code) {
+        <div class = "container">
         <ion-card>
           <ion-grid>
             <ion-row class = "header">
-              <ion-col> Matricola </ion-col>
-              <ion-col> Nome Studente </ion-col>
-              <ion-col> Voto </ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4"> Matricola </ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4"> Nome Studente </ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4"> Voto </ion-col>
             </ion-row>
             @for (student of studentsOfAnExam; track student.student_id) {
             <ion-row>
-              <ion-col> {{ student.student_id }} </ion-col>
-              <ion-col> {{ student.student_first_name }} {{ student.student_last_name}} </ion-col>
-              <ion-col> {{ student.grade }} </ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4"> {{ student.student_id }} </ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4"> {{ student.student_first_name }} {{ student.student_last_name}} </ion-col>
+              <ion-col size-xs="4" size-sm="4" size-md="4"> {{ student.grade }} </ion-col>
             </ion-row>
             }
           </ion-grid>
         </ion-card>
+        </div>
         }
       }
     </ion-grid>

@@ -1,28 +1,19 @@
 .buttons[type="green"]{
-  font-size: 12px;
+  font-size: 14px;
   background: linear-gradient(
     to bottom right,
     #b3e286,
     #33c553   
   );
-  margin-left: 1rem;
-  margin-right: 0.5rem;
 }
 
-
-
-
 .buttons[type="red"]{
-  padding: 0.25rem 0.25rem;
-  font-size: 12px;
-
+  font-size: 14px;
   background: linear-gradient(
     to bottom right,
     #f09797,
     #d82525   
   );
-  margin-left: 0.5rem;
-  margin-right: 1rem;
 }
 
 a {
@@ -55,8 +46,9 @@ a {
 }
 
 .buttons {
-  width: 100px;
-  height: 50px;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
   font-size: 12px;
 }
 
@@ -73,6 +65,4 @@ a {
   cursor: pointer;
 }
 
-.esame{
-  text-align: left;
-}
+

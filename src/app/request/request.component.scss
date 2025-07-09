@@ -1,7 +1,3 @@
-ion-title {
-  padding: 2rem;
-  padding-left: 1rem;
-}
 
 .request-table form {
   display: grid;
@@ -11,23 +7,9 @@ ion-title {
   align-items: center; 
 }
 
-/*
-.request-table-segreteria {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-*/
 
-
-ion-col {
-  margin: 1rem;
-}
-
-ion-row {
-  justify-content: center;
+ion-row{
+    justify-content: center;
   align-items: center;
 }
 
