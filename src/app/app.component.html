@@ -1,8 +1,5 @@
 <!-- app.component.html -->
 <ion-app>
-
-  @if (user$ | async) {
-
     <!-- mostrato solo se NON è mobile -->
     @if (!isMobile) {
       <ion-header>
@@ -16,15 +13,8 @@
         <ion-router-outlet></ion-router-outlet>
       </ion-content>
     }
-
-    <!-- LAYOUT MOBILE: Viene mostrato solo se È mobile -->
     @if (isMobile) {
       <ion-router-outlet></ion-router-outlet>
     }
-
-  } @else {
-    <!-- Se l'utente non è loggato (pagina di login) -->
-    <ion-router-outlet></ion-router-outlet>
-  }
 
 </ion-app>

@@ -11,7 +11,7 @@ import { LoggedUser } from '../interfaces/loggedUser.interface'; // Assicurati c
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   standalone: true,
-  imports: [CommonModule, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet],
+  imports: [CommonModule, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
 })
 export class TabsPage {
   user$: Observable<LoggedUser | null>;
