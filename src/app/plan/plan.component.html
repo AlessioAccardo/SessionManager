@@ -71,7 +71,6 @@
             <ion-col class="ion-hide-md-down" size-md="2">CFU</ion-col>
             <ion-col size-xs = "3" size-sm="3" size-md="2">Docente</ion-col>
             <ion-col size-xs = "3" size-sm="3"size-md="2">N. Prenotati</ion-col>
-            <ion-col size-xs = "3" size-sm="3" size-md="3"> </ion-col>
           </ion-row>
           @if (esami.length === 0) {
             <ion-title>Nessun Esame Disponibile</ion-title>
@@ -85,7 +84,7 @@
             <ion-col  class="ion-hide-md-down" size-md="2">{{ exam.credits }}</ion-col>
             <ion-col size-xs = "3" size-sm="3" size-md="2">{{ exam.professor_first_name }} {{ exam.professor_last_name }}</ion-col>
             <ion-col size-xs = "3" size-sm="3" size-md="2">{{ exam.enrolled_students }}</ion-col>
-            <ion-col size-xs ="3" size-sm="3"  size-md="3">
+            <ion-col size-xs ="12" size-sm="12"  size-md="20">
               <ion-button class="buttons" (click)="seleziona(exam.code!)">Aggiungi</ion-button>
             </ion-col>
           </ion-row>

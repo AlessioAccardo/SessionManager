@@ -102,17 +102,17 @@
       @if (professors.length !== 0) {
       <ion-grid>
         <ion-row class="header">
-          <ion-col size-xs="3" size-sm="3" size-md="3">ID</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="3">Nome e Cognome</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="3">Email</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="3"> </ion-col>
+          <ion-col size-xs="4" size-sm="4" size-md="3">ID</ion-col>
+          <ion-col size-xs="4" size-sm="4" size-md="3">Nome e Cognome</ion-col>
+          <ion-col size-xs="4" size-sm="4" size-md="3">Email</ion-col>
+          <ion-col size-xs="12" size-sm="12" size-md="3"> </ion-col>
         </ion-row>
         @for(prof of professors; track prof.id){
         <ion-row>
-          <ion-col size-xs="3" size-sm="3" size-md="3">{{ prof.id }}</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="3">{{ prof.first_name }} {{ prof.last_name }}</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="3">{{ prof.email }}</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="3">
+          <ion-col size-xs="4" size-sm="4" size-md="3">{{ prof.id }}</ion-col>
+          <ion-col size-xs="4" size-sm="4" size-md="3">{{ prof.first_name }} {{ prof.last_name }}</ion-col>
+          <ion-col size-xs="4" size-sm="4" size-md="3">{{ prof.email }}</ion-col>
+          <ion-col size-xs="12" size-sm="12" size-md="3">
             <ion-button class="buttons" (click)="showCourses(prof.id)">
               {{ selectedProfessorId === prof.id ? 'Nascondi Corsi' : 'Mostra Corsi' }}
             </ion-button>
