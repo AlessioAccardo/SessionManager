@@ -56,8 +56,14 @@ export class AuthService {
 
   async verify(): Promise<any> {
     const token = this.getToken();
-    if (!token) throw new Error('Nessun token in storage');
-    return await firstValueFrom(this.http.post('/api/auth/verify', {}, { headers: { Authorization: `Bearer ${token}`}}));
+    if (!token) return Promise.reject(new Error(('Nessun token in storage')));
+    try {
+        const response = await firstValueFrom(this.http.post('/api/auth/verify', {}, { headers: { Authorization: `Bearer ${token}`}}));
+        return response;
+    } catch (error) {
+      this.logout();
+      return Promise.reject(error);
+    }
   }
 
   isTokenExpired(): boolean {

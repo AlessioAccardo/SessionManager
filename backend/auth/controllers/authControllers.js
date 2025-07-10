@@ -10,10 +10,10 @@ class AuthController {
                 data: user,
                 token
             });
-        } catch (error) {
+        } catch (err) {
             res.status(400).json({
                 success: false,
-                message: error.message
+                message: err.message
             });
         }
     }
@@ -27,10 +27,10 @@ class AuthController {
                 data: user,
                 token
             });
-        } catch (error) {
+        } catch (err) {
             res.status(401).json({
                 success: false,
-                message: error.message
+                message: err.message
             });
         }
     }
@@ -48,10 +48,10 @@ class AuthController {
                 success: true,
                 data: user
             });
-        } catch (error) {
+        } catch (err) {
             res.status(401).json({
                 success: false,
-                message: error.message
+                message: err.message
             });
         }
     }
@@ -69,7 +69,7 @@ class AuthController {
         } catch (err) {
             res.status(401).json({
                 success: false,
-                message: error.message
+                message: err.message
             });
         }
     }

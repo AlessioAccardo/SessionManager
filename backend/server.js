@@ -24,11 +24,11 @@ app.use(cors({
 
 // Intercetta errori del server
 app.use((err, req, res, next) => {
-  console.error('ERRORE INTERNO:', err.stack || err);
-  res.status(500).json({
+  console.error('ERRORE INTERNO:', err.stack);
+  const status = err.status || 500
+  res.status(stutus).json({
     success: false,
-    message: 'Errore interno al server',
-    error: err.message 
+    message: err.message || 'Errore interno al server',
   });
 });
 
