@@ -33,11 +33,6 @@ export class StudyPlanService {
         return this.http.get<StudyPlan[]>(`${this.apiUrl}/student/${student_id}`);
     }
 
-    getByStudentFullName(first_name: string, last_name: string): Observable<StudyPlan[]> {
-        const params = new HttpParams().set('first_name', first_name).set('last_name', last_name);
-        return this.http.get<StudyPlan[]>(`${this.apiUrl}/search`, { params });
-    }
-
     create(dto: CreateStudyPlanDto): Observable<CreateStudyPlanDto> {
         return this.http.post<CreateStudyPlanDto>(this.apiUrl, dto);
     }

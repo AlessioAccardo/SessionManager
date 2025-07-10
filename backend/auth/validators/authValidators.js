@@ -4,7 +4,7 @@ const { body, validationResult } = require('express-validator');
 
 const registerValidator = [
     body('email').isEmail().withMessage('Email non valida'),
-    body('password').isLength({ min: 6 }).withMessage('Password deve essere di almeno 6 caratteri')
+    body('password').isLength({ min: 8 }).withMessage('Password deve essere di almeno 6 caratteri')
 ];
 
 const loginValidator = [

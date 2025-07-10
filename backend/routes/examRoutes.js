@@ -21,14 +21,11 @@ router.get('/approved', examCtrl.getAllApproved);
 // GET by professor id
 router.get('/professor/:professor_id', examCtrl.getByProfessorId);
 
-// GET by name
-router.get('/name/:name', examCtrl.getByName);
+// GET by code
+router.get('/:code', examCtrl.getByCode);
 
 // GET all
 router.get('/', examCtrl.getAll);
-
-// GET by code
-router.get('/:code', examCtrl.getByCode);
 
 //POST to create an exam
 router.post('/', examCtrl.create);

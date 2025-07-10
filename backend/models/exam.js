@@ -90,15 +90,6 @@ class Exam {
         });
     }
 
-    static async getExamsByName(name) {
-        return new Promise((resolve, reject) => {
-            db.all('SELECT * FROM exams WHERE name = ? AND approved = ?', [name, 1], (err, rows) => {
-                if (err) return reject(err);
-                resolve(rows);
-            });
-        });
-    }
-
     static async getExamsByProfessorId(id) {
         return new Promise((resolve, reject) => {
             db.all(`
@@ -108,20 +99,6 @@ class Exam {
                 WHERE professor_id = ?`, [id], (err, rows) => {
                 if (err) return reject(err);
                 resolve(rows);
-            });
-        });
-    }
-
-    static async getExamsByProfessorName(first_name, last_name) {
-        return new Promise((resolve, reject) => {
-            db.all(`
-                SELECT u.first_name, u.last_name, e.code
-                FROM exams as e
-                JOIN users as u ON u.id = e.professor_id
-                WHERE u.first_name = ? AND u.last_name = ?`,
-                [first_name, last_name], (err, rows) => {
-                if (err) return reject (err);
-                resolve(rows)
             });
         });
     }

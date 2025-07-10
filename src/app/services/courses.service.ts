@@ -41,18 +41,8 @@ export class CoursesService {
         return this.http.get<Courses>(`${this.apiUrl}/${id}`);
     }
 
-    getByName(name: string): Observable<Courses[]> {
-        const params = new HttpParams().set('name', name);
-        return this.http.get<Courses[]>(`${this.apiUrl}/search`, { params });
-    }
-
     getByProfessorId(professor_id: number): Observable<Courses[]> {
         const params = new HttpParams().set('professor_id', professor_id.toString());
-        return this.http.get<Courses[]>(`${this.apiUrl}/search`, { params });
-    }
-
-    getByProfessorFullName(first_name: string, last_name: string): Observable<Courses[]> {
-        const params = new HttpParams().set('first_name', first_name).set('last_name', last_name);
         return this.http.get<Courses[]>(`${this.apiUrl}/search`, { params });
     }
 

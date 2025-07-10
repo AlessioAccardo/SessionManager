@@ -35,28 +35,4 @@ export class UserService{
         return this.http.get<User[]>(`${this.apiUrl}/professors`);
     }
 
-    getByFName(first_name: string): Observable<User[]>{
-        return this.http.get<User []> (`${this.apiUrl}/${first_name}`);
-    }
-
-    getByLName(last_name: string): Observable<User[]>{
-        return this.http.get<User []> (`${this.apiUrl}/${last_name}`)
-    }
-
-    getByFullName(first_name: string, last_name: string): Observable<User []>{
-        const params = new HttpParams().set('first_name', first_name).set('last_name', last_name);
-        return this.http.get<User []>(`${this.apiUrl}/search`, {params});
-    }
-
-    getById(id: number): Observable<User>{
-        return this.http.get<User>(`${this.apiUrl}/${id}`);
-    }
-
-    getProfessorById(id: number): Observable<User>{
-        return this.http.get<User>(`${this.apiUrl}/professor/${id}`);
-    }
-
-    getByEmail(email: string): Observable<User>{
-        return this.http.get<User>(`${this.apiUrl}/${email}`);
-    }
 }

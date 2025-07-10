@@ -44,17 +44,8 @@ export class ExamService {
         return this.http.get<Exam>(`${this.apiUrl}/${code}`);
     }
 
-    getExamByName(name: string): Observable<Exam[]> {
-        return this.http.get<Exam[]>(`${this.apiUrl}/${name}`)
-    }
-
     getExamByProfessorId(professor_id: number): Observable<Exam[]> {
         return this.http.get<Exam[]>(`${this.apiUrl}/professor/${professor_id}`);
-    }
-
-    getExamByProfessorFullName(first_name: string, last_name: string): Observable<Exam[]> {
-        const params = new HttpParams().set('first_name', first_name).set('last_name', last_name);
-        return this.http.get<Exam[]>(`${this.apiUrl}/search`, { params });
     }
 
     getExamsByCourseId(course_id: number): Observable<Exam[]> {

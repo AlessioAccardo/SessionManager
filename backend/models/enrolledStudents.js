@@ -83,7 +83,7 @@ class EnrolledStudents{
         });
     }
 
-    //tutti gli studenti iscritti per esame
+    //tutti gli studenti iscritti all' esame
     static async getEnrolledStudentsByExam(exam_code){
         return new Promise((resolve, reject)=> {
             db.all(`

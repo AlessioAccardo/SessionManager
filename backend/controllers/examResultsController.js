@@ -1,4 +1,3 @@
-const e = require('express');
 const ExamResults = require('../models/examResults');
 
 class ExamResultsController {
@@ -17,7 +16,6 @@ class ExamResultsController {
         try {
             const { student_id } = req.query;
             const list = await ExamResults.getResultsByStudentId(student_id);
-            if (!list) return res.status(404).json({ message: 'Esami non troviati' });
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -28,7 +26,6 @@ class ExamResultsController {
         try {
             const { professor_id } = req.query;
             const list = await ExamResults.getResultsGroupedByProfessor(professor_id);
-            if (!list) return res.status(404).json({ message: 'Risultati esami del professore non troviati' });
             res.status(200).json(list);
         } catch (err) {
             next(err);
@@ -39,7 +36,6 @@ class ExamResultsController {
         try {
             const { professor_id, exam_code } = req.query;
             const list = await ExamResults.getExamResults(professor_id, exam_code);
-            if (!list) return res.status(404).json({ message: 'Risultati esame non troviati' });
             res.status(200).json(list);
         } catch (err) {
             next(err);
