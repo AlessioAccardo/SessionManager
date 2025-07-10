@@ -58,7 +58,9 @@
                   id="reg-role"
                   interface="popover">
                   @for(role of roles; track role){
-                    <ion-select-option [value]="role">{{ role }}</ion-select-option>
+                    @if(role !== 'segreteria') {
+                      <ion-select-option [value]="role">{{ role }}</ion-select-option>
+                    } 
                   }
                 </ion-select>
               </ion-item>
