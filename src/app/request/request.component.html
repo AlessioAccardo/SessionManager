@@ -49,7 +49,7 @@
           <ion-col size-xs="2" size-sm="2" size-md="3">Stato</ion-col>
         </ion-row>
         @if (showRequests.length === 0) {
-          <ion-title>Nessuna Richiesta Da Visualizzare</ion-title>
+          <ion-title>Nessuna Richiesta</ion-title>
         } @else {
         @for (exam of showRequests; track exam.code) {
         <ion-row>
@@ -86,7 +86,7 @@
           <ion-col size-xs="3" size-sm="3" size-md="3">Stato</ion-col>
         </ion-row>
         @if (requests.length === 0) {
-        <ion-title>Nessuna richiesta al momento</ion-title>
+        <ion-title>Nessuna richiesta</ion-title>
         } @else {
         @for (request of requests; track request.code) {
         <ion-row>
