@@ -11,8 +11,10 @@
   @if (user.role === 'professore') {
   <div class="container">
     <ion-card class="request-table">
-      <ion-card-content>
+      <ion-card-header>
         <ion-title>Richiesta Esame</ion-title>
+      </ion-card-header>
+      <ion-card-content>
         <form [formGroup]="examRequestForm" (ngSubmit)="submitForm()">
           <ion-label for="course">Corso</ion-label>
           <ion-select formControlName="course_id" interface="popover" placeholder="Scegli corso..." required>
@@ -34,7 +36,10 @@
 
   <div class = "container">
     <ion-card>
-      <ion-title>Esiti Richieste</ion-title>
+      <ion-card-header>
+        <ion-title>Esiti Richieste</ion-title>
+      </ion-card-header>
+      <ion-card-content>
       <ion-grid>
         <ion-row class="header">
           <ion-col size-xs="2" size-sm="1" size-md="2">Codice Esame</ion-col>
@@ -57,6 +62,7 @@
         }
         }
       </ion-grid>
+      </ion-card-content>
     </ion-card>
   </div>
   }
@@ -68,8 +74,11 @@
   @if (user!.role === 'segreteria') {
   <div class="container">
     <ion-card class="request-table">
-      <ion-title>Richieste Appelli</ion-title>
-      <ion-grid>
+      <ion-card-header>
+        <ion-title>Richieste Appelli</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
         <ion-row class="header">
           <ion-col size-xs="3" size-sm="3" size-md="3">Code</ion-col>
           <ion-col size-xs="3" size-sm="3" size-md="3">Corso</ion-col>
@@ -109,6 +118,7 @@
         }
         }
       </ion-grid>
+      </ion-card-content>
     </ion-card>
   </div>
   }

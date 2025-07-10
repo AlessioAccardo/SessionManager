@@ -10,7 +10,7 @@ import { EnrolledStudent } from '../interfaces/enrolledStudent.interface';
 import { EnrolledStudentDto } from '../interfaces/enrolledStudentDto.interface';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { AuthService } from '../services/auth/auth.service';
-import { IonContent, IonButton, IonGrid, IonRow, IonCol, IonInput, IonHeader, IonToolbar, IonTitle, IonCard, IonItem, IonSpinner, IonCardContent } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonGrid, IonRow, IonCol, IonCardHeader, IonHeader, IonToolbar, IonTitle, IonCard, IonSpinner, IonCardContent } from '@ionic/angular/standalone';
 
 import { AlertController } from '@ionic/angular';
 
@@ -18,7 +18,8 @@ import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-plan',
   standalone: true,
-  imports: [IonContent,
+  imports: [
+    IonContent,
     IonButton,
     IonGrid,
     IonRow,
@@ -27,7 +28,10 @@ import { AlertController } from '@ionic/angular';
     IonToolbar,
     IonTitle,
     IonCard,
-    IonSpinner],
+    IonSpinner,
+    IonCardHeader,
+    IonCardContent
+  ],
   templateUrl: './plan.component.html',
   styleUrl: './plan.component.scss'
 })

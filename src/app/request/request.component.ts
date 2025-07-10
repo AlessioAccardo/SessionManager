@@ -9,7 +9,7 @@ import { Courses } from '../interfaces/courses.interface';
 import { AuthService } from '../services/auth/auth.service';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
 import { 
-  IonContent,IonCardContent, IonButton,IonInput, IonHeader, IonToolbar,
+  IonContent,IonCardContent, IonButton,IonInput, IonCardHeader,
   IonTitle, IonLabel, IonSelect, IonSelectOption, IonGrid, IonCol, IonRow, IonCard,
   IonSpinner
 } from '@ionic/angular/standalone';
@@ -31,7 +31,8 @@ import { firstValueFrom, Subscription } from 'rxjs';
     IonRow,
     IonCard,
     IonCardContent,
-    IonSpinner
+    IonSpinner,
+    IonCardHeader
   ],
   templateUrl: './request.component.html',
   styleUrl: './request.component.scss',

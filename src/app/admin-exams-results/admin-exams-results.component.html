@@ -1,10 +1,14 @@
-@if (user) {
+<ion-content>
+  @if (user) {
   @if (user.role === 'segreteria') {
     <div class = "container">
       <ion-card>
-        <ion-button class="buttons" [routerLink]="['/tabs/dashboard']" > <- Torna indietro </ion-button>
+        <ion-card-header>
+          <ion-button class="buttons" [routerLink]="['/tabs/dashboard']" >indietro </ion-button>
           <ion-title> Dashboard Segreteria </ion-title>
-          <ion-grid>
+        </ion-card-header>
+        <ion-card-content>
+                    <ion-grid>
             <ion-row class = "header">
               <ion-col size-xs="2" size-sm="2" size-md="2"> Codice Esame </ion-col>
               <ion-col size-xs="3" size-sm="3" size-md="3"> Nome Corso </ion-col>
@@ -47,7 +51,11 @@
         }
             }
           </ion-grid>
+        </ion-card-content>
       </ion-card>
     </div>
   }
 }
+</ion-content>
+
+

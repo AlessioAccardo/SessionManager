@@ -20,39 +20,45 @@
   </div>
   <div class="container">
     <ion-card class="summary">
-      <ion-title>Esami</ion-title>
-      <ion-grid>
-        <ion-row class="header">
-          <ion-col class="ion-hide-md-down" size-md ="1">Codice Corso</ion-col>
-          <ion-col class="ion-hide-md-down" size-md="1">Codice Esame</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="2">Corso</ion-col>
-          <ion-col size-xs="3" size-sm="3"size-md="2">Data</ion-col>
-          <ion-col class ="ion-hide-md-down" size-md="1">CFU</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="2">Docente</ion-col>
-          <ion-col size-xs="3" size-sm="3" size-md="2">N. Prenotati</ion-col>
-          <ion-col size-xs ="12" size-sm="12" size-md ="20"> </ion-col>
-        </ion-row>
-        @if (esamiPrenotati.length === 0) {
+      <ion-card-header>
+        <ion-title>Esami</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row class="header">
+            <ion-col class="ion-hide-md-down" size-md="1">Codice Corso</ion-col>
+            <ion-col class="ion-hide-md-down" size-md="1">Codice Esame</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">Corso</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">Data</ion-col>
+            <ion-col class="ion-hide-md-down" size-md="1">CFU</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">Docente</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">N. Prenotati</ion-col>
+            <ion-col size-xs="12" size-sm="12" size-md="20"> </ion-col>
+          </ion-row>
+          @if (esamiPrenotati.length === 0) {
           <ion-title>Nessun Esame Prenotato</ion-title>
-        } @else {
-        @for (exam of esamiPrenotati; track exam.exam_code) {
+          } @else {
+          @for (exam of esamiPrenotati; track exam.exam_code) {
           <ion-row>
-            <ion-col class="ion-hide-md-down" size-md ="1">{{ exam.course_id }}</ion-col>
-            <ion-col class="ion-hide-md-down" size-md ="1">{{ exam.exam_code }}</ion-col>
+            <ion-col class="ion-hide-md-down" size-md="1">{{ exam.course_id }}</ion-col>
+            <ion-col class="ion-hide-md-down" size-md="1">{{ exam.exam_code }}</ion-col>
             <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.exam_name }}</ion-col>
             <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.date }}</ion-col>
-            <ion-col class="ion-hide-md-down" size-md ="1">{{ exam.credits }}</ion-col>
-            <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.professor_first_name }} {{ exam.professor_last_name }}</ion-col>
+            <ion-col class="ion-hide-md-down" size-md="1">{{ exam.credits }}</ion-col>
+            <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.professor_first_name }} {{ exam.professor_last_name
+              }}</ion-col>
             <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.enrolled_students }}</ion-col>
-            <ion-col size-xs ="12" size-sm="12" size-md ="20">
+            <ion-col size-xs="12" size-sm="12" size-md="20">
               <ion-button [disabled]="exam.taken === true || hideOldExams(exam.date)" class="buttons"
-                (click)="unenrollFromExam(exam.exam_code, exam.exam_name)"> {{ (exam.taken || hideOldExams(exam.date)) ? 'bloccato' :
+                (click)="unenrollFromExam(exam.exam_code, exam.exam_name)"> {{ (exam.taken || hideOldExams(exam.date)) ?
+                'bloccato' :
                 'disiscriviti'}}</ion-button>
             </ion-col>
           </ion-row>
           }
-        }
-      </ion-grid>
+          }
+        </ion-grid>
+      </ion-card-content>
     </ion-card>
   </div>
   } @else {
@@ -61,38 +67,44 @@
   </div>
   <div class="container">
     <ion-card class="esami">
-      <ion-title>Seleziona gli esami</ion-title>
-      <form>
-        <ion-grid>
-          <ion-row class="header">
-            <ion-col class="ion-hide-md-down" size-md="2">Codice Corso</ion-col>
-            <ion-col size-xs = "3" size-sm="3" size-md="2">Esame</ion-col>
-            <ion-col size-xs = "3" size-sm="3" size-md="2">Data</ion-col>
-            <ion-col class="ion-hide-md-down" size-md="2">CFU</ion-col>
-            <ion-col size-xs = "3" size-sm="3" size-md="2">Docente</ion-col>
-            <ion-col size-xs = "3" size-sm="3"size-md="2">N. Prenotati</ion-col>
-          </ion-row>
-          @if (esami.length === 0) {
+      <ion-card-header>
+        <ion-title>Seleziona gli esami</ion-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form>
+          <ion-grid>
+            <ion-row class="header">
+              <ion-col class="ion-hide-md-down" size-md="2">Codice Corso</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">Esame</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">Data</ion-col>
+              <ion-col class="ion-hide-md-down" size-md="2">CFU</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">Docente</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">N. Prenotati</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="3"> </ion-col>
+            </ion-row>
+            @if (esami.length === 0) {
             <ion-title>Nessun Esame Disponibile</ion-title>
-          } @else {
-          @for (exam of esami; track exam.code) {
-              @if (!hideOldExams(exam.date)) {
-          <ion-row>
-            <ion-col  class="ion-hide-md-down" size-md="2">{{ exam.course_id }}</ion-col>
-            <ion-col size-xs = "3" size-sm="3" size-md="2">{{ exam.name }}</ion-col>
-            <ion-col size-xs = "3"size-sm="3"  size-md="2">{{ exam.date }}</ion-col>
-            <ion-col  class="ion-hide-md-down" size-md="2">{{ exam.credits }}</ion-col>
-            <ion-col size-xs = "3" size-sm="3" size-md="2">{{ exam.professor_first_name }} {{ exam.professor_last_name }}</ion-col>
-            <ion-col size-xs = "3" size-sm="3" size-md="2">{{ exam.enrolled_students }}</ion-col>
-            <ion-col size-xs ="12" size-sm="12"  size-md="20">
-              <ion-button class="buttons" (click)="seleziona(exam.code!)">Aggiungi</ion-button>
-            </ion-col>
-          </ion-row>
-          }
-          }
-          }
-        </ion-grid>
-      </form>
+            } @else {
+            @for (exam of esami; track exam.code) {
+            @if (!hideOldExams(exam.date)) {
+            <ion-row>
+              <ion-col class="ion-hide-md-down" size-md="2">{{ exam.course_id }}</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.name }}</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.date }}</ion-col>
+              <ion-col class="ion-hide-md-down" size-md="2">{{ exam.credits }}</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.professor_first_name }} {{ exam.professor_last_name
+                }}</ion-col>
+              <ion-col size-xs="3" size-sm="3" size-md="2">{{ exam.enrolled_students }}</ion-col>
+              <ion-col size-xs="12" size-sm="12" size-md="20">
+                <ion-button class="buttons" (click)="seleziona(exam.code!)">Aggiungi</ion-button>
+              </ion-col>
+            </ion-row>
+            }
+            }
+            }
+          </ion-grid>
+        </form>
+      </ion-card-content>
     </ion-card>
   </div>
   }

@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user.service';
 import { User } from '../interfaces/user.interface';
 import { ExamService } from '../services/exam.service';
-import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController, IonSpinner} from '@ionic/angular/standalone';
+import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController, IonSpinner, IonCardHeader, IonCardContent} from '@ionic/angular/standalone';
 import { ExamResultsService } from '../services/examResults.service';
 import { ExamResult } from '../interfaces/examResult.interface';
 import { ExamResultDto } from '../interfaces/examResultDto.interface';
@@ -32,6 +32,8 @@ import { CoursesDetailsForAdmin } from '../interfaces/coursesDetailsForAdmin.int
     IonRow, 
     IonCol,
     IonSpinner,
+    IonCardHeader, 
+    IonCardContent,
     RouterLink
   ]
 })

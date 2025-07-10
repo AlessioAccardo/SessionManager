@@ -1,7 +1,7 @@
 // src/app/tabs/tabs.page.ts
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, AlertController } from '@ionic/angular/standalone';
+import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, AlertController, IonContent } from '@ionic/angular/standalone';
 import { AuthService } from '../services/auth/auth.service';
 import { Observable } from 'rxjs';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
@@ -11,7 +11,7 @@ import { LoggedUser } from '../interfaces/loggedUser.interface';
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   standalone: true,
-  imports: [CommonModule, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
+  imports: [CommonModule, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonContent],
 })
 export class TabsPage {
   user$: Observable<LoggedUser | null>;

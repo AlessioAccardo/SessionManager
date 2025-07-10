@@ -4,7 +4,7 @@ import { ExamService } from '../services/exam.service';
 import { Exam } from '../interfaces/exam.interface';
 import { firstValueFrom } from 'rxjs';
 import { RouterLink } from '@angular/router';
-import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, AlertController} from '@ionic/angular/standalone';
+import { IonContent, IonTitle, IonCard, IonButton, IonGrid, IonRow, IonCol, IonCardHeader, IonCardContent} from '@ionic/angular/standalone';
 import { ExamResultsService } from '../services/examResults.service';
 import { ExamResult } from '../interfaces/examResult.interface';
 import { LoggedUser } from '../interfaces/loggedUser.interface';
@@ -20,7 +20,10 @@ import { AuthService } from '../services/auth/auth.service';
     IonButton, 
     IonGrid, 
     IonRow, 
-    IonCol
+    IonCol,
+    IonContent,
+    IonCardHeader,
+    IonCardContent
   ],
   templateUrl: './admin-exams-results.component.html',
   styleUrls: ['./admin-exams-results.component.scss'],
